@@ -1,4 +1,5 @@
-﻿import test from 'node:test';
+import { unlink } from 'node:fs/promises';
+import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { once } from 'node:events';
@@ -66,7 +67,14 @@ async function fixture(t) {
   });
   async function request(
     path,
-    { method = 'GET', body, admin = false, headers = {} } = {},
+    {
+      method = 'GET',
+      body,
+      rawBody,
+      binary = false,
+      admin = false,
+      headers = {},
+    } = {},
   ) {
     const response = await fetch(
       `http://127.0.0.1:${server.address().port}/api${path}`,
@@ -77,13 +85,19 @@ async function fixture(t) {
           ...(admin && { Authorization: `Bearer ${token}` }),
           ...headers,
         },
-        body: body === undefined ? undefined : JSON.stringify(body),
+        body:
+          rawBody ?? (body === undefined ? undefined : JSON.stringify(body)),
       },
     );
     return {
       status: response.status,
       headers: response.headers,
-      body: response.status === 204 ? null : await response.json(),
+      body:
+        response.status === 204
+          ? null
+          : binary
+            ? Buffer.from(await response.arrayBuffer())
+            : await response.json(),
     };
   }
   return { request, db, database };
@@ -686,4 +700,68 @@ test('package prices validate rupiah, require admin and keep Exclusive custom', 
     ).body.data.price,
     null,
   );
+});
+
+test('image files upload separately from invitation save and are served without authentication', async (t) => {
+  const { request } = await fixture(t);
+  const image = Buffer.from(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aK1sAAAAASUVORK5CYII=',
+    'base64',
+  );
+  const options = {
+    method: 'POST',
+    rawBody: image,
+    headers: { 'Content-Type': 'image/png' },
+  };
+  assert.equal((await request('/admin/uploads', options)).status, 401);
+  assert.equal(
+    (
+      await request('/admin/uploads', {
+        ...options,
+        admin: true,
+        rawBody: Buffer.from('not an image'),
+      })
+    ).status,
+    422,
+  );
+  assert.equal(
+    (
+      await request('/admin/uploads', {
+        ...options,
+        admin: true,
+        headers: { 'Content-Type': 'image/svg+xml' },
+      })
+    ).status,
+    415,
+  );
+  const upload = await request('/admin/uploads', { ...options, admin: true });
+  assert.equal(upload.status, 201);
+  const path = upload.body.data.url;
+  const filename = path.split('/').pop();
+  t.after(() =>
+    unlink(new URL('../data/uploads/' + filename, import.meta.url)),
+  );
+  const stored = await request(path.replace('/api', ''), { binary: true });
+  assert.equal(stored.status, 200);
+  assert.equal(stored.headers.get('content-type'), 'image/png');
+  assert.deepEqual(stored.body, image);
+  const created = await request('/admin/invitations', {
+    method: 'POST',
+    admin: true,
+    body: { ...input, data: { ...input.data, image: path, photos: [path] } },
+  });
+  assert.equal(created.status, 201);
+  assert.equal(created.body.data.data.photos[0], path);
+  const saved = await request('/admin/invitations/' + created.body.data.id, {
+    method: 'PATCH',
+    admin: true,
+    body: { title: 'Sesudah upload' },
+  });
+  assert.equal(saved.status, 200);
+  assert.equal(saved.body.data.data.photos[0], path);
+  assert.deepEqual(
+    (await request(path.replace('/api', ''), { binary: true })).body,
+    image,
+  );
+  assert.equal((await request('/media/not-a-file.jpg')).status, 404);
 });

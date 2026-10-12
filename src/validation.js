@@ -30,6 +30,8 @@ function optionalContent(data) {
     throw new HttpError(422, 'photos harus berupa daftar maksimal 30 foto.');
   const validatedPhotos = photos.map((photo, index) => {
     const photoUrl = text(photo, `URL foto ke-${index + 1}`, 2000);
+    if (/^\/api\/media\/[a-f0-9-]{36}\.(jpg|png|webp)$/.test(photoUrl))
+      return photoUrl;
     let url;
     try {
       url = new URL(photoUrl);
@@ -46,7 +48,10 @@ function optionalContent(data) {
 
   const agenda = data.agenda ?? [];
   if (!Array.isArray(agenda) || agenda.length > 30)
-    throw new HttpError(422, 'agenda harus berupa daftar maksimal 30 kegiatan.');
+    throw new HttpError(
+      422,
+      'agenda harus berupa daftar maksimal 30 kegiatan.',
+    );
   const validatedAgenda = agenda.map((item, index) => {
     if (typeof item !== 'object' || item === null || Array.isArray(item))
       throw new HttpError(422, `agenda ke-${index + 1} harus berupa objek.`);
@@ -77,12 +82,7 @@ function optionalContent(data) {
         3000,
         true,
       ),
-      source: text(
-        item.source ?? '',
-        `Sumber doa ke-${index + 1}`,
-        300,
-        true,
-      ),
+      source: text(item.source ?? '', `Sumber doa ke-${index + 1}`, 300, true),
     };
   });
 
@@ -121,8 +121,9 @@ function optionalContent(data) {
             : url.pathname.split('/').filter(Boolean).at(-1);
       supportedEmbed = /^[\w-]{11}$/.test(videoId || '');
     } else if (vimeoHosts.has(url.hostname)) {
-      supportedEmbed =
-        /^\d+$/.test(url.pathname.split('/').filter(Boolean).at(-1) || '');
+      supportedEmbed = /^\d+$/.test(
+        url.pathname.split('/').filter(Boolean).at(-1) || '',
+      );
     }
     if (!directVideo && !supportedEmbed)
       throw new HttpError(

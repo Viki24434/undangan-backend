@@ -2,6 +2,7 @@
 
 export function createRouter({
   auth,
+  uploads,
   packages,
   templates,
   invitations,
@@ -34,6 +35,8 @@ export function createRouter({
       await db.prepare('SELECT 1').get();
       return { status: 200, data: { status: 'ok' } };
     }
+    if (method === 'GET' && segments[1] === 'media' && segments.length === 3)
+      return uploads.image(segments[2]);
     if (method === 'GET' && url.pathname === '/api/packages')
       return packages.list();
     if (method === 'GET' && url.pathname === '/api/templates')
@@ -60,6 +63,14 @@ export function createRouter({
     }
     if (segments[1] === 'admin') {
       await admin(req);
+      if (
+        method === 'POST' &&
+        segments[2] === 'uploads' &&
+        segments.length === 3
+      ) {
+        rateLimit(req);
+        return uploads.create(req);
+      }
       if (
         segments[2] === 'packages' &&
         segments.length === 4 &&

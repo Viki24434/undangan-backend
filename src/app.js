@@ -1,3 +1,4 @@
+import UploadController from './controllers/UploadController.js';
 import PackageModel from './models/PackageModel.js';
 import PackageController from './controllers/PackageController.js';
 import AdminModel from './models/AdminModel.js';
@@ -83,6 +84,7 @@ export function createApp({
 
   const templateModel = new TemplateModel(db);
   const route = createRouter({
+    uploads: new UploadController(),
     packages: new PackageController(new PackageModel(db)),
     templates: new TemplateController(templateModel),
     invitations: new InvitationController(
@@ -139,6 +141,12 @@ export function createApp({
           }
         });
       const result = await route(req, url, segments);
+      if (result.binary) {
+        res.setHeader('Content-Type', result.mime);
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        res.writeHead(result.status);
+        return res.end(result.binary);
+      }
       if (result.cookie) res.setHeader('Set-Cookie', result.cookie);
       return send(result.status, result.data, result.meta);
     } catch (error) {
