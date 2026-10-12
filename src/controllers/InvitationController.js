@@ -18,6 +18,9 @@ export default class InvitationController {
         banks: [],
         wishes: [],
         ...overrides,
+        agenda: overrides.agenda ?? defaults.agenda ?? [],
+        videoUrl: overrides.videoUrl ?? defaults.videoUrl ?? '',
+        prayers: overrides.prayers ?? defaults.prayers ?? [],
         events:
           overrides.events ||
           (defaults.events || []).map((event) => ({

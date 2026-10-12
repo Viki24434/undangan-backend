@@ -14,7 +14,27 @@ const input = {
   templateId: 'elegant-gold-01',
   title: 'Aditya & Sarah',
   eventDate: '2027-01-24T09:00:00+07:00',
-  data: { groom: { name: 'Aditya' }, bride: { name: 'Sarah' } },
+  data: {
+    groom: { name: 'Aditya' },
+    bride: { name: 'Sarah' },
+    photos: [
+      'https://images.example.test/hero.jpg',
+      'https://images.example.test/gallery.jpg',
+    ],
+    sunlightEnabled: false,
+    agenda: [
+      { time: '09.00', title: 'Akad', description: 'Prosesi akad nikah' },
+    ],
+    videoUrl: 'https://youtu.be/abcdefghijk',
+    prayers: [
+      {
+        title: 'Doa untuk kedua mempelai',
+        text: 'Semoga menjadi keluarga yang sakinah.',
+        arabic: '',
+        source: 'Doa bersama',
+      },
+    ],
+  },
 };
 
 async function fixture(t) {
@@ -72,10 +92,15 @@ async function fixture(t) {
 test('templates, authenticated CRUD, draft privacy, wishes, RSVP, moderation, cascade deletion', async (t) => {
   const { request, db } = await fixture(t);
   assert.equal((await request('/health')).status, 200);
-  assert.equal((await request('/templates')).body.data.length, 10);
+  const templates = (await request('/templates')).body.data;
+  assert.equal(templates.length, 23);
+  assert.ok(templates.some(({ id }) => id === 'burgundy-vow-01'));
+  assert.ok(templates.some(({ id }) => id === 'pink-blush-01'));
+  assert.ok(templates.some(({ id }) => id === 'sunda-siger-01'));
+  assert.ok(templates.some(({ id }) => id === 'jawa-paes-01'));
   assert.equal(
     (await request('/templates?category=Ulang%20tahun')).body.data.length,
-    2,
+    3,
   );
   assert.equal((await request('/admin/invitations')).status, 401);
   assert.equal(
@@ -84,6 +109,85 @@ test('templates, authenticated CRUD, draft privacy, wishes, RSVP, moderation, ca
         admin: true,
         method: 'POST',
         body: { ...input, templateId: 'unknown' },
+      })
+    ).status,
+    422,
+  );
+  assert.equal(
+    (
+      await request('/admin/invitations', {
+        admin: true,
+        method: 'POST',
+        body: {
+          ...input,
+          slug: 'invalid-video',
+          data: { ...input.data, videoUrl: 'javascript:alert(1)' },
+        },
+      })
+    ).status,
+    422,
+  );
+  assert.equal(
+    (
+      await request('/admin/invitations', {
+        admin: true,
+        method: 'POST',
+        body: {
+          ...input,
+          slug: 'invalid-agenda',
+          data: { ...input.data, agenda: [{ time: '', title: '' }] },
+        },
+      })
+    ).status,
+    422,
+  );
+  assert.equal(
+    (
+      await request('/admin/invitations', {
+        admin: true,
+        method: 'POST',
+        body: {
+          ...input,
+          slug: 'invalid-photo-url',
+          data: {
+            ...input.data,
+            photos: ['http://images.example.test/photo.jpg'],
+          },
+        },
+      })
+    ).status,
+    422,
+  );
+  assert.equal(
+    (
+      await request('/admin/invitations', {
+        admin: true,
+        method: 'POST',
+        body: {
+          ...input,
+          slug: 'too-many-photos',
+          data: {
+            ...input.data,
+            photos: Array.from(
+              { length: 31 },
+              (_, index) => `https://images.example.test/${index}.jpg`,
+            ),
+          },
+        },
+      })
+    ).status,
+    422,
+  );
+  assert.equal(
+    (
+      await request('/admin/invitations', {
+        admin: true,
+        method: 'POST',
+        body: {
+          ...input,
+          slug: 'invalid-sunlight-setting',
+          data: { ...input.data, sunlightEnabled: 'off' },
+        },
       })
     ).status,
     422,
@@ -118,6 +222,26 @@ test('templates, authenticated CRUD, draft privacy, wishes, RSVP, moderation, ca
   );
   const publicInvitation = await request('/invitations/aditya-sarah');
   assert.equal(publicInvitation.body.data.data.groom.name, 'Aditya');
+  assert.deepEqual(publicInvitation.body.data.data.agenda, input.data.agenda);
+  assert.equal(publicInvitation.body.data.data.videoUrl, input.data.videoUrl);
+  assert.deepEqual(publicInvitation.body.data.data.prayers, input.data.prayers);
+  assert.deepEqual(publicInvitation.body.data.data.photos, input.data.photos);
+  assert.equal(publicInvitation.body.data.data.sunlightEnabled, false);
+  const legacy = await request('/admin/invitations', {
+    admin: true,
+    method: 'POST',
+    body: {
+      ...input,
+      slug: 'legacy-no-optional-sections',
+      data: { groom: input.data.groom, bride: input.data.bride },
+    },
+  });
+  assert.equal(legacy.status, 201);
+  assert.deepEqual(legacy.body.data.data.agenda, []);
+  assert.equal(legacy.body.data.data.videoUrl, '');
+  assert.deepEqual(legacy.body.data.data.prayers, []);
+  assert.deepEqual(legacy.body.data.data.photos, []);
+  assert.equal(legacy.body.data.data.sunlightEnabled, true);
   const wish = await request('/invitations/aditya-sarah/wishes', {
     method: 'POST',
     body: { name: 'Rina', message: 'Semoga bahagia!' },
@@ -427,5 +551,139 @@ test('template details come from MySQL and preserve saved data on initialization
     .run(JSON.stringify(saved), id);
   const reopened = await openDatabase({ ...databaseConfig, database });
   await reopened.close();
-  assert.deepEqual((await request(`/templates/${id}`)).body.data.data, saved);
+  const reopenedData = (await request(`/templates/${id}`)).body.data.data;
+  assert.equal(reopenedData.title, saved.title);
+  assert.equal(reopenedData.targetDate, saved.targetDate);
+  assert.deepEqual(reopenedData.agenda, []);
+  assert.equal(reopenedData.videoUrl, '');
+  assert.deepEqual(reopenedData.prayers, []);
+});
+
+test('template packages require admin access and persist after database initialization', async (t) => {
+  const { request, database } = await fixture(t);
+  const list = (await request('/templates')).body.data;
+  for (const template of list) {
+    assert.equal(
+      template.packageId,
+      template.category === 'Pernikahan' ? 'gold' : 'silver',
+    );
+  }
+  const path = '/admin/templates/emerald-khitan-01';
+  assert.equal(
+    (await request(path, { method: 'PATCH', body: { packageId: 'gold' } }))
+      .status,
+    401,
+  );
+  assert.equal(
+    (
+      await request(path, {
+        method: 'PATCH',
+        admin: true,
+        body: { packageId: 'unknown' },
+      })
+    ).status,
+    422,
+  );
+  for (const packageId of ['gold', 'platinum', 'exclusive', 'silver']) {
+    const result = await request(path, {
+      method: 'PATCH',
+      admin: true,
+      body: { packageId },
+    });
+    assert.equal(result.status, 200);
+    assert.equal(result.body.data.packageId, packageId);
+  }
+  await request(path, {
+    method: 'PATCH',
+    admin: true,
+    body: { packageId: 'gold' },
+  });
+  const reopened = await openDatabase({ ...databaseConfig, database });
+  await reopened.close();
+  assert.equal(
+    (await request('/templates/emerald-khitan-01')).body.data.packageId,
+    'gold',
+  );
+  assert.equal(
+    (await request('/templates')).body.data.find(
+      (item) => item.id === 'emerald-khitan-01',
+    ).packageId,
+    'gold',
+  );
+});
+
+test('package prices validate rupiah, require admin and keep Exclusive custom', async (t) => {
+  const { request, database } = await fixture(t);
+  const initial = (await request('/packages')).body.data;
+  assert.equal(initial.length, 4);
+  assert.ok(initial.every((item) => item.price === null));
+  assert.equal(
+    initial.find((item) => item.id === 'exclusive').priceMode,
+    'custom',
+  );
+  const path = '/admin/packages/silver';
+  assert.equal(
+    (await request(path, { method: 'PATCH', body: { price: 125000 } })).status,
+    401,
+  );
+  for (const price of [-1, 2.5, '125000', 1000000000001]) {
+    assert.equal(
+      (await request(path, { method: 'PATCH', admin: true, body: { price } }))
+        .status,
+      422,
+    );
+  }
+  assert.equal(
+    (await request(path, { method: 'PATCH', admin: true, body: {} })).status,
+    422,
+  );
+  assert.equal(
+    (
+      await request('/admin/packages/missing', {
+        method: 'PATCH',
+        admin: true,
+        body: { price: 100 },
+      })
+    ).status,
+    404,
+  );
+  assert.equal(
+    (
+      await request('/admin/packages/exclusive', {
+        method: 'PATCH',
+        admin: true,
+        body: { price: 100 },
+      })
+    ).status,
+    422,
+  );
+  for (const id of ['silver', 'gold', 'platinum']) {
+    const result = await request('/admin/packages/' + id, {
+      method: 'PATCH',
+      admin: true,
+      body: { price: 125000 },
+    });
+    assert.equal(result.status, 200);
+    assert.equal(result.body.data.price, 125000);
+  }
+  const reopened = await openDatabase({ ...databaseConfig, database });
+  await reopened.close();
+  const saved = (await request('/packages')).body.data;
+  assert.equal(saved.find((item) => item.id === 'silver').price, 125000);
+  assert.equal(saved.find((item) => item.id === 'exclusive').price, null);
+  assert.equal(
+    (await request(path, { method: 'PATCH', admin: true, body: { price: 0 } }))
+      .body.data.price,
+    0,
+  );
+  assert.equal(
+    (
+      await request(path, {
+        method: 'PATCH',
+        admin: true,
+        body: { price: null },
+      })
+    ).body.data.price,
+    null,
+  );
 });

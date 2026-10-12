@@ -4,69 +4,183 @@
     "name": "Elegant Gold Wedding",
     "category": "Pernikahan",
     "description": "Emas hangat, bingkai klasik, dan cerita yang elegan.",
-    "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85"
+    "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85",
+    "packageId": "gold"
   },
   {
     "id": "botanical-sage-01",
     "name": "Botanical Sage Wedding",
     "category": "Pernikahan",
     "description": "Hijau sage dan nuansa natural untuk hari bahagia.",
-    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "packageId": "gold"
   },
   {
     "id": "pastel-birthday-01",
     "name": "Pastel Birthday Party",
     "category": "Ulang tahun",
     "description": "Pastel ceria dan detail manis untuk pesta istimewa.",
-    "img": "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=1200&q=85"
+    "img": "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=1200&q=85",
+    "packageId": "silver"
   },
   {
     "id": "rose-romance-01",
     "name": "Rose Romance Wedding",
     "category": "Pernikahan",
     "description": "Blush romantis, bingkai floral, dan detail rose gold.",
-    "img": "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=1200&q=85"
+    "img": "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=1200&q=85",
+    "packageId": "gold"
   },
   {
     "id": "midnight-celestial-01",
     "name": "Midnight Celestial Wedding",
     "category": "Pernikahan",
     "description": "Biru malam, aksen bintang, dan kilau champagne.",
-    "img": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1200&q=85"
+    "img": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1200&q=85",
+    "packageId": "gold"
   },
   {
     "id": "terracotta-bloom-01",
     "name": "Terracotta Bloom Wedding",
     "category": "Pernikahan",
     "description": "Warna tanah hangat dan bentuk organik bernuansa bohemian.",
-    "img": "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=1200&q=85"
+    "img": "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=1200&q=85",
+    "packageId": "gold"
   },
   {
     "id": "ivory-pearl-01",
     "name": "Ivory Pearl Wedding",
     "category": "Pernikahan",
     "description": "Putih ivory, garis halus, dan komposisi editorial minimalis.",
-    "img": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1200&q=85"
+    "img": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1200&q=85",
+    "packageId": "gold"
   },
   {
     "id": "little-moon-aqiqah-01",
     "name": "Little Moon Aqiqah",
     "category": "Aqiqah & khitan",
     "description": "Biru lembut, bulan sabit, dan syukur atas hadirnya si kecil.",
-    "img": "https://images.unsplash.com/photo-1544425501-799b66236316?w=1200&q=85"
+    "img": "https://images.unsplash.com/photo-1544425501-799b66236316?w=1200&q=85",
+    "packageId": "silver"
   },
   {
     "id": "emerald-khitan-01",
     "name": "Emerald Khitan Celebration",
     "category": "Aqiqah & khitan",
     "description": "Hijau emerald dan pola geometris untuk syukuran khitan.",
-    "img": "https://images.unsplash.com/photo-1544425501-799b66236316?w=1200&q=85"
+    "img": "https://images.unsplash.com/photo-1544425501-799b66236316?w=1200&q=85",
+    "packageId": "silver"
   },
   {
     "id": "cosmic-birthday-01",
     "name": "Cosmic Birthday Adventure",
     "category": "Ulang tahun",
     "description": "Ungu galaksi, bintang berkilau, dan pesta petualangan luar angkasa.",
-    "img": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200&q=85"
+    "img": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200&q=85",
+    "packageId": "silver"
+  },
+  {
+    "id": "lavender-vow-01",
+    "name": "Lavender Vow Wedding",
+    "category": "Pernikahan",
+    "description": "Lavender lembut, rangkaian bunga, dan nuansa romantis.",
+    "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85",
+    "packageId": "gold"
+  },
+  {
+    "id": "coastal-promise-01",
+    "name": "Coastal Promise Wedding",
+    "category": "Pernikahan",
+    "description": "Warna laut yang tenang dan aksen pesisir yang segar.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "packageId": "gold"
+  },
+  {
+    "id": "garden-party-birthday-01",
+    "name": "Garden Party Birthday",
+    "category": "Ulang tahun",
+    "description": "Pesta taman penuh bunga, warna hangat, dan keceriaan.",
+    "img": "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=1200&q=85",
+    "packageId": "silver"
+  },
+  {
+    "id": "sunflower-vow-01",
+    "name": "Sunflower Vow Wedding",
+    "category": "Pernikahan",
+    "description": "Bunga matahari, dedaunan alami, dan nuansa hangat untuk hari istimewa.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "packageId": "gold"
+  },
+  {
+    "id": "burgundy-vow-01",
+    "name": "Burgundy Vow Wedding",
+    "category": "Pernikahan",
+    "description": "Merah hati, aksen champagne, dan suasana romantis yang berkelas.",
+    "img": "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=1200&q=85",
+    "packageId": "gold"
+  },
+  {
+    "id": "pink-blush-01",
+    "name": "Pink Blush Wedding",
+    "category": "Pernikahan",
+    "description": "Nuansa pink lembut, aksen mawar, dan detail manis yang elegan.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "packageId": "gold"
+  },
+  {
+    "id": "sunda-siger-01",
+    "name": "Sunda Siger Wedding",
+    "category": "Pernikahan",
+    "description": "Ornamen siger, kujang, dan janur dalam nuansa hijau hutan dan emas.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "packageId": "gold"
+  },
+  {
+    "id": "jawa-paes-01",
+    "name": "Jawa Paes Wedding",
+    "category": "Pernikahan",
+    "description": "Batik, kembar mayang, blangkon, dan paes dalam nuansa cokelat dan emas.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "packageId": "gold"
+  },
+  {
+    "id": "black-gold-01",
+    "name": "Black Gold Wedding",
+    "category": "Pernikahan",
+    "description": "Hitam pekat, detail emas, dan bingkai klasik untuk perayaan yang megah.",
+    "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85",
+    "packageId": "gold"
+  },
+  {
+    "id": "white-gold-01",
+    "name": "White Gold Wedding",
+    "category": "Pernikahan",
+    "description": "Putih mutiara, aksen emas lembut, dan komposisi lapang yang anggun.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "packageId": "gold"
+  },
+  {
+    "id": "minangkabau-01",
+    "name": "Minangkabau Wedding",
+    "category": "Pernikahan",
+    "description": "Merah marun dan emas dengan ornamen rumah gadang, songket, deta, dan mahkota.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "packageId": "gold"
+  },
+  {
+    "id": "betawi-01",
+    "name": "Betawi Wedding",
+    "category": "Pernikahan",
+    "description": "Hijau tua, merah, dan emas dengan safa, mahkota, kain Betawi, serta pelaminan.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "packageId": "gold"
+  },
+  {
+    "id": "bali-01",
+    "name": "Bali Wedding",
+    "category": "Pernikahan",
+    "description": "Putih gading dan emas antik dengan destar, mahkota, bokor, serta ukiran Bali.",
+    "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85",
+    "packageId": "gold"
   }
 ]

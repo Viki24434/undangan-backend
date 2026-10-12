@@ -2,6 +2,7 @@
 
 export function createRouter({
   auth,
+  packages,
   templates,
   invitations,
   wishes,
@@ -33,6 +34,8 @@ export function createRouter({
       await db.prepare('SELECT 1').get();
       return { status: 200, data: { status: 'ok' } };
     }
+    if (method === 'GET' && url.pathname === '/api/packages')
+      return packages.list();
     if (method === 'GET' && url.pathname === '/api/templates')
       return templates.list(url.searchParams.get('category'));
     if (
@@ -57,6 +60,18 @@ export function createRouter({
     }
     if (segments[1] === 'admin') {
       await admin(req);
+      if (
+        segments[2] === 'packages' &&
+        segments.length === 4 &&
+        method === 'PATCH'
+      )
+        return packages.updatePrice(segments[3], await readBody(req));
+      if (
+        segments[2] === 'templates' &&
+        segments.length === 4 &&
+        method === 'PATCH'
+      )
+        return templates.updatePackage(segments[3], await readBody(req));
       if (segments[2] === 'invitations' && segments.length === 3) {
         if (method === 'GET') return invitations.list(url.searchParams);
         if (method === 'POST') return invitations.create(await readBody(req));

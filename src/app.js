@@ -1,4 +1,6 @@
-﻿import AdminModel from './models/AdminModel.js';
+import PackageModel from './models/PackageModel.js';
+import PackageController from './controllers/PackageController.js';
+import AdminModel from './models/AdminModel.js';
 import AuthController from './controllers/AuthController.js';
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { HttpError } from './validation.js';
@@ -81,6 +83,7 @@ export function createApp({
 
   const templateModel = new TemplateModel(db);
   const route = createRouter({
+    packages: new PackageController(new PackageModel(db)),
     templates: new TemplateController(templateModel),
     invitations: new InvitationController(
       new InvitationModel(db),

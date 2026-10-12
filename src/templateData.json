@@ -591,5 +591,820 @@
         "message": "Selamat ulang tahun! Semoga selalu ceria dan terus mengejar mimpi."
       }
     ]
+  },
+  "lavender-vow-01": {
+    "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85",
+    "date": "Sabtu, 12 Juni 2027",
+    "targetDate": "2027-06-12T09:00:00+07:00",
+    "groom": {
+      "name": "Rafi",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Nadine",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2023",
+        "title": "Sapa yang menjadi cerita",
+        "description": "Sebuah pertemuan sederhana membuka ruang untuk mengenal, berbagi, dan tumbuh bersama."
+      },
+      {
+        "date": "2025",
+        "title": "Mimpi yang searah",
+        "description": "Kami belajar merayakan hal-hal kecil dan saling mendukung setiap langkah."
+      },
+      {
+        "date": "2027",
+        "title": "Hari untuk selamanya",
+        "description": "Dengan restu keluarga, kami bersiap mengikat janji dan memulai babak baru."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Sabtu, 12 Juni 2027",
+        "time": "09.00–10.30 WIB",
+        "venue": "Taman Kajoe",
+        "address": "Cilandak Timur, Jakarta Selatan"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 12 Juni 2027",
+        "time": "11.00–14.00 WIB",
+        "venue": "Taman Kajoe",
+        "address": "Cilandak Timur, Jakarta Selatan"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": []
+  },
+  "coastal-promise-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Minggu, 25 Juli 2027",
+    "targetDate": "2027-07-25T09:00:00+07:00",
+    "groom": {
+      "name": "Daffa",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Keisha",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2022",
+        "title": "Berawal dari obrolan",
+        "description": "Sapaan singkat berkembang menjadi persahabatan yang terasa seperti rumah."
+      },
+      {
+        "date": "2024",
+        "title": "Berlayar bersama",
+        "description": "Kami menjalani banyak musim dengan tawa, cerita, dan saling percaya."
+      },
+      {
+        "date": "2027",
+        "title": "Satu arah, satu tujuan",
+        "description": "Kini kami melangkah bersama untuk membangun kisah seumur hidup."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Minggu, 25 Juli 2027",
+        "time": "09.00–10.30 WIB",
+        "venue": "Plataran Hutan Kota",
+        "address": "Gelora, Tanah Abang, Jakarta Pusat"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Minggu, 25 Juli 2027",
+        "time": "11.00–14.00 WIB",
+        "venue": "Plataran Hutan Kota",
+        "address": "Gelora, Tanah Abang, Jakarta Pusat"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=700&q=80",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": []
+  },
+  "garden-party-birthday-01": {
+    "image": "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=1200&q=85",
+    "date": "Minggu, 8 Agustus 2027",
+    "targetDate": "2027-08-08T15:00:00+07:00",
+    "events": [
+      {
+        "title": "Garden Birthday Party",
+        "date": "Minggu, 8 Agustus 2027",
+        "time": "15.00–18.00 WIB",
+        "venue": "Taman Literasi Martha Christina Tiahahu",
+        "address": "Blok M, Jakarta Selatan"
+      }
+    ],
+    "title": "Ayla turns 8!",
+    "subtitle": "A LITTLE GARDEN PARTY",
+    "monogram": "A ✿ 8",
+    "symbol": "✿ ♡ ✿",
+    "eyebrow": "FLOWERS, FRIENDS & HAPPY MEMORIES",
+    "heading": "Delapan tahun penuh warna.",
+    "introduction": "Ayla mengundang teman-teman tersayang untuk bermain, tertawa, dan merayakan hari istimewa di taman penuh bunga.",
+    "honoreeLabel": "Birthday girl",
+    "honoree": "Ayla Putri",
+    "family": "Bersama keluarga dan sahabat tersayang",
+    "photos": [
+      "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=800&q=85",
+      "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80",
+      "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&q=80"
+    ],
+    "notes": [
+      {
+        "title": "Dress code",
+        "description": "Warna cerah atau motif bunga"
+      },
+      {
+        "title": "Yang ditunggu",
+        "description": "Kue ulang tahun, permainan taman, dan banyak kejutan!"
+      }
+    ],
+    "wishes": []
+  },
+  "sunflower-vow-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Minggu, 17 Oktober 2027",
+    "targetDate": "2027-10-17T09:00:00+07:00",
+    "groom": {
+      "name": "Arga",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Nayla",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2024",
+        "title": "Bertemu di waktu yang tepat",
+        "description": "Percakapan sederhana menjadi awal kisah yang tumbuh dengan hangat."
+      },
+      {
+        "date": "2025",
+        "title": "Tumbuh dan saling menguatkan",
+        "description": "Kami belajar merawat mimpi dan kebahagiaan melalui langkah-langkah kecil."
+      },
+      {
+        "date": "2026",
+        "title": "Memilih selamanya",
+        "description": "Dengan doa keluarga, kami siap memulai perjalanan baru bersama."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Minggu, 17 Oktober 2027",
+        "time": "09.00–10.00 WIB",
+        "venue": "Taman Bunga Nusantara",
+        "address": "Kawasan Wisata Kota Bunga, Cianjur"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Minggu, 17 Oktober 2027",
+        "time": "11.00–14.00 WIB",
+        "venue": "Taman Bunga Nusantara",
+        "address": "Kawasan Wisata Kota Bunga, Cianjur"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=700&q=80",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": []
+  },
+  "burgundy-vow-01": {
+    "image": "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=1200&q=85",
+    "date": "Sabtu, 20 November 2027",
+    "targetDate": "2027-11-20T09:00:00+07:00",
+    "groom": {
+      "name": "Rendra",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Amara",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2023",
+        "title": "Pertemuan yang mengubah arah",
+        "description": "Dari perkenalan sederhana, kami menemukan teman berbagi cerita dan mimpi."
+      },
+      {
+        "date": "2025",
+        "title": "Tumbuh dalam satu perjalanan",
+        "description": "Kami belajar untuk saling menguatkan, menghargai, dan memilih satu sama lain."
+      },
+      {
+        "date": "2027",
+        "title": "Janji untuk selamanya",
+        "description": "Dengan restu keluarga, kami siap memulai babak baru bersama."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Sabtu, 20 November 2027",
+        "time": "09.00–10.30 WIB",
+        "venue": "The Hermitage Jakarta",
+        "address": "Menteng, Jakarta Pusat"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 20 November 2027",
+        "time": "11.00–14.00 WIB",
+        "venue": "The Hermitage Jakarta",
+        "address": "Menteng, Jakarta Pusat"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=1200&q=85",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=700&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [
+      {
+        "name": "BCA",
+        "rek": "1234567890",
+        "owner": "Rendra Pratama"
+      },
+      {
+        "name": "Mandiri",
+        "rek": "0987654321",
+        "owner": "Amara Putri"
+      }
+    ],
+    "wishes": []
+  },
+  "pink-blush-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Minggu, 5 Desember 2027",
+    "targetDate": "2027-12-05T09:00:00+07:00",
+    "groom": {
+      "name": "Alvin",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Keira",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2023",
+        "title": "Sapa pertama",
+        "description": "Sebuah perkenalan kecil menjadi cerita manis yang terus kami rawat."
+      },
+      {
+        "date": "2025",
+        "title": "Mimpi yang sama",
+        "description": "Hari demi hari mengajarkan kami arti tumbuh dan berjalan beriringan."
+      },
+      {
+        "date": "2027",
+        "title": "Selamanya dimulai",
+        "description": "Kami mengundang orang-orang terkasih untuk menjadi saksi janji kami."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Minggu, 5 Desember 2027",
+        "time": "09.00–10.30 WIB",
+        "venue": "The Langham Jakarta",
+        "address": "SCBD, Jakarta Selatan"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Minggu, 5 Desember 2027",
+        "time": "11.00–14.00 WIB",
+        "venue": "The Langham Jakarta",
+        "address": "SCBD, Jakarta Selatan"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=700&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [
+      {
+        "name": "BCA",
+        "rek": "1234567890",
+        "owner": "Alvin Mahendra"
+      },
+      {
+        "name": "Mandiri",
+        "rek": "0987654321",
+        "owner": "Keira Anindya"
+      }
+    ],
+    "wishes": []
+  },
+  "sunda-siger-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Sabtu, 18 September 2027",
+    "targetDate": "2027-09-18T09:00:00+07:00",
+    "groom": {
+      "name": "Raka",
+      "father": "Dedi Suhendar",
+      "mother": "Euis Rohayati",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Nadira",
+      "father": "Asep Mulyana",
+      "mother": "Tuti Herawati",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2023",
+        "title": "Munggaran tepang",
+        "description": "Sebuah perkenalan sederhana mempertemukan dua keluarga dan menjadi awal cerita kami."
+      },
+      {
+        "date": "2025",
+        "title": "Ngawangun carita",
+        "description": "Dengan restu orang tua, kami belajar saling menjaga dan menumbuhkan kasih."
+      },
+      {
+        "date": "2027",
+        "title": "Ikrar suci",
+        "description": "Kini kami siap melangkah bersama dalam doa dan harapan baik keluarga."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Sabtu, 18 September 2027",
+        "time": "09.00-10.30 WIB",
+        "venue": "Gedung Puspa Sari",
+        "address": "Jl. Ir. H. Juanda, Bandung, Jawa Barat"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 18 September 2027",
+        "time": "11.00-14.00 WIB",
+        "venue": "Gedung Puspa Sari",
+        "address": "Jl. Ir. H. Juanda, Bandung, Jawa Barat"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=700&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "agenda": [],
+    "videoUrl": "",
+    "prayers": []
+  },
+  "jawa-paes-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Sabtu, 16 Oktober 2027",
+    "targetDate": "2027-10-16T09:00:00+07:00",
+    "groom": {
+      "name": "Bagas",
+      "father": "Sutrisno",
+      "mother": "Sri Wahyuni",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Sekar",
+      "father": "Haryanto",
+      "mother": "Endang Lestari",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2023",
+        "title": "Awal pinanggih",
+        "description": "Saking pitepangan prasaja, tuwuh sesambungan ingkang dipunrengga donga lan pangestu kulawarga."
+      },
+      {
+        "date": "2025",
+        "title": "Tuwuh sesarengan",
+        "description": "Saben lampah ngajari bilih tresna tuwuh nalika sami ngreksa lan nyengkuyung."
+      },
+      {
+        "date": "2027",
+        "title": "Miwiti lelampahan enggal",
+        "description": "Kanthi pangestu tiyang sepuh, kula kekalih siyap ngiket prasetya lan lumampah sesarengan."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Sabtu, 16 Oktober 2027",
+        "time": "09.00-10.30 WIB",
+        "venue": "Pendopo Amarta",
+        "address": "Jl. Solo, Yogyakarta"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 16 Oktober 2027",
+        "time": "11.00-14.00 WIB",
+        "venue": "Pendopo Amarta",
+        "address": "Jl. Solo, Yogyakarta"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=700&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "agenda": [],
+    "videoUrl": "",
+    "prayers": []
+  },
+  "black-gold-01": {
+    "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85",
+    "date": "Minggu, 24 Januari 2027",
+    "targetDate": "2027-01-24T09:00:00+07:00",
+    "groom": {
+      "name": "Arkan",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Aurelia",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "Desember 2024",
+        "title": "Sebuah pertemuan",
+        "description": "Di sebuah kedai kopi kecil, percakapan sederhana menjadi awal cerita yang tidak pernah kami duga."
+      },
+      {
+        "date": "Januari 2025",
+        "title": "Memilih bersama",
+        "description": "Dari banyak cerita dan perjalanan, kami belajar bahwa rumah bisa berupa seseorang."
+      },
+      {
+        "date": "Agustus 2026",
+        "title": "Menuju selamanya",
+        "description": "Di hadapan keluarga, kami memantapkan langkah untuk tumbuh dan menua bersama."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Minggu, 24 Januari 2027",
+        "time": "09.00–10.00 WIB",
+        "venue": "The Langham Jakarta",
+        "address": "SCBD, Kebayoran Baru, Jakarta Selatan"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Minggu, 24 Januari 2027",
+        "time": "11.00–14.00 WIB",
+        "venue": "The Langham Jakarta",
+        "address": "SCBD, Kebayoran Baru, Jakarta Selatan"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [
+      {
+        "name": "BCA",
+        "rek": "1234567890",
+        "owner": "Aditya Pratama"
+      },
+      {
+        "name": "Mandiri",
+        "rek": "0987654321",
+        "owner": "Sarah Kirana"
+      }
+    ],
+    "wishes": [
+      {
+        "name": "Rina",
+        "message": "Semoga hari bahagia ini menjadi awal perjalanan yang penuh cinta."
+      },
+      {
+        "name": "Andi & Keluarga",
+        "message": "Selamat menempuh hidup baru. Bahagia selalu!"
+      }
+    ],
+    "title": "Arkan & Aurelia"
+  },
+  "white-gold-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Minggu, 24 Januari 2027",
+    "targetDate": "2027-01-24T09:00:00+07:00",
+    "groom": {
+      "name": "Dimas",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Alina",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "Desember 2024",
+        "title": "Sebuah pertemuan",
+        "description": "Di sebuah kedai kopi kecil, percakapan sederhana menjadi awal cerita yang tidak pernah kami duga."
+      },
+      {
+        "date": "Januari 2025",
+        "title": "Memilih bersama",
+        "description": "Dari banyak cerita dan perjalanan, kami belajar bahwa rumah bisa berupa seseorang."
+      },
+      {
+        "date": "Agustus 2026",
+        "title": "Menuju selamanya",
+        "description": "Di hadapan keluarga, kami memantapkan langkah untuk tumbuh dan menua bersama."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Minggu, 24 Januari 2027",
+        "time": "09.00–10.00 WIB",
+        "venue": "The Langham Jakarta",
+        "address": "SCBD, Kebayoran Baru, Jakarta Selatan"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Minggu, 24 Januari 2027",
+        "time": "11.00–14.00 WIB",
+        "venue": "The Langham Jakarta",
+        "address": "SCBD, Kebayoran Baru, Jakarta Selatan"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [
+      {
+        "name": "BCA",
+        "rek": "1234567890",
+        "owner": "Aditya Pratama"
+      },
+      {
+        "name": "Mandiri",
+        "rek": "0987654321",
+        "owner": "Sarah Kirana"
+      }
+    ],
+    "wishes": [
+      {
+        "name": "Rina",
+        "message": "Semoga hari bahagia ini menjadi awal perjalanan yang penuh cinta."
+      },
+      {
+        "name": "Andi & Keluarga",
+        "message": "Selamat menempuh hidup baru. Bahagia selalu!"
+      }
+    ],
+    "title": "Dimas & Alina"
+  },
+  "minangkabau-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Sabtu, 16 Oktober 2027",
+    "targetDate": "2027-10-16T09:00:00+07:00",
+    "groom": {
+      "name": "Fikri",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Annisa",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2024",
+        "title": "Pertemuan pertama",
+        "description": "Dari percakapan sederhana, kami menemukan kenyamanan untuk saling mengenal."
+      },
+      {
+        "date": "2026",
+        "title": "Restu dua keluarga",
+        "description": "Bersama keluarga, kami memantapkan niat untuk melangkah menuju pernikahan."
+      },
+      {
+        "date": "2027",
+        "title": "Janji untuk selamanya",
+        "description": "Dengan doa orang tua, kami memulai kehidupan baru bersama."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Sabtu, 16 Oktober 2027",
+        "time": "09.00–10.00 WIB",
+        "venue": "Gedung Pertemuan",
+        "address": "Padang, Sumatera Barat",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Padang"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 16 Oktober 2027",
+        "time": "11.00–14.00 WIB",
+        "venue": "Gedung Pertemuan",
+        "address": "Padang, Sumatera Barat",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Padang"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "title": "Fikri & Annisa"
+  },
+  "betawi-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Minggu, 24 Oktober 2027",
+    "targetDate": "2027-10-24T09:00:00+07:00",
+    "groom": {
+      "name": "Fahri",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Zahra",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2024",
+        "title": "Awal cerita",
+        "description": "Pertemuan sederhana mempertemukan kami dalam cerita yang hangat."
+      },
+      {
+        "date": "2026",
+        "title": "Restu keluarga",
+        "description": "Dua keluarga bertemu untuk menyambut rencana bahagia kami."
+      },
+      {
+        "date": "2027",
+        "title": "Satu janji",
+        "description": "Dengan doa dan restu orang tua, kami siap melangkah bersama."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Minggu, 24 Oktober 2027",
+        "time": "09.00–10.00 WIB",
+        "venue": "Gedung Pertemuan",
+        "address": "Jakarta Selatan, DKI Jakarta",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Minggu, 24 Oktober 2027",
+        "time": "11.00–14.00 WIB",
+        "venue": "Gedung Pertemuan",
+        "address": "Jakarta Selatan, DKI Jakarta",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "title": "Fahri & Zahra"
+  },
+  "bali-01": {
+    "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85",
+    "date": "Sabtu, 6 November 2027",
+    "targetDate": "2027-11-06T09:00:00+08:00",
+    "groom": {
+      "name": "Arya",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Kirana",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2024",
+        "title": "Pertemuan yang berkesan",
+        "description": "Sebuah pertemuan sederhana menjadi awal perjalanan kami."
+      },
+      {
+        "date": "2026",
+        "title": "Tumbuh bersama",
+        "description": "Kami saling mendukung dan memantapkan langkah dengan restu keluarga."
+      },
+      {
+        "date": "2027",
+        "title": "Memulai babak baru",
+        "description": "Bersama orang-orang terkasih, kami merayakan awal kehidupan baru."
+      }
+    ],
+    "events": [
+      {
+        "title": "Upacara Pernikahan",
+        "date": "Sabtu, 6 November 2027",
+        "time": "09.00?11.00 WITA",
+        "venue": "Gedung Pertemuan",
+        "address": "Denpasar, Bali",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Denpasar+Bali"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 6 November 2027",
+        "time": "12.00?15.00 WITA",
+        "venue": "Gedung Pertemuan",
+        "address": "Denpasar, Bali",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Denpasar+Bali"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "title": "Arya & Kirana"
   }
 }

@@ -23,6 +23,10 @@ export async function openDatabase(config) {
   });
   try {
     const statements = [
+      `CREATE TABLE IF NOT EXISTS packages (
+        id VARCHAR(20) PRIMARY KEY, name VARCHAR(40) NOT NULL,
+        price BIGINT UNSIGNED NULL, sort_order TINYINT UNSIGNED NOT NULL
+      ) ENGINE=InnoDB`,
       `CREATE TABLE IF NOT EXISTS admins (
     id VARCHAR(36) PRIMARY KEY, name VARCHAR(80) NOT NULL,
     email VARCHAR(160) NOT NULL UNIQUE, password_hash VARCHAR(200) NOT NULL
@@ -61,11 +65,30 @@ export async function openDatabase(config) {
       ) ENGINE=InnoDB`,
     ];
     for (const statement of statements) await pool.query(statement);
+    for (const [index, name] of [
+      'Silver',
+      'Gold',
+      'Platinum',
+      'Exclusive',
+    ].entries()) {
+      await pool.execute(
+        'INSERT IGNORE INTO packages (id, name, price, sort_order) VALUES (?, ?, NULL, ?)',
+        [name.toLowerCase(), name, index],
+      );
+    }
     const [columns] = await pool.query(
       "SHOW COLUMNS FROM templates LIKE 'data'",
     );
     if (!columns.length)
       await pool.query('ALTER TABLE templates ADD COLUMN data LONGTEXT NULL');
+    const [packageColumns] = await pool.query(
+      "SHOW COLUMNS FROM templates LIKE 'package_id'",
+    );
+    if (!packageColumns.length) {
+      await pool.query(
+        "ALTER TABLE templates ADD COLUMN package_id ENUM('silver','gold','platinum','exclusive') NULL",
+      );
+    }
     const defaults = JSON.parse(
       readFileSync(new URL('./templateData.json', import.meta.url), 'utf8'),
     );
@@ -74,9 +97,9 @@ export async function openDatabase(config) {
     );
     for (const template of templates) {
       await pool.execute(
-        `INSERT INTO templates (id, name, category, description, image, data)
-        VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE
-        name=VALUES(name), category=VALUES(category), description=VALUES(description), image=VALUES(image), data=COALESCE(data, VALUES(data))`,
+        `INSERT INTO templates (id, name, category, description, image, data, package_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE
+        name=VALUES(name), category=VALUES(category), description=VALUES(description), image=VALUES(image), data=COALESCE(data, VALUES(data)), package_id=COALESCE(package_id, VALUES(package_id))`,
         [
           template.id,
           template.name,
@@ -84,8 +107,31 @@ export async function openDatabase(config) {
           template.description,
           template.img,
           JSON.stringify(defaults[template.id]),
+          template.packageId,
         ],
       );
+      const [rows] = await pool.execute(
+        'SELECT data FROM templates WHERE id=?',
+        [template.id],
+      );
+      const templateData = JSON.parse(rows[0].data || '{}');
+      let dataChanged = false;
+      for (const [key, defaultValue] of Object.entries({
+        agenda: [],
+        videoUrl: '',
+        prayers: [],
+      })) {
+        if (!(key in templateData)) {
+          templateData[key] = defaultValue;
+          dataChanged = true;
+        }
+      }
+      if (dataChanged) {
+        await pool.execute('UPDATE templates SET data=? WHERE id=?', [
+          JSON.stringify(templateData),
+          template.id,
+        ]);
+      }
     }
     return {
       prepare(sql) {
