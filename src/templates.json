@@ -182,5 +182,45 @@
     "description": "Putih gading dan emas antik dengan destar, mahkota, bokor, serta ukiran Bali.",
     "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85",
     "packageId": "gold"
+  },
+  {
+    "id": "palembang-01",
+    "name": "Palembang Wedding",
+    "category": "Pernikahan",
+    "packageId": "gold",
+    "description": "Merah delima dan emas dengan mahkota, kain Palembang, pending, serta tepak.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
+  },
+  {
+    "id": "makasar-01",
+    "name": "Makasar Wedding",
+    "category": "Pernikahan",
+    "packageId": "gold",
+    "description": "Hijau zamrud dan emas dengan passapu, pinang goyang, genno susun, serta kain Makasar.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
+  },
+  {
+    "id": "batak-01",
+    "name": "Batak Wedding",
+    "category": "Pernikahan",
+    "packageId": "gold",
+    "description": "Hitam arang, merah, dan tembaga dengan kain Batak, sortali, pinar, serta ornamen ukiran.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
+  },
+  {
+    "id": "aceh-01",
+    "name": "Aceh Wedding",
+    "category": "Pernikahan",
+    "packageId": "gold",
+    "description": "Hitam hangat, merah, dan emas dengan kupiah, mahkota, rencong, serta ornamen kain Aceh.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
+  },
+  {
+    "id": "papua-01",
+    "name": "Papua Wedding",
+    "category": "Pernikahan",
+    "packageId": "gold",
+    "description": "Warna pasir dan kayu dengan lukisan kulit kayu Asei, noken, tifa, serta manik-manik.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
   }
 ]
