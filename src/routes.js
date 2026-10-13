@@ -82,7 +82,7 @@ export function createRouter({
         segments.length === 4 &&
         method === 'PATCH'
       )
-        return templates.updatePackage(segments[3], await readBody(req));
+        return templates.update(segments[3], await readBody(req));
       if (segments[2] === 'invitations' && segments.length === 3) {
         if (method === 'GET') return invitations.list(url.searchParams);
         if (method === 'POST') return invitations.create(await readBody(req));

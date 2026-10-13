@@ -607,6 +607,59 @@ test('template packages require admin access and persist after database initiali
     assert.equal(result.status, 200);
     assert.equal(result.body.data.packageId, packageId);
   }
+  const existingTemplate = (
+    await request('/templates/emerald-khitan-01')
+  ).body.data;
+  assert.equal(
+    (
+      await request(path, {
+        method: 'PATCH',
+        body: { data: existingTemplate.data },
+      })
+    ).status,
+    401,
+  );
+  assert.equal(
+    (
+      await request(path, {
+        method: 'PATCH',
+        admin: true,
+        body: {
+          data: { ...existingTemplate.data, theme: { background: 'red' } },
+        },
+      })
+    ).status,
+    422,
+  );
+  assert.equal(
+    (
+      await request(path, {
+        method: 'PATCH',
+        admin: true,
+        body: {
+          data: { ...existingTemplate.data, theme: { font: 'custom-css' } },
+        },
+      })
+    ).status,
+    422,
+  );
+  const updatedData = {
+    ...existingTemplate.data,
+    honoree: 'Nama default yang diperbarui',
+    theme: {
+      background: '#123456',
+      accent: '#abcdef',
+      font: 'classic',
+    },
+  };
+  const update = await request(path, {
+    method: 'PATCH',
+    admin: true,
+    body: { data: updatedData },
+  });
+  assert.equal(update.status, 200);
+  assert.equal(update.body.data.data.honoree, updatedData.honoree);
+  assert.deepEqual(update.body.data.data.theme, updatedData.theme);
   await request(path, {
     method: 'PATCH',
     admin: true,
@@ -618,6 +671,9 @@ test('template packages require admin access and persist after database initiali
     (await request('/templates/emerald-khitan-01')).body.data.packageId,
     'gold',
   );
+  const persisted = (await request('/templates/emerald-khitan-01')).body.data;
+  assert.equal(persisted.data.honoree, updatedData.honoree);
+  assert.deepEqual(persisted.data.theme, updatedData.theme);
   assert.equal(
     (await request('/templates')).body.data.find(
       (item) => item.id === 'emerald-khitan-01',
