@@ -682,6 +682,57 @@ test('template packages require admin access and persist after database initiali
   );
 });
 
+test('social links are public to read, admin-only to update, validated and persistent', async (t) => {
+  const { request, database } = await fixture(t);
+  const initial = await request('/social-links');
+  assert.equal(initial.status, 200);
+  assert.deepEqual(initial.body.data, {
+    instagram: '',
+    tiktok: '',
+    whatsapp: '',
+  });
+  const path = '/admin/social-links';
+  const links = {
+    instagram: 'https://www.instagram.com/ciptain',
+    tiktok: 'https://www.tiktok.com/@ciptain',
+    whatsapp: '6281234567890',
+  };
+  assert.equal(
+    (await request(path, { method: 'PATCH', body: links })).status,
+    401,
+  );
+  assert.equal(
+    (
+      await request(path, {
+        method: 'PATCH',
+        admin: true,
+        body: { ...links, instagram: 'https://evil.example/ciptain' },
+      })
+    ).status,
+    422,
+  );
+  assert.equal(
+    (
+      await request(path, {
+        method: 'PATCH',
+        admin: true,
+        body: { ...links, whatsapp: '+6281234567890' },
+      })
+    ).status,
+    422,
+  );
+  const saved = await request(path, {
+    method: 'PATCH',
+    admin: true,
+    body: links,
+  });
+  assert.equal(saved.status, 200);
+  assert.deepEqual(saved.body.data, links);
+  const reopened = await openDatabase({ ...databaseConfig, database });
+  await reopened.close();
+  assert.deepEqual((await request('/social-links')).body.data, links);
+});
+
 test('package prices validate rupiah, require admin and keep Exclusive custom', async (t) => {
   const { request, database } = await fixture(t);
   const initial = (await request('/packages')).body.data;

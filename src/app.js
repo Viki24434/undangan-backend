@@ -14,6 +14,8 @@ import WishModel from './models/WishModel.js';
 import WishController from './controllers/WishController.js';
 import RsvpModel from './models/RsvpModel.js';
 import RsvpController from './controllers/RsvpController.js';
+import SocialLinksModel from './models/SocialLinksModel.js';
+import SocialLinksController from './controllers/SocialLinksController.js';
 
 async function readBody(req) {
   if (
@@ -87,6 +89,7 @@ export function createApp({
     uploads: new UploadController(),
     packages: new PackageController(new PackageModel(db)),
     templates: new TemplateController(templateModel),
+    socialLinks: new SocialLinksController(new SocialLinksModel(db)),
     invitations: new InvitationController(
       new InvitationModel(db),
       templateModel,

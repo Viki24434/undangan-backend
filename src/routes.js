@@ -5,6 +5,7 @@ export function createRouter({
   uploads,
   packages,
   templates,
+  socialLinks,
   invitations,
   wishes,
   rsvps,
@@ -39,6 +40,8 @@ export function createRouter({
       return uploads.image(segments[2]);
     if (method === 'GET' && url.pathname === '/api/packages')
       return packages.list();
+    if (method === 'GET' && url.pathname === '/api/social-links')
+      return socialLinks.get();
     if (method === 'GET' && url.pathname === '/api/templates')
       return templates.list(url.searchParams.get('category'));
     if (
@@ -63,6 +66,12 @@ export function createRouter({
     }
     if (segments[1] === 'admin') {
       await admin(req);
+      if (
+        segments[2] === 'social-links' &&
+        segments.length === 3 &&
+        method === 'PATCH'
+      )
+        return socialLinks.update(await readBody(req));
       if (
         method === 'POST' &&
         segments[2] === 'uploads' &&

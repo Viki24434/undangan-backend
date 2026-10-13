@@ -27,6 +27,9 @@ export async function openDatabase(config) {
         id VARCHAR(20) PRIMARY KEY, name VARCHAR(40) NOT NULL,
         price BIGINT UNSIGNED NULL, sort_order TINYINT UNSIGNED NOT NULL
       ) ENGINE=InnoDB`,
+      `CREATE TABLE IF NOT EXISTS social_links (
+        id TINYINT UNSIGNED PRIMARY KEY, data LONGTEXT NOT NULL
+      ) ENGINE=InnoDB`,
       `CREATE TABLE IF NOT EXISTS admins (
     id VARCHAR(36) PRIMARY KEY, name VARCHAR(80) NOT NULL,
     email VARCHAR(160) NOT NULL UNIQUE, password_hash VARCHAR(200) NOT NULL
@@ -65,6 +68,9 @@ export async function openDatabase(config) {
       ) ENGINE=InnoDB`,
     ];
     for (const statement of statements) await pool.query(statement);
+    await pool.execute(
+      "INSERT IGNORE INTO social_links (id, data) VALUES (1, '{\"instagram\":\"\",\"tiktok\":\"\",\"whatsapp\":\"\"}')",
+    );
     for (const [index, name] of [
       'Silver',
       'Gold',

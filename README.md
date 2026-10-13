@@ -38,6 +38,7 @@ Lihat `.env.example`. `CORS_ORIGINS` berisi origin frontend yang diizinkan, dipi
 | Metode | Endpoint                        | Fungsi                                                  |
 | ------ | ------------------------------- | ------------------------------------------------------- |
 | GET    | `/api/health`                   | Status API dan database                                 |
+| GET    | `/api/social-links`             | Tautan sosial publik                                    |
 | GET    | `/api/templates`                | Daftar template; filter opsional `?category=Pernikahan` |
 | GET    | `/api/invitations/:slug`        | Undangan published                                      |
 | GET    | `/api/invitations/:slug/wishes` | Ucapan, `limit` 1–100 dan `offset` ≥ 0                  |
@@ -55,8 +56,12 @@ RSVP: `{ "name": "Rina", "attendance": "Hadir", "guestCount": 2, "note": "Bersam
 | GET                  | `/api/admin/invitations/:id/rsvps`  | Daftar RSVP privat     |
 | GET                  | `/api/admin/invitations/:id/wishes` | Daftar ucapan          |
 | DELETE               | `/api/admin/wishes/:id`             | Hapus ucapan           |
+| PATCH                | `/api/admin/social-links`           | Ubah tautan sosial global |
 
 Daftar admin juga mendukung `limit` dan `offset`. Menghapus undangan ikut menghapus semua RSVP dan ucapan terkait. PATCH mengganti keseluruhan `data` jika field tersebut dikirim.
+
+Tautan sosial menerima `instagram` dan `tiktok` berupa URL profil HTTPS, serta
+`whatsapp` berupa 8–15 digit nomor dengan kode negara tanpa tanda `+`.
 
 Contoh payload membuat undangan:
 
