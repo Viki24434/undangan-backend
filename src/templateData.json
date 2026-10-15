@@ -1921,5 +1921,279 @@
     ],
     "wishes": [],
     "banks": []
+  },
+  "royal-gold-luxury-01": {
+    "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85",
+    "date": "Sabtu, 5 Februari 2028",
+    "targetDate": "2028-02-05T09:00:00+07:00",
+    "groom": {
+      "name": "Adrian",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Aurelia",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2024",
+        "title": "Pertemuan yang istimewa",
+        "description": "Sebuah pertemuan sederhana menjadi awal kisah yang kami syukuri."
+      },
+      {
+        "date": "2026",
+        "title": "Melangkah bersama",
+        "description": "Dengan restu keluarga, kami memantapkan hati untuk menempuh perjalanan yang sama."
+      },
+      {
+        "date": "2028",
+        "title": "Janji untuk selamanya",
+        "description": "Bersama orang-orang terkasih, kami merayakan awal kehidupan baru."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Sabtu, 5 Februari 2028",
+        "time": "09.00?10.30 WIB",
+        "venue": "Grand Ballroom",
+        "address": "Jakarta Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 5 Februari 2028",
+        "time": "11.00?14.00 WIB",
+        "venue": "Grand Ballroom",
+        "address": "Jakarta Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "title": "Adrian & Aurelia"
+  },
+  "rustic-boho-wedding-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Sabtu, 12 Februari 2028",
+    "targetDate": "2028-02-12T09:00:00+07:00",
+    "groom": {
+      "name": "Raka",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Ayuna",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2024",
+        "title": "Di antara cerita sederhana",
+        "description": "Sebuah pertemuan mempertemukan kami dalam percakapan yang terasa hangat."
+      },
+      {
+        "date": "2026",
+        "title": "Tumbuh bersama",
+        "description": "Kami belajar saling menjaga, berbagi mimpi, dan merayakan hal-hal kecil."
+      },
+      {
+        "date": "2028",
+        "title": "Satu langkah baru",
+        "description": "Dengan restu keluarga, kami menyambut awal perjalanan bersama."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Sabtu, 12 Februari 2028",
+        "time": "09.00?10.30 WIB",
+        "venue": "Taman Perayaan",
+        "address": "Bandung, Jawa Barat",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Bandung"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 12 Februari 2028",
+        "time": "11.00?14.00 WIB",
+        "venue": "Taman Perayaan",
+        "address": "Bandung, Jawa Barat",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Bandung"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "title": "Raka & Ayuna"
+  },
+  "islamic-elegant-wedding-01": {
+    "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85",
+    "date": "Sabtu, 19 Februari 2028",
+    "targetDate": "2028-02-19T09:00:00+07:00",
+    "groom": {
+      "name": "Fahmi",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Zahira",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2024",
+        "title": "Awal perkenalan",
+        "description": "Sebuah perkenalan sederhana menjadi awal cerita yang kami syukuri."
+      },
+      {
+        "date": "2026",
+        "title": "Niat dan restu keluarga",
+        "description": "Dengan niat baik dan restu orang tua, kami memantapkan langkah menuju pernikahan."
+      },
+      {
+        "date": "2028",
+        "title": "Janji dalam doa",
+        "description": "Kami menyambut awal kehidupan baru dengan doa dan harapan untuk saling menjaga."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Sabtu, 19 Februari 2028",
+        "time": "09.00?10.30 WIB",
+        "venue": "Aula Pertemuan",
+        "address": "Jakarta Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 19 Februari 2028",
+        "time": "11.00?14.00 WIB",
+        "venue": "Aula Pertemuan",
+        "address": "Jakarta Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "title": "Fahmi & Zahira",
+    "agenda": [
+      {
+        "time": "08.30 WIB",
+        "title": "Penyambutan keluarga",
+        "description": "Kedatangan keluarga dan persiapan acara."
+      },
+      {
+        "time": "09.00 WIB",
+        "title": "Akad nikah",
+        "description": "Prosesi akad nikah bersama keluarga."
+      },
+      {
+        "time": "10.00 WIB",
+        "title": "Doa bersama",
+        "description": "Doa dan ucapan selamat untuk kedua mempelai."
+      },
+      {
+        "time": "11.00 WIB",
+        "title": "Resepsi",
+        "description": "Ramah tamah bersama para tamu."
+      }
+    ],
+    "prayers": [
+      {
+        "title": "Harapan kedua mempelai",
+        "text": "Ya Allah, berkahilah pernikahan kami. Tuntun kami untuk saling menyayangi, menjaga, dan membangun keluarga yang penuh ketenteraman.",
+        "arabic": "",
+        "source": ""
+      }
+    ]
+  },
+  "celestial-moon-and-star-01": {
+    "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85",
+    "date": "Sabtu, 26 Februari 2028",
+    "targetDate": "2028-02-26T09:00:00+07:00",
+    "groom": {
+      "name": "Arsen",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Selena",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2024",
+        "title": "Dua cerita bertemu",
+        "description": "Sebuah perkenalan sederhana mempertemukan kami dalam kisah yang hangat."
+      },
+      {
+        "date": "2026",
+        "title": "Sejalan dalam harapan",
+        "description": "Kami belajar saling menjaga dan menyatukan mimpi dengan restu keluarga."
+      },
+      {
+        "date": "2028",
+        "title": "Di bawah langit yang sama",
+        "description": "Bersama orang-orang terkasih, kami merayakan awal kehidupan baru."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Sabtu, 26 Februari 2028",
+        "time": "09.00?10.30 WIB",
+        "venue": "Grand Ballroom",
+        "address": "Jakarta Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 26 Februari 2028",
+        "time": "18.00?21.00 WIB",
+        "venue": "Grand Ballroom",
+        "address": "Jakarta Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "title": "Arsen & Selena"
   }
 }

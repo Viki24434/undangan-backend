@@ -262,5 +262,37 @@
     "packageId": "silver",
     "description": "Blush, champagne, dan emas mawar dengan balon, pita, serta detail pesta yang anggun.",
     "img": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200&q=85"
+  },
+  {
+    "id": "royal-gold-luxury-01",
+    "name": "Royal Gold Luxury Wedding",
+    "category": "Pernikahan",
+    "packageId": "gold",
+    "description": "Ivory dan emas hangat dengan mahkota, mutiara, ukiran klasik, dan lilin untuk pernikahan yang megah.",
+    "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85"
+  },
+  {
+    "id": "rustic-boho-wedding-01",
+    "name": "Rustic Boho Wedding",
+    "category": "Pernikahan",
+    "packageId": "gold",
+    "description": "Krem hangat, sage, dan kayu dengan dedaunan kering, lentera, serta rangkaian bunga rustic.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
+  },
+  {
+    "id": "islamic-elegant-wedding-01",
+    "name": "Islamic Elegant Wedding",
+    "category": "Pernikahan",
+    "packageId": "gold",
+    "description": "Hijau zamrud, ivory, dan emas dengan lengkung geometris, lampion, bunga, serta detail cincin.",
+    "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85"
+  },
+  {
+    "id": "celestial-moon-and-star-01",
+    "name": "Celestial Moon & Star Wedding",
+    "category": "Pernikahan",
+    "packageId": "gold",
+    "description": "Biru malam dan emas dengan bulan sabit, bintang, kristal, serta bunga untuk pernikahan yang romantis.",
+    "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85"
   }
 ]
