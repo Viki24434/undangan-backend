@@ -107,14 +107,14 @@ test('templates, authenticated CRUD, draft privacy, wishes, RSVP, moderation, ca
   const { request, db } = await fixture(t);
   assert.equal((await request('/health')).status, 200);
   const templates = (await request('/templates')).body.data;
-  assert.equal(templates.length, 28);
+  assert.equal(templates.length, 33);
   assert.ok(templates.some(({ id }) => id === 'burgundy-vow-01'));
   assert.ok(templates.some(({ id }) => id === 'pink-blush-01'));
   assert.ok(templates.some(({ id }) => id === 'sunda-siger-01'));
   assert.ok(templates.some(({ id }) => id === 'jawa-paes-01'));
   assert.equal(
     (await request('/templates?category=Ulang%20tahun')).body.data.length,
-    3,
+    8,
   );
   assert.equal((await request('/admin/invitations')).status, 401);
   assert.equal(

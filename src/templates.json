@@ -222,5 +222,45 @@
     "packageId": "gold",
     "description": "Warna pasir dan kayu dengan lukisan kulit kayu Asei, noken, tifa, serta manik-manik.",
     "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
+  },
+  {
+    "id": "cream-pink-birthday-01",
+    "name": "Happy Birthday Cream Pink",
+    "category": "Ulang tahun",
+    "packageId": "silver",
+    "description": "Krem hangat dan pink pastel dengan balon, kue, pita, serta kejutan kecil yang ceria.",
+    "img": "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=1200&q=85"
+  },
+  {
+    "id": "black-gold-luxury-birthday-01",
+    "name": "Black Gold Luxury Birthday",
+    "category": "Ulang tahun",
+    "packageId": "silver",
+    "description": "Hitam elegan dan emas champagne dengan balon, kue, bintang, serta kado untuk pesta berkelas.",
+    "img": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200&q=85"
+  },
+  {
+    "id": "cute-boy-birthday-01",
+    "name": "Cute Boy Birthday",
+    "category": "Ulang tahun",
+    "packageId": "silver",
+    "description": "Biru ceria, mint, dan bintang kuning dengan balon, kue, serta kado untuk si kecil.",
+    "img": "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=1200&q=85"
+  },
+  {
+    "id": "cute-girl-birthday-01",
+    "name": "Cute Girl Birthday",
+    "category": "Ulang tahun",
+    "packageId": "silver",
+    "description": "Pink lembut, lavender, dan pita manis dengan balon serta kue untuk pesta kecil yang ceria.",
+    "img": "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=1200&q=85"
+  },
+  {
+    "id": "rose-gold-elegant-birthday-01",
+    "name": "Rose Gold Elegant Birthday",
+    "category": "Ulang tahun",
+    "packageId": "silver",
+    "description": "Blush, champagne, dan emas mawar dengan balon, pita, serta detail pesta yang anggun.",
+    "img": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200&q=85"
   }
 ]

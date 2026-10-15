@@ -1711,5 +1711,215 @@
     "banks": [],
     "wishes": [],
     "title": "Elia & Naomi"
+  },
+  "cream-pink-birthday-01": {
+    "title": "Luna turns 6!",
+    "subtitle": "A SWEET LITTLE CELEBRATION",
+    "date": "Minggu, 12 Desember 2027",
+    "targetDate": "2027-12-12T15:00:00+07:00",
+    "monogram": "L ? 6",
+    "symbol": "? ? ?",
+    "eyebrow": "CAKE, CONFETTI & HAPPY MEMORIES",
+    "heading": "Enam tahun penuh tawa & cerita.",
+    "introduction": "Ada kue, balon pastel, dan banyak senyum! Yuk, rayakan ulang tahun Luna bersama keluarga dan teman-teman tersayang.",
+    "honoreeLabel": "Bintang hari ini",
+    "honoree": "Luna",
+    "family": "Bersama keluarga dan sahabat tersayang",
+    "image": "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=1200&q=85",
+    "photos": [
+      "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=800&q=85",
+      "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80",
+      "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&q=80"
+    ],
+    "events": [
+      {
+        "title": "Happy Birthday Party",
+        "date": "Minggu, 12 Desember 2027",
+        "time": "15.00?18.00 WIB",
+        "venue": "Ruang Perayaan",
+        "address": "Jakarta Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      }
+    ],
+    "notes": [
+      {
+        "title": "Dress code",
+        "description": "Krem, pink, atau warna pastel favoritmu"
+      },
+      {
+        "title": "Untuk sahabat",
+        "description": "Bawa senyum terbaik untuk bermain dan merayakan bersama."
+      }
+    ],
+    "wishes": [],
+    "banks": []
+  },
+  "black-gold-luxury-birthday-01": {
+    "title": "Alana turns 21",
+    "subtitle": "AN EVENING TO REMEMBER",
+    "date": "Sabtu, 18 Desember 2027",
+    "targetDate": "2027-12-18T18:00:00+07:00",
+    "monogram": "A ? 21",
+    "symbol": "?",
+    "eyebrow": "GOLDEN MOMENTS, HAPPY MEMORIES",
+    "heading": "Dua puluh satu tahun, cerita baru.",
+    "introduction": "Mari merayakan hari istimewa Alana dalam suasana hangat, penuh tawa, dan kenangan manis bersama.",
+    "honoreeLabel": "Birthday star",
+    "honoree": "Alana",
+    "family": "Bersama keluarga dan sahabat tersayang",
+    "image": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200&q=85",
+    "photos": [
+      "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=800&q=85",
+      "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80",
+      "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&q=80"
+    ],
+    "events": [
+      {
+        "title": "Birthday Celebration",
+        "date": "Sabtu, 18 Desember 2027",
+        "time": "18.00?21.00 WIB",
+        "venue": "Ruang Perayaan",
+        "address": "Jakarta Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      }
+    ],
+    "notes": [
+      {
+        "title": "Dress code",
+        "description": "Black, gold, atau champagne"
+      },
+      {
+        "title": "Untuk sahabat",
+        "description": "Bawa senyum terbaik untuk merayakan bersama."
+      }
+    ],
+    "wishes": [],
+    "banks": []
+  },
+  "cute-boy-birthday-01": {
+    "title": "Arka turns 5!",
+    "subtitle": "A LITTLE PARTY, A LOT OF HAPPY",
+    "date": "Minggu, 9 Januari 2028",
+    "targetDate": "2028-01-09T15:00:00+07:00",
+    "monogram": "A ? 5",
+    "symbol": "? ? ?",
+    "eyebrow": "CAKE, LAUGHTER & HAPPY MEMORIES",
+    "heading": "Lima tahun penuh tawa & petualangan.",
+    "introduction": "Yuk, rayakan ulang tahun Arka bersama keluarga dan sahabat tersayang. Ada kue, tawa, dan kenangan manis yang menanti!",
+    "honoreeLabel": "Bintang hari ini",
+    "honoree": "Arka",
+    "family": "Bersama keluarga dan sahabat tersayang",
+    "image": "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=1200&q=85",
+    "photos": [
+      "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=800&q=85",
+      "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80",
+      "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&q=80"
+    ],
+    "events": [
+      {
+        "title": "Birthday Celebration",
+        "date": "Minggu, 9 Januari 2028",
+        "time": "15.00?18.00 WIB",
+        "venue": "Ruang Perayaan",
+        "address": "Jakarta Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      }
+    ],
+    "notes": [
+      {
+        "title": "Dress code",
+        "description": "Biru, mint, atau kuning ceria"
+      },
+      {
+        "title": "Untuk sahabat",
+        "description": "Bawa senyum terbaik dan rayakan momen bahagia bersama."
+      }
+    ],
+    "wishes": [],
+    "banks": []
+  },
+  "cute-girl-birthday-01": {
+    "title": "Kiara turns 4!",
+    "subtitle": "A LITTLE PARTY, A LOT OF HAPPY",
+    "date": "Minggu, 16 Januari 2028",
+    "targetDate": "2028-01-16T15:00:00+07:00",
+    "monogram": "K ? 4",
+    "symbol": "? ? ?",
+    "eyebrow": "CAKE, LAUGHTER & HAPPY MEMORIES",
+    "heading": "Empat tahun penuh senyum & kejutan.",
+    "introduction": "Yuk, rayakan ulang tahun Kiara bersama keluarga dan sahabat tersayang. Ada kue, tawa, dan kenangan manis yang menanti!",
+    "honoreeLabel": "Bintang hari ini",
+    "honoree": "Kiara",
+    "family": "Bersama keluarga dan sahabat tersayang",
+    "image": "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=1200&q=85",
+    "photos": [
+      "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=800&q=85",
+      "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80",
+      "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&q=80"
+    ],
+    "events": [
+      {
+        "title": "Birthday Celebration",
+        "date": "Minggu, 16 Januari 2028",
+        "time": "15.00?18.00 WIB",
+        "venue": "Ruang Perayaan",
+        "address": "Jakarta Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      }
+    ],
+    "notes": [
+      {
+        "title": "Dress code",
+        "description": "Pink, lavender, atau pastel favoritmu"
+      },
+      {
+        "title": "Untuk sahabat",
+        "description": "Bawa senyum terbaik dan rayakan momen bahagia bersama."
+      }
+    ],
+    "wishes": [],
+    "banks": []
+  },
+  "rose-gold-elegant-birthday-01": {
+    "title": "Nadine turns 25!",
+    "subtitle": "A BEAUTIFUL EVENING TO CELEBRATE",
+    "date": "Sabtu, 22 Januari 2028",
+    "targetDate": "2028-01-22T18:00:00+07:00",
+    "monogram": "N ? 25",
+    "symbol": "? ? ?",
+    "eyebrow": "PRECIOUS MOMENTS, BEAUTIFUL MEMORIES",
+    "heading": "Dua puluh lima tahun, kisah yang berharga.",
+    "introduction": "Yuk, rayakan ulang tahun Nadine bersama keluarga dan sahabat tersayang. Ada kue, tawa, dan kenangan manis yang menanti!",
+    "honoreeLabel": "Bintang hari ini",
+    "honoree": "Nadine",
+    "family": "Bersama keluarga dan sahabat tersayang",
+    "image": "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200&q=85",
+    "photos": [
+      "https://images.unsplash.com/photo-1530103862676-de8892b12fa6?w=800&q=85",
+      "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80",
+      "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&q=80"
+    ],
+    "events": [
+      {
+        "title": "Birthday Celebration",
+        "date": "Sabtu, 22 Januari 2028",
+        "time": "18.00?21.00 WIB",
+        "venue": "Ruang Perayaan",
+        "address": "Jakarta Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta+Selatan"
+      }
+    ],
+    "notes": [
+      {
+        "title": "Dress code",
+        "description": "Rose gold, champagne, atau blush"
+      },
+      {
+        "title": "Untuk sahabat",
+        "description": "Bawa senyum terbaik dan rayakan momen bahagia bersama."
+      }
+    ],
+    "wishes": [],
+    "banks": []
   }
 }
