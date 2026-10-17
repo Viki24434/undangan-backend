@@ -1,5 +1,6 @@
 ﻿import { randomUUID } from 'node:crypto';
 import { HttpError, pagination, text } from '../validation.js';
+import { createHash } from 'node:crypto';
 
 export default class WishController {
   constructor(model) {
@@ -22,8 +23,18 @@ export default class WishController {
     const message = text(body.message, 'message', 600);
     const id = randomUUID();
     const createdAt = new Date().toISOString();
-    await this.model.create(id, invitationId, name, message, createdAt);
-    return { status: 201, data: { id, name, message, createdAt } };
+    const guestKey = createHash('sha256')
+      .update(name.normalize('NFKC').toLowerCase().replace(/\s+/g, ' '))
+      .digest('hex');
+    const { wish, updated } = await this.model.save(
+      id,
+      invitationId,
+      guestKey,
+      name,
+      message,
+      createdAt,
+    );
+    return { status: updated ? 200 : 201, data: wish, meta: { updated } };
   }
   async remove(id) {
     if (!(await this.model.remove(id)).changes)

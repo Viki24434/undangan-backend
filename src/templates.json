@@ -294,5 +294,21 @@
     "packageId": "gold",
     "description": "Biru malam dan emas dengan bulan sabit, bintang, kristal, serta bunga untuk pernikahan yang romantis.",
     "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85"
+  },
+  {
+    "id": "platinum-aurora-01",
+    "name": "Aurora Nocturne Wedding",
+    "category": "Pernikahan",
+    "packageId": "platinum",
+    "description": "Biru malam, cahaya aurora, dan detail bulan dengan cover segel surat, countdown cincin, serta galeri layar penuh.",
+    "img": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=85"
+  },
+  {
+    "id": "platinum-champagne-01",
+    "name": "Champagne Atelier Wedding",
+    "category": "Pernikahan",
+    "packageId": "platinum",
+    "description": "Ivory dan champagne dengan bingkai editorial, bunga royal, cover segel surat, countdown cincin, serta galeri layar penuh.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
   }
 ]

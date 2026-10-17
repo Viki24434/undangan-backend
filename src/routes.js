@@ -3,6 +3,7 @@
 export function createRouter({
   auth,
   uploads,
+  guestPhotos,
   packages,
   templates,
   socialLinks,
@@ -56,6 +57,10 @@ export function createRouter({
         return { status: 200, data: invitation };
       if (segments[3] === 'wishes' && method === 'GET')
         return wishes.list(invitation.id, url.searchParams);
+      if (segments[3] === 'photos' && method === 'POST') {
+        rateLimit(req);
+        return guestPhotos.create(req, invitation, url.searchParams.get('to'));
+      }
       if (method === 'POST' && ['wishes', 'rsvps'].includes(segments[3])) {
         rateLimit(req);
         const body = await readBody(req);
@@ -99,7 +104,7 @@ export function createRouter({
       if (
         segments[2] === 'invitations' &&
         segments[3] &&
-        segments.length <= 5
+        segments.length <= 6
       ) {
         const invitation = await invitations.find(segments[3]);
         if (segments.length === 4) {
@@ -112,6 +117,11 @@ export function createRouter({
           return wishes.list(invitation.id, url.searchParams);
         if (method === 'GET' && segments[4] === 'rsvps')
           return rsvps.list(invitation.id, url.searchParams);
+        if (method === 'GET' && segments[4] === 'photos') {
+          return segments.length === 6
+            ? guestPhotos.download(invitation.id, segments[5])
+            : guestPhotos.list(invitation.id, url.searchParams);
+        }
       }
       if (
         segments[2] === 'wishes' &&

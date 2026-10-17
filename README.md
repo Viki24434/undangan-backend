@@ -124,3 +124,13 @@ Undangan nyata dibuka di frontend menggunakan `/u/<slug>`, misalnya `http://loca
 Password disimpan sebagai hash scrypt dengan salt acak. Token session acak disimpan sebagai hash SHA-256 di MySQL dan kedaluwarsa setelah 8 jam. Cookie memakai HttpOnly, SameSite=Lax, dan Path=/api. Permintaan admin yang mengubah data melalui cookie wajib membawa X-CSRF-Token dari respons session/login. Bearer token API tetap didukung untuk integrasi non-browser.
 
 `COOKIE_SECURE=false` untuk HTTP XAMPP lokal; gunakan `true` dengan HTTPS pada deployment. Buat akun admin pertama sebelum membuka server kepada publik. Frontend menggunakan proxy Vite `/api` ke backend agar host cookie sama. Tabel admins dan admin_sessions dibuat otomatis saat backend dimulai, tanpa menghapus tabel undangan sebelumnya.
+
+## Foto tamu untuk Platinum
+
+Undangan published dengan paket template `platinum` menyediakan kirim foto setelah waktu `eventDate` tercapai. Waktu mulai diperiksa lagi oleh backend. Nama tamu diambil frontend dari `?to=Viki`; jika kosong, tamu mengisi nama sendiri.
+
+- POST `/api/invitations/:slug/photos?to=Viki`: body berupa file biner JPG/PNG/WebP, dengan Content-Type sesuai gambar, maksimal 5 MB. Frontend mengecilkan foto sebelum mengirim dan mengunggah satu per satu, maksimal 10 foto setiap pengiriman.
+- GET `/api/admin/invitations/:id/photos`: daftar foto dengan pagination, memerlukan login admin.
+- GET `/api/admin/invitations/:id/photos/:photoId`: unduh foto, memerlukan login admin.
+
+File disimpan di `data/guest-photos/`, dengan pola `nama-tamu-YYYY-MM-DD-UUID.jpg` sesuai format hasil unggahan. Nama pengirim hanya disertakan pada nama file, tanpa tulisan pada gambar. Metadata disimpan dalam tabel MySQL `guest_photos`, yang dibuat otomatis saat backend dimulai. Foto tersedia di bagian **Foto dari tamu** pada editor undangan admin. Foto tidak otomatis masuk ke galeri publik. Menghapus undangan juga menghapus file foto tamunya. Backup folder ini bersama database.

@@ -14,9 +14,27 @@
       .prepare('SELECT COUNT(*) AS count FROM rsvps WHERE invitation_id=?')
       .get(id);
   }
-  create(id, invitationId, name, attendance, guestCount, note, now) {
+  async create(id, invitationId, name, attendance, guestCount, note, now) {
+    const existing = await this.db
+      .prepare(
+        'SELECT id FROM rsvps WHERE invitation_id=? AND name=? ORDER BY created_at DESC, id DESC LIMIT 1',
+      )
+      .get(invitationId, name);
     return this.db
-      .prepare('INSERT INTO rsvps VALUES (?, ?, ?, ?, ?, ?, ?)')
-      .run(id, invitationId, name, attendance, guestCount, note, now);
+      .prepare(
+        `INSERT INTO rsvps (id, invitation_id, name, attendance, guest_count, note, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE
+        name=VALUES(name), attendance=VALUES(attendance), guest_count=VALUES(guest_count),
+        note=IF(VALUES(note)='', note, VALUES(note))`,
+      )
+      .run(
+        existing?.id || id,
+        invitationId,
+        name,
+        attendance,
+        guestCount,
+        note,
+        now,
+      );
   }
 }

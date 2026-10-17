@@ -1,4 +1,6 @@
 import UploadController from './controllers/UploadController.js';
+import GuestPhotoController from './controllers/GuestPhotoController.js';
+import GuestPhotoModel from './models/GuestPhotoModel.js';
 import PackageModel from './models/PackageModel.js';
 import PackageController from './controllers/PackageController.js';
 import AdminModel from './models/AdminModel.js';
@@ -85,7 +87,9 @@ export function createApp({
   }
 
   const templateModel = new TemplateModel(db);
+  const guestPhotos = new GuestPhotoController(new GuestPhotoModel(db));
   const route = createRouter({
+    guestPhotos,
     uploads: new UploadController(),
     packages: new PackageController(new PackageModel(db)),
     templates: new TemplateController(templateModel),
@@ -93,6 +97,7 @@ export function createApp({
     invitations: new InvitationController(
       new InvitationModel(db),
       templateModel,
+      guestPhotos,
     ),
     wishes: new WishController(new WishModel(db)),
     rsvps: new RsvpController(new RsvpModel(db)),
@@ -146,7 +151,17 @@ export function createApp({
       const result = await route(req, url, segments);
       if (result.binary) {
         res.setHeader('Content-Type', result.mime);
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        res.setHeader(
+          'Cache-Control',
+          result.download
+            ? 'private, no-store'
+            : 'public, max-age=31536000, immutable',
+        );
+        if (result.download)
+          res.setHeader(
+            'Content-Disposition',
+            `attachment; filename="${result.download}"`,
+          );
         res.writeHead(result.status);
         return res.end(result.binary);
       }

@@ -107,7 +107,17 @@ test('templates, authenticated CRUD, draft privacy, wishes, RSVP, moderation, ca
   const { request, db } = await fixture(t);
   assert.equal((await request('/health')).status, 200);
   const templates = (await request('/templates')).body.data;
-  assert.equal(templates.length, 37);
+  assert.equal(templates.length, 39);
+  for (const id of ['platinum-aurora-01', 'platinum-champagne-01']) {
+    assert.equal(
+      templates.find((template) => template.id === id)?.packageId,
+      'platinum',
+    );
+    const detail = await request(`/templates/${id}`);
+    assert.equal(detail.status, 200);
+    assert.ok(detail.body.data.data.groom.name);
+    assert.ok(detail.body.data.data.agenda.length);
+  }
   assert.ok(templates.some(({ id }) => id === 'burgundy-vow-01'));
   assert.ok(templates.some(({ id }) => id === 'pink-blush-01'));
   assert.ok(templates.some(({ id }) => id === 'sunda-siger-01'));
@@ -261,6 +271,14 @@ test('templates, authenticated CRUD, draft privacy, wishes, RSVP, moderation, ca
     body: { name: 'Rina', message: 'Semoga bahagia!' },
   });
   assert.equal(wish.status, 201);
+  const updatedWish = await request('/invitations/aditya-sarah/wishes', {
+    method: 'POST',
+    body: { name: '  RINA  ', message: 'Semoga selalu bahagia bersama!' },
+  });
+  assert.equal(updatedWish.status, 200);
+  assert.equal(updatedWish.body.meta.updated, true);
+  assert.equal(updatedWish.body.data.id, wish.body.data.id);
+  assert.equal(updatedWish.body.data.message, 'Semoga selalu bahagia bersama!');
   assert.equal(
     (await request('/invitations/aditya-sarah/wishes?limit=1')).body.meta.total,
     1,
@@ -279,6 +297,16 @@ test('templates, authenticated CRUD, draft privacy, wishes, RSVP, moderation, ca
     admin: true,
   });
   assert.equal(rsvps.body.data[0].guestCount, 2);
+  await request('/invitations/aditya-sarah/rsvps', {
+    method: 'POST',
+    body: { name: 'Rina', attendance: 'Tidak hadir', guestCount: 0 },
+  });
+  const updatedRsvps = await request(`/admin/invitations/${id}/rsvps`, {
+    admin: true,
+  });
+  assert.equal(updatedRsvps.body.meta.total, 1);
+  assert.equal(updatedRsvps.body.data[0].attendance, 'Tidak hadir');
+  assert.equal(updatedRsvps.body.data[0].guestCount, 0);
   assert.equal(
     (
       await request(`/admin/wishes/${wish.body.data.id}`, {
@@ -305,6 +333,73 @@ test('templates, authenticated CRUD, draft privacy, wishes, RSVP, moderation, ca
     (await db.prepare('SELECT COUNT(*) AS count FROM rsvps').get()).count,
     0,
   );
+});
+
+test('wishes remain unique per invitation and guest across concurrent submissions and reconnects', async (t) => {
+  const { request, db, database } = await fixture(t);
+  const first = await request('/admin/invitations', {
+    method: 'POST',
+    admin: true,
+    body: { ...input, status: 'published' },
+  });
+  assert.equal(first.status, 201);
+  const second = await request('/admin/invitations', {
+    method: 'POST',
+    admin: true,
+    body: { ...input, slug: 'another-invitation', status: 'published' },
+  });
+  assert.equal(second.status, 201);
+  const path = '/invitations/aditya-sarah/wishes';
+  const results = await Promise.all(
+    Array.from({ length: 4 }, (_, index) =>
+      request(path, {
+        method: 'POST',
+        body: {
+          name: index % 2 ? 'VIKI  PRATAMA' : 'Viki Pratama',
+          message: `Doa ${index}`,
+        },
+      }),
+    ),
+  );
+  assert.equal(results.filter((result) => result.status === 201).length, 1);
+  assert.equal(new Set(results.map((result) => result.body.data.id)).size, 1);
+  assert.equal((await request(path)).body.meta.total, 1);
+  const reconnected = await openDatabase({ ...databaseConfig, database });
+  await reconnected.close();
+  const update = await request(path, {
+    method: 'POST',
+    body: { name: 'viki pratama', message: 'Doa terbaru' },
+  });
+  assert.equal(update.status, 200);
+  assert.equal(update.body.data.id, results[0].body.data.id);
+  assert.equal((await request(path)).body.data[0].message, 'Doa terbaru');
+  const differentInvitation = await request(
+    '/invitations/another-invitation/wishes',
+    {
+      method: 'POST',
+      body: { name: 'Viki Pratama', message: 'Untuk undangan lain' },
+    },
+  );
+  assert.equal(differentInvitation.status, 201);
+  assert.notEqual(differentInvitation.body.data.id, update.body.data.id);
+  await db
+    .prepare(
+      'INSERT INTO wishes (id, invitation_id, name, message, created_at) VALUES (?, ?, ?, ?, ?)',
+    )
+    .run(
+      'legacy-wish',
+      first.body.data.id,
+      'Rina',
+      'Ucapan lama',
+      new Date().toISOString(),
+    );
+  const legacy = await request(path, {
+    method: 'POST',
+    body: { name: 'Rina', message: 'Ucapan lama diperbarui' },
+  });
+  assert.equal(legacy.status, 200);
+  assert.equal(legacy.body.data.id, 'legacy-wish');
+  assert.equal((await request(path)).body.meta.total, 2);
 });
 
 test('CORS, validation, payload limits, privacy and request throttling', async (t) => {
@@ -402,7 +497,7 @@ test('CORS, validation, payload limits, privacy and request throttling', async (
           body: { name: 'Rina', message: 'hello' },
         })
       ).status,
-      201,
+      count === 0 ? 201 : 200,
     );
   const limited = await request('/invitations/aditya-sarah/wishes', {
     method: 'POST',
@@ -579,7 +674,11 @@ test('template packages require admin access and persist after database initiali
   for (const template of list) {
     assert.equal(
       template.packageId,
-      template.category === 'Pernikahan' ? 'gold' : 'silver',
+      ['platinum-aurora-01', 'platinum-champagne-01'].includes(template.id)
+        ? 'platinum'
+        : template.category === 'Pernikahan'
+          ? 'gold'
+          : 'silver',
     );
   }
   const path = '/admin/templates/emerald-khitan-01';
@@ -607,9 +706,8 @@ test('template packages require admin access and persist after database initiali
     assert.equal(result.status, 200);
     assert.equal(result.body.data.packageId, packageId);
   }
-  const existingTemplate = (
-    await request('/templates/emerald-khitan-01')
-  ).body.data;
+  const existingTemplate = (await request('/templates/emerald-khitan-01')).body
+    .data;
   assert.equal(
     (
       await request(path, {
@@ -871,4 +969,123 @@ test('image files upload separately from invitation save and are served without 
     image,
   );
   assert.equal((await request('/media/not-a-file.jpg')).status, 404);
+});
+
+test('Platinum guest photos require a published, started event and remain admin-only with sender filenames', async (t) => {
+  const { request } = await fixture(t);
+  const image = Buffer.from(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aK1sAAAAASUVORK5CYII=',
+    'base64',
+  );
+  const upload = {
+    method: 'POST',
+    rawBody: image,
+    headers: { 'Content-Type': 'image/png' },
+  };
+  const created = await request('/admin/invitations', {
+    method: 'POST',
+    admin: true,
+    body: {
+      ...input,
+      templateId: 'platinum-champagne-01',
+      eventDate: '2020-01-01T09:00:00+07:00',
+    },
+  });
+  assert.equal(created.status, 201);
+  const id = created.body.data.id;
+  const path = `/invitations/${input.slug}/photos`;
+  assert.equal((await request(path + '?to=Viki', upload)).status, 404);
+  await request('/admin/invitations/' + id, {
+    method: 'PATCH',
+    admin: true,
+    body: { status: 'published', eventDate: '2099-01-01T09:00:00+07:00' },
+  });
+  assert.equal((await request(path + '?to=Viki', upload)).status, 403);
+  await request('/admin/invitations/' + id, {
+    method: 'PATCH',
+    admin: true,
+    body: { eventDate: '2020-01-01T09:00:00+07:00' },
+  });
+  assert.equal((await request(path, upload)).status, 422);
+  assert.equal(
+    (
+      await request(path + '?to=Viki', {
+        ...upload,
+        rawBody: Buffer.from('invalid'),
+      })
+    ).status,
+    422,
+  );
+  assert.equal(
+    (
+      await request(path + '?to=Viki', {
+        ...upload,
+        headers: { 'Content-Type': 'image/svg+xml' },
+      })
+    ).status,
+    415,
+  );
+  assert.equal(
+    (
+      await request(path + '?to=Viki', {
+        ...upload,
+        rawBody: Buffer.alloc(5 * 1024 * 1024 + 1),
+      })
+    ).status,
+    413,
+  );
+  const sent = await request(
+    path + '?to=' + encodeURIComponent('../Viki & Keluarga'),
+    upload,
+  );
+  assert.equal(sent.status, 201);
+  const photo = sent.body.data;
+  assert.match(
+    photo.filename,
+    /^viki-keluarga-\d{4}-\d{2}-\d{2}-[a-f0-9-]{36}\.png$/,
+  );
+  t.after(async () => {
+    try {
+      await unlink(
+        new URL('../data/guest-photos/' + photo.filename, import.meta.url),
+      );
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+    }
+  });
+  const adminPath = `/admin/invitations/${id}/photos`;
+  assert.equal((await request(adminPath)).status, 401);
+  assert.equal((await request(adminPath + '/' + photo.id)).status, 401);
+  assert.equal((await request('/media/' + photo.filename)).status, 404);
+  assert.equal((await request(path)).status, 404);
+  const list = await request(adminPath, { admin: true });
+  assert.equal(list.body.meta.total, 1);
+  assert.equal(list.body.data[0].filename, photo.filename);
+  const file = await request(adminPath + '/' + photo.id, {
+    admin: true,
+    binary: true,
+  });
+  assert.equal(file.status, 200);
+  assert.equal(file.headers.get('cache-control'), 'private, no-store');
+  assert.match(
+    file.headers.get('content-disposition'),
+    /attachment; filename="viki-keluarga-/,
+  );
+  assert.deepEqual(file.body, image);
+  await request('/admin/templates/platinum-champagne-01', {
+    method: 'PATCH',
+    admin: true,
+    body: { packageId: 'gold' },
+  });
+  assert.equal((await request(path + '?to=Viki', upload)).status, 403);
+  assert.equal(
+    (await request('/invitations/' + input.slug)).body.data.packageId,
+    'gold',
+  );
+  await request('/admin/invitations/' + id, { method: 'DELETE', admin: true });
+  const { access } = await import('node:fs/promises');
+  await assert.rejects(
+    access(new URL('../data/guest-photos/' + photo.filename, import.meta.url)),
+    { code: 'ENOENT' },
+  );
 });

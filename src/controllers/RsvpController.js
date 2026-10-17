@@ -1,5 +1,5 @@
-﻿import { randomUUID } from 'node:crypto';
 import { HttpError, pagination, text } from '../validation.js';
+import { createHash } from 'node:crypto';
 
 export default class RsvpController {
   constructor(model) {
@@ -39,7 +39,18 @@ export default class RsvpController {
         'guestCount tidak sesuai dengan kehadiran atau di luar 0–20.',
       );
     const note = text(body.note, 'note', 600, true);
-    const id = randomUUID();
+    const guestKey = createHash('sha256')
+      .update(
+        `${invitationId}:${name.normalize('NFKC').toLowerCase().replace(/\s+/g, ' ')}`,
+      )
+      .digest('hex');
+    const id = [
+      guestKey.slice(0, 8),
+      guestKey.slice(8, 12),
+      guestKey.slice(12, 16),
+      guestKey.slice(16, 20),
+      guestKey.slice(20, 32),
+    ].join('-');
     await this.model.create(
       id,
       invitationId,

@@ -52,6 +52,13 @@ export async function openDatabase(config) {
         created_at VARCHAR(24) NOT NULL, updated_at VARCHAR(24) NOT NULL,
         FOREIGN KEY (template_id) REFERENCES templates(id)
       ) ENGINE=InnoDB`,
+      `CREATE TABLE IF NOT EXISTS guest_photos (
+        id VARCHAR(36) PRIMARY KEY, invitation_id VARCHAR(36) NOT NULL,
+        filename VARCHAR(160) NOT NULL UNIQUE, mime VARCHAR(30) NOT NULL,
+        size INT UNSIGNED NOT NULL, created_at VARCHAR(24) NOT NULL,
+        FOREIGN KEY (invitation_id) REFERENCES invitations(id) ON DELETE CASCADE,
+        INDEX idx_guest_photos_invitation (invitation_id, created_at)
+      ) ENGINE=InnoDB`,
       `CREATE TABLE IF NOT EXISTS rsvps (
         id VARCHAR(36) PRIMARY KEY, invitation_id VARCHAR(36) NOT NULL,
         name VARCHAR(80) NOT NULL, attendance ENUM('Hadir','Belum pasti','Tidak hadir') NOT NULL,
@@ -68,8 +75,16 @@ export async function openDatabase(config) {
       ) ENGINE=InnoDB`,
     ];
     for (const statement of statements) await pool.query(statement);
+    const [wishGuestColumns] = await pool.query(
+      "SHOW COLUMNS FROM wishes LIKE 'guest_key'",
+    );
+    if (!wishGuestColumns.length) {
+      await pool.query(
+        'ALTER TABLE wishes ADD COLUMN guest_key CHAR(64) NULL, ADD UNIQUE KEY uq_wishes_guest (invitation_id, guest_key)',
+      );
+    }
     await pool.execute(
-      "INSERT IGNORE INTO social_links (id, data) VALUES (1, '{\"instagram\":\"\",\"tiktok\":\"\",\"whatsapp\":\"\"}')",
+      'INSERT IGNORE INTO social_links (id, data) VALUES (1, \'{"instagram":"","tiktok":"","whatsapp":""}\')',
     );
     for (const [index, name] of [
       'Silver',

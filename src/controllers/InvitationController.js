@@ -3,9 +3,10 @@ import { HttpError, invitationInput, pagination } from '../validation.js';
 import { invitationRecord } from '../models/InvitationModel.js';
 
 export default class InvitationController {
-  constructor(model, templates) {
+  constructor(model, templates, guestPhotos) {
     this.model = model;
     this.templates = templates;
+    this.guestPhotos = guestPhotos;
   }
   async withTemplateData(invitation) {
     const template = await this.templates.find(invitation.templateId);
@@ -13,6 +14,7 @@ export default class InvitationController {
     const overrides = invitation.data;
     return {
       ...invitation,
+      packageId: template?.package_id,
       data: {
         ...defaults,
         banks: [],
@@ -75,7 +77,9 @@ export default class InvitationController {
   }
   async remove(id) {
     await this.find(id);
+    const files = await this.guestPhotos.model.files(id);
     await this.model.remove(id);
+    await this.guestPhotos.cleanFiles(files);
     return {
       status: 200,
       data: { message: 'Undangan dan data tamu terkait telah dihapus.' },
