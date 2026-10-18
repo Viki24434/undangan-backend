@@ -2525,5 +2525,83 @@
     ],
     "videoUrl": "",
     "prayers": []
+  },
+  "platinum-minangkabau-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Sabtu, 16 Oktober 2027",
+    "targetDate": "2027-10-16T09:00:00+07:00",
+    "groom": {
+      "name": "Fikri",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Annisa",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2024",
+        "title": "Pertemuan pertama",
+        "description": "Dari percakapan sederhana, kami menemukan kenyamanan untuk saling mengenal."
+      },
+      {
+        "date": "2026",
+        "title": "Restu dua keluarga",
+        "description": "Bersama keluarga, kami memantapkan niat untuk melangkah menuju pernikahan."
+      },
+      {
+        "date": "2027",
+        "title": "Janji untuk selamanya",
+        "description": "Dengan doa orang tua, kami memulai kehidupan baru bersama."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Sabtu, 16 Oktober 2027",
+        "time": "09.00–10.00 WIB",
+        "venue": "Gedung Pertemuan",
+        "address": "Padang, Sumatera Barat",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Padang"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 16 Oktober 2027",
+        "time": "11.00–14.00 WIB",
+        "venue": "Gedung Pertemuan",
+        "address": "Padang, Sumatera Barat",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Padang"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "title": "Fikri & Annisa",
+    "agenda": [
+      {
+        "time": "08.30",
+        "title": "Penyambutan keluarga",
+        "description": "Menyambut keluarga dan tamu dengan kehangatan adat Minangkabau."
+      },
+      {
+        "time": "09.00",
+        "title": "Akad nikah",
+        "description": "Mengucap janji suci di hadapan keluarga dan orang terkasih."
+      },
+      {
+        "time": "11.00",
+        "title": "Resepsi pernikahan",
+        "description": "Merayakan hari bahagia bersama para tamu undangan."
+      }
+    ]
   }
 }

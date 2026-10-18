@@ -107,8 +107,14 @@ test('templates, authenticated CRUD, draft privacy, wishes, RSVP, moderation, ca
   const { request, db } = await fixture(t);
   assert.equal((await request('/health')).status, 200);
   const templates = (await request('/templates')).body.data;
-  assert.equal(templates.length, 39);
-  for (const id of ['platinum-aurora-01', 'platinum-champagne-01']) {
+  assert.equal(templates.length, 42);
+  for (const id of [
+    'platinum-aurora-01',
+    'platinum-champagne-01',
+    'platinum-sunda-01',
+    'platinum-jawa-01',
+    'platinum-minangkabau-01',
+  ]) {
     assert.equal(
       templates.find((template) => template.id === id)?.packageId,
       'platinum',
@@ -674,7 +680,13 @@ test('template packages require admin access and persist after database initiali
   for (const template of list) {
     assert.equal(
       template.packageId,
-      ['platinum-aurora-01', 'platinum-champagne-01'].includes(template.id)
+      [
+        'platinum-aurora-01',
+        'platinum-champagne-01',
+        'platinum-sunda-01',
+        'platinum-jawa-01',
+        'platinum-minangkabau-01',
+      ].includes(template.id)
         ? 'platinum'
         : template.category === 'Pernikahan'
           ? 'gold'
