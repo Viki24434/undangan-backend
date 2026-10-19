@@ -334,5 +334,21 @@
     "packageId": "platinum",
     "description": "Merah dan emas Minangkabau dengan rumah adat, lanskap berlapis, amplop songket, animasi dedaunan, dan galeri foto Platinum.",
     "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
+  },
+  {
+    "id": "platinum-palembang-01",
+    "name": "Palembang Sriwijaya Platinum",
+    "category": "Pernikahan",
+    "packageId": "platinum",
+    "description": "Merah delima dan emas Palembang dengan tugu, tepak, pending, amplop songket, lanskap berlapis, dan galeri foto Platinum.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
+  },
+  {
+    "id": "platinum-nusantara-01",
+    "name": "Nusantara Pusaka Platinum",
+    "category": "Pernikahan",
+    "packageId": "platinum",
+    "description": "Zamrud dan emas dengan gerbang candi, lanskap tropis, bunga merah-putih, amplop batik, serta galeri foto Platinum.",
+    "img": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85"
   }
 ]

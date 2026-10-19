@@ -2603,5 +2603,163 @@
         "description": "Merayakan hari bahagia bersama para tamu undangan."
       }
     ]
+  },
+  "platinum-palembang-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Sabtu, 13 November 2027",
+    "targetDate": "2027-11-13T09:00:00+07:00",
+    "groom": {
+      "name": "Rizky",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Nabila",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2024",
+        "title": "Awal cerita",
+        "description": "Sebuah perkenalan sederhana mempertemukan kami dalam perjalanan yang hangat."
+      },
+      {
+        "date": "2026",
+        "title": "Restu keluarga",
+        "description": "Dengan dukungan kedua keluarga, kami memantapkan langkah menuju pernikahan."
+      },
+      {
+        "date": "2027",
+        "title": "Janji bersama",
+        "description": "Kami merayakan awal kehidupan baru bersama orang-orang terkasih."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Sabtu, 13 November 2027",
+        "time": "09.00?10.30 WIB",
+        "venue": "Gedung Pertemuan",
+        "address": "Palembang, Sumatera Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Palembang%2C%20Sumatera%20Selatan"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Sabtu, 13 November 2027",
+        "time": "11.00?14.00 WIB",
+        "venue": "Gedung Pertemuan",
+        "address": "Palembang, Sumatera Selatan",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Palembang%2C%20Sumatera%20Selatan"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "title": "Rizky & Nabila",
+    "agenda": [
+      {
+        "time": "08.30",
+        "title": "Penyambutan keluarga",
+        "description": "Menyambut keluarga dan tamu dengan kehangatan adat Palembang."
+      },
+      {
+        "time": "09.00",
+        "title": "Akad nikah",
+        "description": "Mengucap janji suci di hadapan keluarga dan orang terkasih."
+      },
+      {
+        "time": "11.00",
+        "title": "Resepsi pernikahan",
+        "description": "Merayakan hari bahagia bersama para tamu undangan."
+      }
+    ]
+  },
+  "platinum-nusantara-01": {
+    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=1200&q=85",
+    "date": "Minggu, 12 Desember 2027",
+    "targetDate": "2027-12-12T09:00:00+07:00",
+    "groom": {
+      "name": "Damar",
+      "father": "Budi Santoso",
+      "mother": "Siti Aminah",
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80"
+    },
+    "bride": {
+      "name": "Kirana",
+      "father": "Ahmad Wijaya",
+      "mother": "Linda Kusuma",
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80"
+    },
+    "stories": [
+      {
+        "date": "2024",
+        "title": "Awal cerita",
+        "description": "Sebuah perkenalan sederhana mempertemukan kami dalam perjalanan yang hangat."
+      },
+      {
+        "date": "2026",
+        "title": "Restu keluarga",
+        "description": "Dengan dukungan kedua keluarga, kami memantapkan langkah menuju pernikahan."
+      },
+      {
+        "date": "2027",
+        "title": "Janji bersama",
+        "description": "Kami merayakan awal kehidupan baru bersama orang-orang terkasih."
+      }
+    ],
+    "events": [
+      {
+        "title": "Akad Nikah",
+        "date": "Minggu, 12 Desember 2027",
+        "time": "09.00 - 10.30 WIB",
+        "venue": "Pendopo Nusantara",
+        "address": "Jakarta, Indonesia",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta%2C%20Indonesia"
+      },
+      {
+        "title": "Resepsi",
+        "date": "Minggu, 12 Desember 2027",
+        "time": "11.00 - 14.00 WIB",
+        "venue": "Pendopo Nusantara",
+        "address": "Jakarta, Indonesia",
+        "mapUrl": "https://www.google.com/maps/search/?api=1&query=Jakarta%2C%20Indonesia"
+      }
+    ],
+    "photos": [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=500&q=80",
+      "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=500&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80"
+    ],
+    "banks": [],
+    "wishes": [],
+    "title": "Damar & Kirana",
+    "agenda": [
+      {
+        "time": "08.30",
+        "title": "Penyambutan keluarga",
+        "description": "Menyambut keluarga dan tamu dengan hangat sebelum prosesi dimulai."
+      },
+      {
+        "time": "09.00",
+        "title": "Akad nikah",
+        "description": "Mengucap janji suci di hadapan keluarga dan orang terkasih."
+      },
+      {
+        "time": "11.00",
+        "title": "Resepsi pernikahan",
+        "description": "Merayakan hari bahagia bersama para tamu undangan."
+      }
+    ],
+    "prayers": [],
+    "videoUrl": ""
   }
 }
