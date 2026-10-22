@@ -4,6 +4,7 @@ export function createRouter({
   auth,
   uploads,
   guestPhotos,
+  guestLists,
   packages,
   templates,
   socialLinks,
@@ -106,6 +107,11 @@ export function createRouter({
         segments[3] &&
         segments.length <= 6
       ) {
+        if (segments.length === 5 && segments[4] === 'guest-list') {
+          if (method === 'GET') return guestLists.find(segments[3]);
+          if (method === 'PATCH')
+            return guestLists.update(segments[3], await readBody(req, 2097152));
+        }
         const invitation = await invitations.find(segments[3]);
         if (segments.length === 4) {
           if (method === 'GET') return { status: 200, data: invitation };

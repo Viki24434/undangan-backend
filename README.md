@@ -103,6 +103,16 @@ Respons sukses: `{ "success": true, "data": ... }`, daftar berpaginasi juga memu
 
 ## Integrasi frontend
 
+### Daftar tamu
+
+Di dashboard, buka **Daftar tamu** pada undangan yang ingin dikelola. Tambahkan nama secara manual atau unduh contoh Excel, isi sheet `Daftar Tamu`, lalu impor dan periksa pratinjaunya. Kolomnya `Nama Tamu`, `No. WhatsApp`, `Kelompok`, dan `Catatan`. Hanya nama yang wajib diisi. Nomor WhatsApp menggunakan format Text agar angka 0 di depan tetap tersimpan.
+
+Klik **Simpan daftar tamu** setelah mengubah daftar. Ekspor Excel mencakup semua nama, status kirim manual, dan tautan pribadi `?to=...` untuk undangan yang sudah terbit. WhatsApp membuka pesan yang siap ditinjau dan dikirim oleh pengguna; status kirim ditandai manual. Nama yang sama dilewati saat impor; tambahkan pembeda jika orangnya berbeda. Draf tetap dapat memiliki daftar tamu, tetapi tautan baru dapat dibagikan setelah undangan diterbitkan.
+
+Backend menyediakan GET dan PATCH `/api/admin/invitations/:id/guest-list`, keduanya memerlukan autentikasi admin. PATCH menerima `{ "revision": 0, "guests": [] }`; setiap tamu berisi `id`, `name`, `phone`, `group`, `note`, dan `sent`. Gunakan revisi terakhir dari GET. Konflik revisi mengembalikan 409 agar perubahan dari tab lain tidak tertimpa.
+
+Seluruh daftar disimpan sebagai satu dokumen JSON dalam satu baris tabel `invitation_guest_lists` per undangan, dibuat saat daftar pertama disimpan. Tabel dibuat otomatis ketika backend dimulai. Data ini tidak disertakan dalam endpoint undangan publik atau daftar undangan. Batasnya 5.000 nama dan body 2 MB khusus endpoint ini; batas endpoint JSON lainnya tetap 32 KB. Impor/ekspor Excel diproses di browser melalui worker, file Excel tidak diunggah ke server. Daftar ikut terhapus ketika undangan dihapus.
+
 Frontend sudah terhubung melalui VITE_API_URL. Home dan katalog memuat metadata dari endpoint templates. Route /t/:id menampilkan demo, sedangkan /u/:slug memuat undangan published dari database. Form RSVP dan ucapan pada undangan nyata mengirim data ke API dan daftar ucapan dimuat kembali dari database. Token admin tidak digunakan atau disimpan di frontend. Jika backend tidak tersedia, katalog menampilkan koleksi demo dengan keterangan.
 
 Backup database MySQL melalui phpMyAdmin atau mysqldump. Untuk deployment, gunakan HTTPS melalui reverse proxy, konfigurasi origin frontend sebenarnya, serta pengelolaan akun admin dan proteksi spam yang sesuai kebutuhan produksi.

@@ -52,6 +52,11 @@ export async function openDatabase(config) {
         created_at VARCHAR(24) NOT NULL, updated_at VARCHAR(24) NOT NULL,
         FOREIGN KEY (template_id) REFERENCES templates(id)
       ) ENGINE=InnoDB`,
+      `CREATE TABLE IF NOT EXISTS invitation_guest_lists (
+        invitation_id VARCHAR(36) PRIMARY KEY, data LONGTEXT NOT NULL,
+        revision INT UNSIGNED NOT NULL, updated_at VARCHAR(24) NOT NULL,
+        FOREIGN KEY (invitation_id) REFERENCES invitations(id) ON DELETE CASCADE
+      ) ENGINE=InnoDB`,
       `CREATE TABLE IF NOT EXISTS guest_photos (
         id VARCHAR(36) PRIMARY KEY, invitation_id VARCHAR(36) NOT NULL,
         filename VARCHAR(160) NOT NULL UNIQUE, mime VARCHAR(30) NOT NULL,

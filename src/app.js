@@ -19,8 +19,10 @@ import RsvpModel from './models/RsvpModel.js';
 import RsvpController from './controllers/RsvpController.js';
 import SocialLinksModel from './models/SocialLinksModel.js';
 import SocialLinksController from './controllers/SocialLinksController.js';
+import GuestListModel from './models/GuestListModel.js';
+import GuestListController from './controllers/GuestListController.js';
 
-async function readBody(req) {
+async function readBody(req, maximum = 32768) {
   if (
     !req.headers['content-type']
       ?.split(';')[0]
@@ -33,7 +35,8 @@ async function readBody(req) {
   const chunks = [];
   for await (const chunk of req) {
     size += chunk.length;
-    if (size > 32768) throw new HttpError(413, 'Payload maksimal 32 KB.');
+    if (size > maximum)
+      throw new HttpError(413, `Payload maksimal ${maximum / 1024} KB.`);
     chunks.push(chunk);
   }
   try {
@@ -92,6 +95,7 @@ export function createApp({
   const guestPhotos = new GuestPhotoController(new GuestPhotoModel(db));
   const route = createRouter({
     guestPhotos,
+    guestLists: new GuestListController(new GuestListModel(db)),
     uploads: new UploadController(),
     packages: new PackageController(new PackageModel(db)),
     templates: new TemplateController(templateModel),
