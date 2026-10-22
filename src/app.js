@@ -7,6 +7,7 @@ import AdminModel from './models/AdminModel.js';
 import AuthController from './controllers/AuthController.js';
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { HttpError } from './validation.js';
+import { parseOrigins } from './cors.js';
 import { createRouter } from './routes.js';
 import TemplateModel from './models/TemplateModel.js';
 import TemplateController from './controllers/TemplateController.js';
@@ -48,11 +49,12 @@ async function readBody(req) {
 export function createApp({
   db,
   adminToken,
-  origins = [],
+  origins,
   onError = console.error,
   secureCookie = false,
 }) {
   const tokenHash = createHash('sha256').update(adminToken).digest();
+  const allowedOrigins = new Set(parseOrigins(origins));
   const requests = new Map();
 
   const auth = new AuthController(new AdminModel(db), { secureCookie });
@@ -119,8 +121,11 @@ export function createApp({
     };
     try {
       const origin = req.headers.origin;
-      if (origin && !origins.includes(origin))
-        throw new HttpError(403, 'Origin tidak diizinkan.');
+      if (origin && !allowedOrigins.has(origin))
+        throw new HttpError(
+          403,
+          `Origin "${origin}" tidak diizinkan. Periksa CORS_ORIGINS pada .env backend dan mulai ulang backend.`,
+        );
       if (origin) {
         res.setHeader('Access-Control-Allow-Origin', origin);
         res.setHeader('Access-Control-Allow-Credentials', 'true');

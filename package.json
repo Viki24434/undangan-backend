@@ -9,8 +9,7 @@
   "scripts": {
     "setup": "node scripts/setup.js",
     "dev": "node --watch src/server.js",
-    "start": "node src/server.js",
-    "test": "node --test"
+    "start": "node src/server.js"
   },
   "dependencies": {
     "mysql2": "^3.24.5"

@@ -11,8 +11,7 @@ npm run setup
 npm start
 ```
 
-API berjalan pada `http://127.0.0.1:3001/api`. Gunakan `npm run dev` untuk watch mode dan `npm test` untuk pengujian. `npm install
-npm run setup` membuat `.env` dengan token admin acak dan melengkapi konfigurasi MySQL tanpa mengganti nilai yang sudah ada. Database MySQL dibuat otomatis sesuai DB_NAME dan 10 template frontend dimasukkan otomatis. Semua undangan baru berstatus draft sampai dipublikasikan.
+API berjalan pada `http://127.0.0.1:3001/api`. Gunakan `npm run dev` untuk watch mode. `npm run setup` membuat `.env` dengan token admin acak dan melengkapi konfigurasi MySQL tanpa mengganti nilai yang sudah ada. Database MySQL dibuat otomatis sesuai DB_NAME dan 10 template frontend dimasukkan otomatis. Semua undangan baru berstatus draft sampai dipublikasikan.
 
 Backend berjalan sebagai proses Node tersendiri, bukan melalui URL Apache `/undangan-backend`. Jangan sajikan folder backend melalui Apache: `.env` dan database merupakan data privat. `.htaccess` di folder ini menolak akses langsung dari Apache. Server hanya mendengarkan localhost secara default.
 
@@ -29,9 +28,13 @@ DB_NAME=undangan_db
 DB_CONNECTION_LIMIT=10
 ```
 
-Sesuaikan password jika root MySQL memakai password. Database dan tabel InnoDB dibuat otomatis ketika server dimulai; akun database memerlukan izin CREATE. Karakter Unicode menggunakan utf8mb4. Untuk produksi gunakan akun database khusus. Konfigurasi `.env` dimuat dengan path absolut dari folder backend; environment proses memiliki prioritas. Pengujian membuat database sementara dengan awalan `undangan_test_` dan menghapusnya setelah selesai; database aplikasi tidak digunakan untuk data uji.
+Sesuaikan password jika root MySQL memakai password. Database dan tabel InnoDB dibuat otomatis ketika server dimulai; akun database memerlukan izin CREATE. Karakter Unicode menggunakan utf8mb4. Untuk produksi gunakan akun database khusus. Konfigurasi `.env` dimuat dengan path absolut dari folder backend; environment proses memiliki prioritas.
 
 Lihat `.env.example`. `CORS_ORIGINS` berisi origin frontend yang diizinkan, dipisahkan koma. `ADMIN_TOKEN` minimal 32 karakter; jangan taruh token ini dalam kode frontend atau variabel `VITE_*`. Pengelolaan admin dilakukan oleh klien tepercaya menggunakan `Authorization: Bearer <ADMIN_TOKEN>`. Dashboard menggunakan akun admin dan session cookie HttpOnly. Bearer token tetap tersedia untuk klien server atau integrasi tepercaya.
+
+Daftar origin hanya berasal dari `CORS_ORIGINS` pada `.env` atau environment proses. Variabel ini wajib diisi; server tidak menggunakan daftar cadangan di kode. Frontend lokal memakai port `2125`; preview produksi memakai `4173`. Pastikan alamat yang dipakai browser tercantum, misalnya `http://127.0.0.1:2125`. `.env.example` menyediakan contoh yang dapat disesuaikan. Origin mencakup protokol, host, dan port. Alamat dinormalisasi sehingga garis miring di akhir tidak menyebabkan penolakan. Untuk domain atau tunnel baru, tambahkan origin HTTPS sebenarnya ke `CORS_ORIGINS` dan mulai ulang backend.
+
+Pemeriksaan origin juga berlaku sebelum admin pertama dibuat. Jika halaman admin terbuka tetapi pendaftaran ditolak dengan pesan origin, periksa alamat browser dan daftar `CORS_ORIGINS`; database tidak perlu dihapus atau dibuat ulang.
 
 ## Endpoint publik
 

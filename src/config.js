@@ -1,5 +1,6 @@
 ﻿import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { parseOrigins } from './cors.js';
 
 const envFile = fileURLToPath(new URL('../.env', import.meta.url));
 if (existsSync(envFile)) process.loadEnvFile(envFile);
@@ -33,11 +34,5 @@ export const serverConfig = {
   port: positiveInteger(process.env.PORT, 3001, 'PORT'),
   adminToken: process.env.ADMIN_TOKEN,
   secureCookie: process.env.COOKIE_SECURE === 'true',
-  origins: (
-    process.env.CORS_ORIGINS ||
-    'http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173'
-  )
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean),
+  origins: parseOrigins(process.env.CORS_ORIGINS),
 };
