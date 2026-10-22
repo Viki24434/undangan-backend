@@ -1,4 +1,5 @@
 import { HttpError, text } from '../validation.js';
+import { guestListRecord } from '../models/GuestListModel.js';
 
 function validateGuests(body) {
   if (!Number.isSafeInteger(body.revision) || body.revision < 0)
@@ -57,9 +58,7 @@ export default class GuestListController {
       status: 200,
       data: {
         invitation,
-        guests: row ? JSON.parse(row.data) : [],
-        revision: row?.revision ?? 0,
-        updatedAt: row?.updated_at ?? null,
+        ...guestListRecord(row),
       },
     };
   }
@@ -67,15 +66,35 @@ export default class GuestListController {
   async update(id, body) {
     await this.invitation(id);
     const guests = validateGuests(body);
+    const messageTemplate =
+      body.messageTemplate === undefined
+        ? guestListRecord(await this.model.find(id)).messageTemplate
+        : text(body.messageTemplate, 'Pesan WhatsApp', 6000);
+    if (
+      body.messageTemplate !== undefined &&
+      !messageTemplate.includes('{link_undangan}')
+    )
+      throw new HttpError(
+        422,
+        'Pesan WhatsApp harus menyertakan tag {link_undangan}.',
+      );
     const updatedAt = new Date().toISOString();
-    if (!(await this.model.save(id, guests, body.revision, updatedAt)))
+    if (
+      !(await this.model.save(
+        id,
+        guests,
+        body.revision,
+        updatedAt,
+        messageTemplate,
+      ))
+    )
       throw new HttpError(
         409,
-        'Daftar tamu berubah di tab lain. Ekspor perubahan Anda sebagai cadangan, lalu muat ulang dan impor kembali.',
+        'Daftar tamu berubah di tab lain. Ekspor perubahan Anda sebagai cadangan, lalu muat ulang daftar dan terapkan kembali perubahan yang diperlukan.',
       );
     return {
       status: 200,
-      data: { revision: body.revision + 1, updatedAt },
+      data: { revision: body.revision + 1, updatedAt, messageTemplate },
     };
   }
 }

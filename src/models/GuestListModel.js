@@ -1,3 +1,15 @@
+export function guestListRecord(row) {
+  const document = row ? JSON.parse(row.data) : {};
+  return {
+    guests: Array.isArray(document) ? document : (document.guests ?? []),
+    messageTemplate: Array.isArray(document)
+      ? ''
+      : (document.messageTemplate ?? ''),
+    revision: row?.revision ?? 0,
+    updatedAt: row?.updated_at ?? null,
+  };
+}
+
 export default class GuestListModel {
   constructor(db) {
     this.db = db;
@@ -15,8 +27,8 @@ export default class GuestListModel {
       .get(id);
   }
 
-  async save(id, guests, revision, updatedAt) {
-    const data = JSON.stringify(guests);
+  async save(id, guests, revision, updatedAt, messageTemplate) {
+    const data = JSON.stringify({ guests, messageTemplate });
     if (revision === 0) {
       const result = await this.db
         .prepare(

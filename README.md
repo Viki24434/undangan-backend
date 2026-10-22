@@ -109,7 +109,11 @@ Di dashboard, buka **Daftar tamu** pada undangan yang ingin dikelola. Tambahkan 
 
 Klik **Simpan daftar tamu** setelah mengubah daftar. Ekspor Excel mencakup semua nama, status kirim manual, dan tautan pribadi `?to=...` untuk undangan yang sudah terbit. WhatsApp membuka pesan yang siap ditinjau dan dikirim oleh pengguna; status kirim ditandai manual. Nama yang sama dilewati saat impor; tambahkan pembeda jika orangnya berbeda. Draf tetap dapat memiliki daftar tamu, tetapi tautan baru dapat dibagikan setelah undangan diterbitkan.
 
+Bagian **Pesan WhatsApp** dapat diedit per undangan, termasuk sapaan dan salam sesuai kebutuhan. Pesan bawaan netral; contoh Islami tersedia sebagai pilihan. Gunakan tag `{nama_tamu}`, `{judul_undangan}`, dan `{link_undangan}` untuk mengisi data secara otomatis. Tag link wajib disertakan, panjang pesan maksimal 6.000 karakter. Pratinjau menggunakan contoh nama yang dapat diubah tanpa mengubah daftar tamu. Simpan melalui **Simpan daftar tamu**.
+
 Backend menyediakan GET dan PATCH `/api/admin/invitations/:id/guest-list`, keduanya memerlukan autentikasi admin. PATCH menerima `{ "revision": 0, "guests": [] }`; setiap tamu berisi `id`, `name`, `phone`, `group`, `note`, dan `sent`. Gunakan revisi terakhir dari GET. Konflik revisi mengembalikan 409 agar perubahan dari tab lain tidak tertimpa.
+
+GET juga mengembalikan `messageTemplate`; nilai kosong berarti gunakan pesan bawaan frontend. PATCH dapat menyertakan `messageTemplate` berupa teks dengan tag link. Jika field dihilangkan, pesan yang sudah tersimpan dipertahankan. Dokumen baru disimpan dalam bentuk `{ "guests": [], "messageTemplate": "..." }` pada baris yang sama. Dokumen lama berbentuk array tamu tetap dapat dibaca dan diperbarui tanpa migrasi tabel.
 
 Seluruh daftar disimpan sebagai satu dokumen JSON dalam satu baris tabel `invitation_guest_lists` per undangan, dibuat saat daftar pertama disimpan. Tabel dibuat otomatis ketika backend dimulai. Data ini tidak disertakan dalam endpoint undangan publik atau daftar undangan. Batasnya 5.000 nama dan body 2 MB khusus endpoint ini; batas endpoint JSON lainnya tetap 32 KB. Impor/ekspor Excel diproses di browser melalui worker, file Excel tidak diunggah ke server. Daftar ikut terhapus ketika undangan dihapus.
 
