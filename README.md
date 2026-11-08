@@ -103,6 +103,31 @@ Respons sukses: `{ "success": true, "data": ... }`, daftar berpaginasi juga memu
 
 ## Integrasi frontend
 
+### Pengiriman hasil edit customer
+
+Di editor `/edit/:templateId`, customer memilih **Kirim ke admin**, mengisi nama, nomor WhatsApp, dan catatan, lalu mengirim hasil edit. Selama mengedit, draft serta daftar tamu tetap tersimpan lokal. Data dikirim hanya saat formulir pengiriman disubmit. Kiriman mencakup isi undangan, gambar lokal, daftar tamu, pesan WhatsApp kustom, serta link referensi yang diisi customer.
+
+Admin membuka **Kiriman customer** pada dashboard untuk melihat detail, preview desain, serta daftar tamu. Tombol **Terima & buat draft** membuat undangan baru berstatus draft dan menyalin daftar tamu beserta pesan. Admin dapat mengedit, preview, dan menerbitkannya melalui halaman undangan yang sudah ada. Kiriman tidak memperbarui undangan terbit secara otomatis. Admin juga dapat menandai kiriman belum disetujui dengan catatan atau menghapus kiriman tanpa menghapus draft yang telah dibuat.
+
+Tabel `customer_submissions` dibuat otomatis saat backend dimulai. Metadata, daftar tamu, dan pesan disimpan sebagai satu dokumen JSON per kiriman. Batas daftar tamu tetap 5.000 nama dan 2 MB; JSON pengiriman dibatasi 4 MB. Gambar dikirim satu per satu dengan batas 5 MB per gambar, maksimal 80 gambar dan total 40 MB. Gambar kiriman berada di `data/customer-submissions/` dan hanya dapat dibaca melalui endpoint admin terautentikasi. Saat kiriman diterima, gambar dipindahkan ke media undangan melalui proses penyalinan dan pembersihan sumber; perubahan database dilakukan dalam transaksi.
+
+Pengiriman menggunakan ID dan token acak tersendiri, tidak menggunakan token admin. Hash token disimpan di database. Customer dapat melanjutkan unggahan yang terputus; status unggahan membantu melewati gambar yang sudah diterima. Kiriman yang sama dan penerimaan admin berulang tidak membuat undangan duplikat. Sesi unggahan kedaluwarsa setelah 24 jam; data unggahan yang belum selesai dibersihkan bertahap ketika ada pengiriman baru. Pembatasan awal pengiriman adalah 5 permintaan per menit per IP; unggahan gambar dibatasi 120 permintaan per menit per IP.
+
+Endpoint pengiriman:
+
+| Metode | Endpoint | Akses |
+| --- | --- | --- |
+| POST | `/api/customer-submissions` | Mulai kiriman dengan `{ id, token, contact, form, guestList, assets }` |
+| GET | `/api/customer-submissions/:id` | Status minimal dan gambar yang sudah terunggah; Bearer token kiriman |
+| POST | `/api/customer-submissions/:id/images/:hash` | Unggah gambar biner; Bearer token kiriman |
+| POST | `/api/customer-submissions/:id/complete` | Selesaikan kiriman; Bearer token kiriman |
+| GET | `/api/admin/submissions` | Daftar admin dengan `status`, `limit`, `offset` |
+| GET | `/api/admin/submissions/:id` | Detail admin |
+| GET | `/api/admin/submissions/:id/images/:hash` | Gambar privat untuk preview admin |
+| POST | `/api/admin/submissions/:id/accept` | Terima menjadi draft dengan `{ slug }` |
+| POST | `/api/admin/submissions/:id/reject` | Tandai belum disetujui dengan `{ note }` |
+| DELETE | `/api/admin/submissions/:id` | Hapus kiriman; draft yang sudah dibuat tetap ada |
+
 ### Daftar tamu
 
 Di dashboard, buka **Daftar tamu** pada undangan yang ingin dikelola. Tambahkan nama secara manual atau unduh contoh Excel, isi sheet `Daftar Tamu`, lalu impor dan periksa pratinjaunya. Kolomnya `Nama Tamu`, `No. WhatsApp`, `Kelompok`, dan `Catatan`. Hanya nama yang wajib diisi. Nomor WhatsApp menggunakan format Text agar angka 0 di depan tetap tersimpan.

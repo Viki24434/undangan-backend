@@ -1,5 +1,25 @@
 ﻿import mysql from 'mysql2/promise';
 import { readFileSync } from 'node:fs';
+function queries(target) {
+  return {
+    prepare(sql) {
+      return {
+        async get(...parameters) {
+          const [rows] = await target.query(sql, parameters);
+          return rows[0];
+        },
+        async all(...parameters) {
+          const [rows] = await target.query(sql, parameters);
+          return rows;
+        },
+        async run(...parameters) {
+          const [result] = await target.query(sql, parameters);
+          return { changes: result.affectedRows };
+        },
+      };
+    },
+  };
+}
 
 export async function openDatabase(config) {
   if (!/^[a-zA-Z0-9_]{1,64}$/.test(config.database))
@@ -51,6 +71,15 @@ export async function openDatabase(config) {
         status ENUM('draft','published') NOT NULL DEFAULT 'draft',
         created_at VARCHAR(24) NOT NULL, updated_at VARCHAR(24) NOT NULL,
         FOREIGN KEY (template_id) REFERENCES templates(id)
+      ) ENGINE=InnoDB`,
+      `CREATE TABLE IF NOT EXISTS customer_submissions (
+        id VARCHAR(36) PRIMARY KEY, token_hash CHAR(64) NOT NULL,
+        payload_hash CHAR(64) NOT NULL, data LONGTEXT NOT NULL,
+        status ENUM('uploading','pending','accepted','rejected') NOT NULL,
+        invitation_id VARCHAR(36) NULL, review_note VARCHAR(1000) NOT NULL DEFAULT '',
+        created_at VARCHAR(24) NOT NULL, updated_at VARCHAR(24) NOT NULL,
+        FOREIGN KEY (invitation_id) REFERENCES invitations(id) ON DELETE SET NULL,
+        INDEX idx_submissions_status (status, created_at)
       ) ENGINE=InnoDB`,
       `CREATE TABLE IF NOT EXISTS invitation_guest_lists (
         invitation_id VARCHAR(36) PRIMARY KEY, data LONGTEXT NOT NULL,
@@ -160,21 +189,20 @@ export async function openDatabase(config) {
       }
     }
     return {
-      prepare(sql) {
-        return {
-          async get(...parameters) {
-            const [rows] = await pool.query(sql, parameters);
-            return rows[0];
-          },
-          async all(...parameters) {
-            const [rows] = await pool.query(sql, parameters);
-            return rows;
-          },
-          async run(...parameters) {
-            const [result] = await pool.query(sql, parameters);
-            return { changes: result.affectedRows };
-          },
-        };
+      ...queries(pool),
+      async transaction(work) {
+        const connection = await pool.getConnection();
+        try {
+          await connection.beginTransaction();
+          const result = await work(queries(connection));
+          await connection.commit();
+          return result;
+        } catch (error) {
+          await connection.rollback();
+          throw error;
+        } finally {
+          connection.release();
+        }
       },
       async close() {
         await pool.end();

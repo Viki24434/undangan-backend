@@ -21,6 +21,8 @@ import SocialLinksModel from './models/SocialLinksModel.js';
 import SocialLinksController from './controllers/SocialLinksController.js';
 import GuestListModel from './models/GuestListModel.js';
 import GuestListController from './controllers/GuestListController.js';
+import SubmissionModel from './models/SubmissionModel.js';
+import SubmissionController from './controllers/SubmissionController.js';
 
 async function readBody(req, maximum = 32768) {
   if (
@@ -32,13 +34,19 @@ async function readBody(req, maximum = 32768) {
   )
     throw new HttpError(415, 'Gunakan Content-Type application/json.');
   let size = 0;
+  let tooLarge = false;
   const chunks = [];
   for await (const chunk of req) {
     size += chunk.length;
-    if (size > maximum)
-      throw new HttpError(413, `Payload maksimal ${maximum / 1024} KB.`);
+    if (size > maximum) {
+      tooLarge = true;
+      chunks.length = 0;
+      continue;
+    }
     chunks.push(chunk);
   }
+  if (tooLarge)
+    throw new HttpError(413, `Payload maksimal ${maximum / 1024} KB.`);
   try {
     const body = JSON.parse(Buffer.concat(chunks).toString('utf8'));
     if (!body || typeof body !== 'object' || Array.isArray(body))
@@ -55,6 +63,7 @@ export function createApp({
   origins,
   onError = console.error,
   secureCookie = false,
+  submissionStorage = {},
 }) {
   const tokenHash = createHash('sha256').update(adminToken).digest();
   const allowedOrigins = new Set(parseOrigins(origins));
@@ -74,14 +83,14 @@ export function createApp({
     }
   }
 
-  function rateLimit(req) {
+  function rateLimit(req, scope = 'public', maximum = 20) {
     const now = Date.now();
     for (const [key, value] of requests)
       if (value.expires <= now) requests.delete(key);
-    const key = req.socket.remoteAddress;
+    const key = `${scope}:${req.socket.remoteAddress}`;
     const value = requests.get(key) ?? { count: 0, expires: now + 60000 };
     value.count += 1;
-    if (value.count > 20)
+    if (value.count > maximum)
       throw new HttpError(
         429,
         'Terlalu banyak kiriman. Coba lagi dalam satu menit.',
@@ -95,8 +104,13 @@ export function createApp({
   const guestPhotos = new GuestPhotoController(new GuestPhotoModel(db));
   const route = createRouter({
     guestPhotos,
+    submissions: new SubmissionController(
+      new SubmissionModel(db),
+      templateModel,
+      submissionStorage,
+    ),
     guestLists: new GuestListController(new GuestListModel(db)),
-    uploads: new UploadController(),
+    uploads: new UploadController(submissionStorage.mediaDirectory),
     packages: new PackageController(new PackageModel(db)),
     templates: new TemplateController(templateModel),
     socialLinks: new SocialLinksController(new SocialLinksModel(db)),
@@ -162,7 +176,7 @@ export function createApp({
         res.setHeader('Content-Type', result.mime);
         res.setHeader(
           'Cache-Control',
-          result.download
+          result.download || result.private
             ? 'private, no-store'
             : 'public, max-age=31536000, immutable',
         );

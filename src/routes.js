@@ -5,6 +5,7 @@ export function createRouter({
   uploads,
   guestPhotos,
   guestLists,
+  submissions,
   packages,
   templates,
   socialLinks,
@@ -37,6 +38,30 @@ export function createRouter({
     if (method === 'GET' && url.pathname === '/api/health') {
       await db.prepare('SELECT 1').get();
       return { status: 200, data: { status: 'ok' } };
+    }
+    if (segments[1] === 'customer-submissions') {
+      if (segments.length === 2 && method === 'POST') {
+        rateLimit(req, 'customer-submissions', 5);
+        return submissions.create(await readBody(req, 4194304));
+      }
+      if (segments[2]) {
+        if (segments.length === 3 && method === 'GET')
+          return submissions.status(req, segments[2]);
+        if (
+          segments.length === 4 &&
+          segments[3] === 'complete' &&
+          method === 'POST'
+        )
+          return submissions.complete(req, segments[2]);
+        if (
+          segments.length === 5 &&
+          segments[3] === 'images' &&
+          method === 'POST'
+        ) {
+          rateLimit(req, 'submission-images', 120);
+          return submissions.image(req, segments[2], segments[4]);
+        }
+      }
     }
     if (method === 'GET' && segments[1] === 'media' && segments.length === 3)
       return uploads.image(segments[2]);
@@ -72,6 +97,26 @@ export function createRouter({
     }
     if (segments[1] === 'admin') {
       await admin(req);
+      if (segments[2] === 'submissions') {
+        if (segments.length === 3 && method === 'GET')
+          return submissions.list(url.searchParams);
+        if (segments.length === 4 && method === 'GET')
+          return submissions.detail(segments[3]);
+        if (segments.length === 4 && method === 'DELETE')
+          return submissions.remove(segments[3]);
+        if (segments.length === 5 && method === 'POST') {
+          if (segments[4] === 'accept')
+            return submissions.accept(segments[3], await readBody(req));
+          if (segments[4] === 'reject')
+            return submissions.reject(segments[3], await readBody(req));
+        }
+        if (
+          segments.length === 6 &&
+          segments[4] === 'images' &&
+          method === 'GET'
+        )
+          return submissions.downloadImage(segments[3], segments[5]);
+      }
       if (
         segments[2] === 'social-links' &&
         segments.length === 3 &&

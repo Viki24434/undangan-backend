@@ -10,11 +10,14 @@ const mediaDirectory = fileURLToPath(
 );
 
 export default class UploadController {
+  constructor(directory = mediaDirectory) {
+    this.directory = directory;
+  }
   async create(req) {
     const { buffer, extension } = await readImage(req);
     const filename = `${randomUUID()}.${extension}`;
-    await mkdir(mediaDirectory, { recursive: true });
-    await writeFile(join(mediaDirectory, filename), buffer, { flag: 'wx' });
+    await mkdir(this.directory, { recursive: true });
+    await writeFile(join(this.directory, filename), buffer, { flag: 'wx' });
     return { status: 201, data: { url: `/api/media/${filename}` } };
   }
 
@@ -22,7 +25,7 @@ export default class UploadController {
     if (!/^[a-f0-9-]{36}\.(jpg|png|webp)$/.test(filename))
       throw new HttpError(404, 'Gambar tidak ditemukan.');
     try {
-      const buffer = await readFile(join(mediaDirectory, filename));
+      const buffer = await readFile(join(this.directory, filename));
       const mime = Object.keys(imageFormats).find(
         (key) => imageFormats[key] === filename.split('.').pop(),
       );

@@ -11,13 +11,19 @@ export async function readImage(req) {
   const extension = imageFormats[mime];
   if (!extension) throw new HttpError(415, 'Gunakan JPG, PNG, atau WebP.');
   let size = 0;
+  let tooLarge = false;
   const chunks = [];
   for await (const chunk of req) {
     size += chunk.length;
-    if (size > 5 * 1024 * 1024)
-      throw new HttpError(413, 'File upload maksimal 5 MB setelah diproses.');
+    if (size > 5 * 1024 * 1024) {
+      tooLarge = true;
+      chunks.length = 0;
+      continue;
+    }
     chunks.push(chunk);
   }
+  if (tooLarge)
+    throw new HttpError(413, 'File upload maksimal 5 MB setelah diproses.');
   const buffer = Buffer.concat(chunks);
   const valid =
     extension === 'jpg'

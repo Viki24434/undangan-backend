@@ -1,7 +1,7 @@
 import { HttpError, text } from '../validation.js';
 import { guestListRecord } from '../models/GuestListModel.js';
 
-function validateGuests(body) {
+export function validateGuests(body) {
   if (!Number.isSafeInteger(body.revision) || body.revision < 0)
     throw new HttpError(422, 'Versi daftar tamu tidak valid.');
   if (!Array.isArray(body.guests) || body.guests.length > 5000)
@@ -90,7 +90,7 @@ export default class GuestListController {
     )
       throw new HttpError(
         409,
-        'Daftar tamu berubah di tab lain. Ekspor perubahan Anda sebagai cadangan, lalu muat ulang daftar dan terapkan kembali perubahan yang diperlukan.',
+        'Daftar tamu atau pesan berubah di tab lain. Cadangkan daftar melalui ekspor Excel dan salin teks pesan, lalu muat ulang sebelum menerapkan perubahan kembali.',
       );
     return {
       status: 200,
