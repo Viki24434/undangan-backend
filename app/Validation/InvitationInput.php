@@ -94,6 +94,9 @@ final class InvitationInput
         if (property_exists($data, 'theme')) {
             $data->theme = ThemeInput::validate($data->theme);
         }
+        if (property_exists($data, 'presentation')) {
+            $data->presentation = PresentationInput::validate($data->presentation);
+        }
         $status = $value->status ?? 'draft';
         if (!in_array($status, ['draft', 'published'], true)) {
             throw new HttpException(422, 'status harus draft atau published.');

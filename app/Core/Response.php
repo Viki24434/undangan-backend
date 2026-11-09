@@ -47,6 +47,9 @@ final class Response
             header('Content-Length: ' . filesize($result['path']));
             readfile($result['path']);
         } else {
+            if (!ini_get('zlib.output_compression') && extension_loaded('zlib')) {
+                ob_start('ob_gzhandler');
+            }
             $payload = ['success' => true, 'data' => $result['data']];
             if ($result['meta'] !== null) {
                 $payload['meta'] = $result['meta'];

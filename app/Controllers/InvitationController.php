@@ -112,6 +112,7 @@ final class InvitationController
         $template = $this->validate($input);
         $defaults = Json::object($template['data']);
         $input->data->theme ??= $defaults->theme ?? new \stdClass();
+        $input->data->presentation ??= $defaults->presentation;
         $input->data->design ??=
             $defaults->design ??
             (object) [
@@ -130,6 +131,7 @@ final class InvitationController
         $input = InvitationInput::validate($body, $current);
         $input->data->design ??= $current->data->design;
         $input->data->theme ??= $current->data->theme ?? new \stdClass();
+        $input->data->presentation ??= $current->data->presentation;
         $this->validate($input, $id);
         $this->model->update($id, $input);
         return Response::data($this->find($id));

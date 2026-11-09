@@ -1,0 +1,864 @@
+{
+  "elegant-gold-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-gold",
+    "palette": [
+      "#151b18",
+      "#d2b77b",
+      "#202820"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 2,
+      "story": 2,
+      "countdown": 2,
+      "gallery": 2,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "botanical-sage-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-botanical",
+    "palette": [
+      "#17251d",
+      "#c6b875",
+      "#24362a"
+    ],
+    "components": {
+      "cover": 1,
+      "hero": 1,
+      "couple": 1,
+      "story": 1,
+      "countdown": 1,
+      "gallery": 1,
+      "gift": 1,
+      "wishes": 1
+    }
+  },
+  "pastel-birthday-01": {
+    "version": 1,
+    "kind": "celebration",
+    "style": "invitation-birthday",
+    "palette": [
+      "#f4dfe7",
+      "#a64d70",
+      "#eacbd8"
+    ],
+    "components": {
+      "cover": 1,
+      "hero": 1,
+      "countdown": 1,
+      "gallery": 1,
+      "wishes": 1
+    }
+  },
+  "rose-romance-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-rose",
+    "palette": [
+      "#2b1721",
+      "#e5a6b6",
+      "#422332"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 1,
+      "story": 2,
+      "countdown": 1,
+      "gallery": 2,
+      "gift": 1,
+      "wishes": 2
+    }
+  },
+  "midnight-celestial-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-midnight",
+    "palette": [
+      "#131d35",
+      "#dfc48c",
+      "#202c48"
+    ],
+    "components": {
+      "cover": 1,
+      "hero": 1,
+      "couple": 2,
+      "story": 1,
+      "countdown": 2,
+      "gallery": 1,
+      "gift": 2,
+      "wishes": 1
+    }
+  },
+  "terracotta-bloom-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-terracotta",
+    "palette": [
+      "#2d1a15",
+      "#e1a477",
+      "#46291f"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 2,
+      "story": 1,
+      "countdown": 2,
+      "gallery": 1,
+      "gift": 2,
+      "wishes": 1
+    }
+  },
+  "ivory-pearl-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-ivory",
+    "palette": [
+      "#e9e2d3",
+      "#806b46",
+      "#dcd3c1"
+    ],
+    "components": {
+      "cover": 1,
+      "hero": 1,
+      "couple": 2,
+      "story": 2,
+      "countdown": 1,
+      "gallery": 2,
+      "gift": 1,
+      "wishes": 2
+    }
+  },
+  "little-moon-aqiqah-01": {
+    "version": 1,
+    "kind": "celebration",
+    "style": "invitation-little-moon",
+    "palette": [
+      "#dbe8f3",
+      "#547da4",
+      "#c7d9eb"
+    ],
+    "components": {
+      "cover": 1,
+      "hero": 2,
+      "countdown": 1,
+      "gallery": 2,
+      "wishes": 1
+    }
+  },
+  "emerald-khitan-01": {
+    "version": 1,
+    "kind": "celebration",
+    "style": "invitation-emerald",
+    "palette": [
+      "#123c32",
+      "#d3bd77",
+      "#1d4d40"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 1,
+      "countdown": 2,
+      "gallery": 1,
+      "wishes": 2
+    }
+  },
+  "cosmic-birthday-01": {
+    "version": 1,
+    "kind": "celebration",
+    "style": "invitation-cosmic",
+    "palette": [
+      "#201a3b",
+      "#c0a1f3",
+      "#30264f"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "countdown": 2,
+      "gallery": 2,
+      "wishes": 2
+    }
+  },
+  "lavender-vow-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-lavender",
+    "palette": [
+      "#211b2d",
+      "#c5aadf",
+      "#332942"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 1,
+      "couple": 2,
+      "story": 2,
+      "countdown": 2,
+      "gallery": 1,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "coastal-promise-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-coastal",
+    "palette": [
+      "#142b32",
+      "#9bcac5",
+      "#1d4148"
+    ],
+    "components": {
+      "cover": 1,
+      "hero": 2,
+      "couple": 1,
+      "story": 2,
+      "countdown": 1,
+      "gallery": 2,
+      "gift": 1,
+      "wishes": 1
+    }
+  },
+  "garden-party-birthday-01": {
+    "version": 1,
+    "kind": "celebration",
+    "style": "invitation-garden-party",
+    "palette": [
+      "#e9ead8",
+      "#9d6248",
+      "#d9dfc2"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 1,
+      "countdown": 2,
+      "gallery": 1,
+      "wishes": 2
+    }
+  },
+  "sunflower-vow-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-sunflower",
+    "palette": [
+      "#302716",
+      "#e0b94f",
+      "#493a1c"
+    ],
+    "components": {
+      "cover": 1,
+      "hero": 2,
+      "couple": 2,
+      "story": 1,
+      "countdown": 2,
+      "gallery": 1,
+      "gift": 2,
+      "wishes": 1
+    }
+  },
+  "burgundy-vow-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-burgundy",
+    "palette": [
+      "#32131f",
+      "#d9ad78",
+      "#4b1c2d"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 3,
+      "story": 2,
+      "countdown": 1,
+      "gallery": 3,
+      "gift": 2,
+      "wishes": 1
+    }
+  },
+  "pink-blush-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-pink-blush",
+    "palette": [
+      "#3b192c",
+      "#e6a3bd",
+      "#57263f"
+    ],
+    "components": {
+      "cover": 1,
+      "hero": 1,
+      "couple": 3,
+      "story": 1,
+      "countdown": 2,
+      "gallery": 3,
+      "gift": 1,
+      "wishes": 2
+    }
+  },
+  "sunda-siger-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-sunda-siger",
+    "palette": [
+      "#17251d",
+      "#d8b66d",
+      "#24382d"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 3,
+      "story": 2,
+      "countdown": 1,
+      "gallery": 3,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "jawa-paes-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-jawa-paes",
+    "palette": [
+      "#211912",
+      "#d6b16e",
+      "#493521"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 3,
+      "story": 2,
+      "countdown": 1,
+      "gallery": 3,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "black-gold-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-black-gold",
+    "palette": [
+      "#111111",
+      "#d8b76a",
+      "#24211b"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 3,
+      "story": 2,
+      "countdown": 2,
+      "gallery": 2,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "white-gold-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-white-gold",
+    "palette": [
+      "#fffdf7",
+      "#a5813f",
+      "#f1e8d4"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 1,
+      "story": 2,
+      "countdown": 1,
+      "gallery": 1,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "minangkabau-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-minangkabau",
+    "palette": [
+      "#35120e",
+      "#dfb764",
+      "#581c17"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 3,
+      "story": 2,
+      "countdown": 2,
+      "gallery": 3,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "betawi-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-betawi",
+    "palette": [
+      "#102b23",
+      "#e0bb6a",
+      "#8b302d"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 1,
+      "story": 2,
+      "countdown": 1,
+      "gallery": 3,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "bali-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-bali",
+    "palette": [
+      "#faf3e7",
+      "#a37835",
+      "#d9b998"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 3,
+      "story": 2,
+      "countdown": 2,
+      "gallery": 3,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "palembang-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-palembang",
+    "palette": [
+      "#391016",
+      "#e5bd70",
+      "#601c26"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 3,
+      "story": 2,
+      "countdown": 2,
+      "gallery": 3,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "makasar-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-makasar",
+    "palette": [
+      "#0b302b",
+      "#dfbc6d",
+      "#19483c"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 1,
+      "story": 2,
+      "countdown": 1,
+      "gallery": 2,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "batak-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-batak",
+    "palette": [
+      "#191717",
+      "#ceaa75",
+      "#872f2b"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 2,
+      "story": 1,
+      "countdown": 2,
+      "gallery": 1,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "aceh-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-aceh",
+    "palette": [
+      "#21140f",
+      "#e3b653",
+      "#7e251e"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 3,
+      "story": 2,
+      "countdown": 1,
+      "gallery": 3,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "papua-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-papua",
+    "palette": [
+      "#f0e2cf",
+      "#83502f",
+      "#dfc6a6"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 1,
+      "story": 2,
+      "countdown": 1,
+      "gallery": 2,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "cream-pink-birthday-01": {
+    "version": 1,
+    "kind": "celebration",
+    "style": "invitation-cream-pink-birthday",
+    "palette": [
+      "#fff7e9",
+      "#c46e8e",
+      "#f5d9e2"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "countdown": 1,
+      "gallery": 2,
+      "wishes": 2
+    }
+  },
+  "black-gold-luxury-birthday-01": {
+    "version": 1,
+    "kind": "celebration",
+    "style": "invitation-black-gold-luxury-birthday",
+    "palette": [
+      "#101010",
+      "#d6b66e",
+      "#282219"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "countdown": 2,
+      "gallery": 3,
+      "wishes": 2
+    }
+  },
+  "cute-boy-birthday-01": {
+    "version": 1,
+    "kind": "celebration",
+    "style": "invitation-cute-boy-birthday",
+    "palette": [
+      "#edf8ff",
+      "#3282b5",
+      "#d4eee5"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 1,
+      "countdown": 1,
+      "gallery": 2,
+      "wishes": 2
+    }
+  },
+  "cute-girl-birthday-01": {
+    "version": 1,
+    "kind": "celebration",
+    "style": "invitation-cute-girl-birthday",
+    "palette": [
+      "#fff1f6",
+      "#b86695",
+      "#eadcf5"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "countdown": 1,
+      "gallery": 1,
+      "wishes": 2
+    }
+  },
+  "rose-gold-elegant-birthday-01": {
+    "version": 1,
+    "kind": "celebration",
+    "style": "invitation-rose-gold-elegant-birthday",
+    "palette": [
+      "#fcf3ec",
+      "#a86c59",
+      "#ecd7cb"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "countdown": 2,
+      "gallery": 3,
+      "wishes": 2
+    }
+  },
+  "royal-gold-luxury-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-royal-gold-luxury",
+    "palette": [
+      "#f7efdc",
+      "#98702e",
+      "#e8d5ad"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 3,
+      "story": 2,
+      "countdown": 2,
+      "gallery": 3,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "rustic-boho-wedding-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-rustic-boho",
+    "palette": [
+      "#f4ecdf",
+      "#98714f",
+      "#6e7960"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 1,
+      "story": 1,
+      "countdown": 1,
+      "gallery": 2,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "islamic-elegant-wedding-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-islamic-elegant",
+    "palette": [
+      "#12362d",
+      "#d9ba78",
+      "#f4eddf"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 3,
+      "story": 2,
+      "countdown": 2,
+      "gallery": 2,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "celestial-moon-and-star-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-celestial-moon-star",
+    "palette": [
+      "#101b33",
+      "#d4b574",
+      "#1b2b49"
+    ],
+    "components": {
+      "cover": 2,
+      "hero": 2,
+      "couple": 2,
+      "story": 2,
+      "countdown": 2,
+      "gallery": 3,
+      "gift": 2,
+      "wishes": 2
+    }
+  },
+  "platinum-aurora-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-platinum-aurora",
+    "palette": [
+      "#101b2b",
+      "#c9bc98",
+      "#1c2b3e"
+    ],
+    "components": {
+      "cover": 3,
+      "hero": 3,
+      "couple": 3,
+      "story": 2,
+      "countdown": 3,
+      "gallery": 4,
+      "gift": 2,
+      "wishes": 2,
+      "experience": "platinum"
+    }
+  },
+  "platinum-champagne-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-platinum-champagne",
+    "palette": [
+      "#f7f1e7",
+      "#926f40",
+      "#eae0cf"
+    ],
+    "components": {
+      "cover": 3,
+      "hero": 3,
+      "couple": 1,
+      "story": 2,
+      "countdown": 3,
+      "gallery": 4,
+      "gift": 2,
+      "wishes": 2,
+      "experience": "platinum"
+    }
+  },
+  "platinum-sunda-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-platinum-sunda",
+    "palette": [
+      "#17251d",
+      "#d8b66d",
+      "#24382d"
+    ],
+    "components": {
+      "cover": 3,
+      "hero": 3,
+      "couple": 3,
+      "story": 2,
+      "countdown": 3,
+      "gallery": 4,
+      "gift": 2,
+      "wishes": 2,
+      "experience": "platinum",
+      "adat": true
+    }
+  },
+  "platinum-jawa-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-platinum-jawa",
+    "palette": [
+      "#211912",
+      "#d6b16e",
+      "#33261b"
+    ],
+    "components": {
+      "cover": 3,
+      "hero": 3,
+      "couple": 3,
+      "story": 2,
+      "countdown": 3,
+      "gallery": 4,
+      "gift": 2,
+      "wishes": 2,
+      "experience": "platinum",
+      "adat": true
+    }
+  },
+  "platinum-minangkabau-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-platinum-minangkabau",
+    "palette": [
+      "#35120e",
+      "#dfb764",
+      "#581c17"
+    ],
+    "components": {
+      "cover": 3,
+      "hero": 3,
+      "couple": 3,
+      "story": 2,
+      "countdown": 3,
+      "gallery": 4,
+      "gift": 2,
+      "wishes": 2,
+      "experience": "platinum",
+      "adat": true
+    }
+  },
+  "platinum-palembang-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-platinum-palembang",
+    "palette": [
+      "#391016",
+      "#e5bd70",
+      "#601c26"
+    ],
+    "components": {
+      "cover": 3,
+      "hero": 3,
+      "couple": 3,
+      "story": 2,
+      "countdown": 3,
+      "gallery": 4,
+      "gift": 2,
+      "wishes": 2,
+      "experience": "platinum",
+      "adat": true
+    }
+  },
+  "platinum-nusantara-01": {
+    "version": 1,
+    "kind": "wedding",
+    "style": "invitation-platinum-nusantara",
+    "palette": [
+      "#142b24",
+      "#e2bc70",
+      "#203f32"
+    ],
+    "components": {
+      "cover": 3,
+      "hero": 3,
+      "couple": 3,
+      "story": 2,
+      "countdown": 3,
+      "gallery": 4,
+      "gift": 2,
+      "wishes": 2,
+      "experience": "platinum",
+      "adat": true
+    }
+  }
+}

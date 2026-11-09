@@ -16,7 +16,7 @@ final class TemplateModel extends Model
     public function list(?string $category): array
     {
         $fields =
-            "id, name, category, description, image, package_id, renderer_id, is_custom, JSON_EXTRACT(data, '$.theme') AS theme";
+            "id, name, category, description, image, package_id, renderer_id, is_custom, JSON_OBJECT('background', JSON_UNQUOTE(JSON_EXTRACT(data, '$.theme.background')), 'accent', JSON_UNQUOTE(JSON_EXTRACT(data, '$.theme.accent'))) AS theme, JSON_EXTRACT(data, '$.presentation') AS presentation";
         return $category
             ? $this->db->all(
                 "SELECT {$fields} FROM templates WHERE category=? ORDER BY name",

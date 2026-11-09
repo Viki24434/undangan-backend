@@ -11,6 +11,7 @@ use App\Models\TemplateModel;
 use App\Services\Identifiers;
 use App\Validation\DesignInput;
 use App\Validation\Input;
+use App\Validation\PresentationInput;
 use App\Validation\ThemeInput;
 
 final class TemplateController
@@ -19,6 +20,9 @@ final class TemplateController
 
     private function record(array $row): array
     {
+        $presentation = array_key_exists('presentation', $row)
+            ? Json::object($row['presentation'])
+            : Json::object($row['data'])->presentation ?? new \stdClass();
         return [
             'id' => $row['id'],
             'name' => $row['name'],
@@ -28,6 +32,8 @@ final class TemplateController
             'img' => $row['image'],
             'rendererId' => $row['renderer_id'] ?: $row['id'],
             'isCustom' => (bool) $row['is_custom'],
+            'presentation' => $presentation,
+            'palette' => $presentation->palette ?? [],
         ];
     }
 
@@ -64,6 +70,9 @@ final class TemplateController
             $data->design = DesignInput::validate($data->design);
         }
         $data->theme = ThemeInput::validate($data->theme ?? new \stdClass());
+        if (property_exists($data, 'presentation')) {
+            $data->presentation = PresentationInput::validate($data->presentation);
+        }
         return $data;
     }
 
@@ -77,7 +86,7 @@ final class TemplateController
 
     public function update(string $id, object $body): array
     {
-        $this->find($id);
+        $current = $this->find($id)['data'];
         if (!property_exists($body, 'packageId') && !property_exists($body, 'data')) {
             throw new HttpException(422, 'Tidak ada perubahan template yang dikirim.');
         }
@@ -85,6 +94,9 @@ final class TemplateController
             ? $this->package($body->packageId)
             : null;
         $data = property_exists($body, 'data') ? $this->data($body->data) : null;
+        if ($data !== null && !isset($data->presentation)) {
+            $data->presentation = $current['data']->presentation;
+        }
         $this->model->update($id, $package, $data);
         return $this->find($id);
     }

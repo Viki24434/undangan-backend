@@ -84,8 +84,14 @@ final class DatabaseSetup
             $templates = Json::decode(
                 file_get_contents($config['root'] . '/database/seeds/templates.json'),
             );
+            $presentations = Json::object(
+                file_get_contents(
+                    $config['root'] . '/database/seeds/presentations.json',
+                ),
+            );
             foreach ($templates as $template) {
                 $data = $defaults->{$template->id} ?? new \stdClass();
+                $data->presentation ??= $presentations->{$template->id};
                 $data->agenda ??= [];
                 $data->videoUrl ??= '';
                 $data->prayers ??= [];
@@ -106,6 +112,23 @@ final class DatabaseSetup
                     [Json::encode($data), $template->packageId, $template->id],
                 );
             }
+            foreach (
+                $db->all(
+                    "SELECT id, renderer_id FROM templates WHERE JSON_EXTRACT(data, '$.presentation') IS NULL",
+                )
+                as $row
+            ) {
+                $sourceId = $row['renderer_id'] ?: $row['id'];
+                if (isset($presentations->$sourceId)) {
+                    $db->run(
+                        "UPDATE templates SET data=JSON_SET(COALESCE(data, '{}'), '$.presentation', JSON_EXTRACT(?, '$')) WHERE id=? AND JSON_EXTRACT(data, '$.presentation') IS NULL",
+                        [Json::encode($presentations->$sourceId), $row['id']],
+                    );
+                }
+            }
+            $db->run(
+                "UPDATE invitations i JOIN templates t ON t.id=i.template_id SET i.data=JSON_SET(i.data, '$.presentation', JSON_EXTRACT(t.data, '$.presentation')) WHERE JSON_EXTRACT(i.data, '$.presentation') IS NULL AND JSON_EXTRACT(t.data, '$.presentation') IS NOT NULL",
+            );
         } finally {
             $db->one('SELECT RELEASE_LOCK(?)', [$lockName]);
         }

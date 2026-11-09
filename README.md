@@ -154,7 +154,11 @@ Contoh membuat draft:
 
 Terbitkan dengan PATCH `{ "status": "published" }`. URL publik tetap 404 selama draft. PATCH `data` mengganti isi data, sedangkan pengaturan desain/tema yang tidak dikirim dipertahankan. Tema dan desain template disalin saat membuat undangan agar perubahan template selanjutnya tidak mengubah undangan tersebut.
 
-Desain drag/drop disimpan pada `data.design` versi 1: variasi komponen, ornamen tambahan per bagian, serta perubahan ornamen bawaan. Tema di `data.theme` mendukung warna hex, font, gradasi 2–5 warna, sudut, opasitas, dan pengaturan per bagian. Keduanya divalidasi; API tidak menerima CSS/JavaScript bebas. Template custom menyimpan `rendererId` template dasar agar demo, editor, dan undangan terbit memakai renderer frontend yang tersedia.
+Definisi tampilan template disimpan di database pada `templates.data.presentation`: versi, jenis pernikahan/perayaan, gaya dasar, palet, dan komponen bawaan. Frontend memakai satu renderer umum; tidak ada registry ID template yang perlu ditambah saat membuat template baru. `rendererId` tetap dikirim sebagai informasi asal template dan tidak menentukan apakah template dapat dirender. Stylesheet dan komponen React merupakan pustaka tampilan aplikasi. Template baru dapat menggabungkan komponen yang tersedia, warna, aset unggahan, posisi, dan animasi dari editor tanpa menambah file JSX.
+
+Konfigurasi awal 44 template terdapat pada `database/seeds/presentations.json` untuk pemasangan/migrasi. Setup mengisi konfigurasi yang belum ada pada template bawaan, template custom, dan undangan lama tanpa menimpa pengaturan yang sudah tersimpan. Pembacaan saat aplikasi berjalan selalu dari database. Daftar frontend tidak menampilkan koleksi hardcode saat API gagal.
+
+Desain drag/drop disimpan pada `data.design` versi 1: variasi komponen, ornamen tambahan per bagian, serta perubahan ornamen bawaan. Tema di `data.theme` mendukung warna hex, font, gradasi 2–5 warna, sudut, opasitas, dan pengaturan per bagian. Presentasi, desain, dan tema divalidasi; API tidak menerima CSS/JavaScript bebas. Undangan baru menyimpan salinan presentasi supaya perubahan komponen bawaan template tidak mengubah undangan yang sudah dibuat.
 
 Daftar tamu disimpan dalam satu row dokumen JSON per undangan, maksimal 5.000 nama. PATCH mengirim `revision`, `guests`, dan `messageTemplate`; revisi yang sudah berubah menghasilkan 409 agar tab lain tidak tertimpa. Pesan custom harus menyertakan `{link_undangan}`. Ekspor/impor Excel dikerjakan frontend.
 
@@ -177,6 +181,8 @@ Endpoint customer setelah pembuatan sesi memerlukan bearer token rahasia kiriman
 ## Format respons dan batas
 
 Respons sukses: `{ "success": true, "data": ... }`; daftar berpaginasi menambahkan `meta: { total, limit, offset }`. Gagal: `{ "success": false, "message": "..." }`. Pagination memakai `limit` 1–100 dan `offset` mulai nol.
+
+Endpoint koleksi template hanya mengambil metadata, presentasi dasar, serta warna latar/aksen untuk palet. Isi undangan, lapisan ornamen, dan warna per bagian diambil melalui endpoint detail saat diperlukan. Respons JSON memakai gzip jika PHP mendukung zlib dan klien menerima gzip. Gambar serta unduhan biner tetap dikirim langsung dengan Content-Length aslinya.
 
 Body JSON standar 32 KB; template 512 KB, undangan 1 MB, daftar tamu 2 MB, kiriman customer 4 MB. Upload gambar menggunakan body biner dengan `Content-Type: image/jpeg`, `image/png`, atau `image/webp`, maksimal 5 MB. Frontend mengunggah saat gambar dipilih, lalu menyimpan URL saat simpan data.
 

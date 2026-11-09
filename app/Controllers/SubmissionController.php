@@ -246,6 +246,8 @@ final class SubmissionController
         $row = $this->find($id);
         $payload = Json::object($row['data']);
         $template = $this->templates->find($payload->form->templateId);
+        $defaults = Json::object($template['data'] ?? null);
+        $payload->form->data->presentation ??= $defaults->presentation ?? null;
         $payload->form->rendererId =
             $template['renderer_id'] ?? null ?: $payload->form->templateId;
         return Response::data(
@@ -336,6 +338,7 @@ final class SubmissionController
                 }
                 $defaults = Json::object($template['data']);
                 $input->data->theme ??= $defaults->theme ?? new \stdClass();
+                $input->data->presentation ??= $defaults->presentation;
                 $input->data->design ??=
                     $defaults->design ??
                     (object) [
