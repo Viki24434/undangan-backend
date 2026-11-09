@@ -1,8 +1,148 @@
+import { designInput } from './designValidation.js';
+
 export class HttpError extends Error {
   constructor(status, message) {
     super(message);
     this.status = status;
   }
+}
+
+const themeColorKeys = [
+  'background',
+  'surface',
+  'paper',
+  'text',
+  'heading',
+  'muted',
+  'accent',
+  'border',
+  'buttonBackground',
+  'buttonText',
+  'inputBackground',
+  'inputText',
+  'navigation',
+  'navigationText',
+  'overlay',
+];
+const themeSections = [
+  'cover',
+  'hero',
+  'intro',
+  'couple',
+  'story',
+  'events',
+  'gallery',
+  'wishes',
+  'gift',
+  'closing',
+  'photos',
+  'agenda',
+  'video',
+  'prayers',
+  'guide',
+];
+
+export function themeInput(input, section = false) {
+  if (!input || typeof input !== 'object' || Array.isArray(input))
+    throw new HttpError(422, 'Tema harus berupa objek.');
+  const result = {};
+  for (const [key, value] of Object.entries(input)) {
+    if (themeColorKeys.includes(key)) {
+      if (typeof value !== 'string' || !/^#[\da-f]{6}$/i.test(value))
+        throw new HttpError(
+          422,
+          `Warna tema ${key} harus berupa kode hex enam digit.`,
+        );
+      result[key] = value.toLowerCase();
+    } else if (key === 'gradients') {
+      if (!value || typeof value !== 'object' || Array.isArray(value))
+        throw new HttpError(422, 'Gradasi tidak valid.');
+      result.gradients = {};
+      for (const [paint, gradient] of Object.entries(value)) {
+        if (
+          ![
+            'background',
+            'surface',
+            'paper',
+            'heading',
+            'accent',
+            'buttonBackground',
+            'inputBackground',
+            'navigation',
+            'overlay',
+          ].includes(paint) ||
+          !gradient ||
+          typeof gradient !== 'object' ||
+          Array.isArray(gradient) ||
+          typeof gradient.angle !== 'number' ||
+          !Number.isFinite(gradient.angle) ||
+          gradient.angle < 0 ||
+          gradient.angle > 360 ||
+          !Array.isArray(gradient.stops) ||
+          gradient.stops.length < 2 ||
+          gradient.stops.length > 5
+        )
+          throw new HttpError(
+            422,
+            'Gradasi harus memiliki sudut 0–360 dan 2–5 warna.',
+          );
+        result.gradients[paint] = {
+          angle: gradient.angle,
+          stops: gradient.stops.map((stop) => {
+            if (
+              !stop ||
+              typeof stop.color !== 'string' ||
+              !/^#[\da-f]{6}$/i.test(stop.color) ||
+              typeof stop.position !== 'number' ||
+              !Number.isFinite(stop.position) ||
+              stop.position < 0 ||
+              stop.position > 100 ||
+              (stop.opacity !== undefined &&
+                (typeof stop.opacity !== 'number' ||
+                  !Number.isFinite(stop.opacity) ||
+                  stop.opacity < 0 ||
+                  stop.opacity > 1))
+            )
+              throw new HttpError(
+                422,
+                'Warna, posisi, atau opasitas gradasi tidak valid.',
+              );
+            return {
+              color: stop.color.toLowerCase(),
+              position: stop.position,
+              opacity: stop.opacity ?? 1,
+            };
+          }),
+        };
+      }
+    } else if (key === 'overlayOpacity') {
+      if (
+        typeof value !== 'number' ||
+        !Number.isFinite(value) ||
+        value < 0 ||
+        value > 1
+      )
+        throw new HttpError(
+          422,
+          'Kepekatan lapisan foto harus di antara 0 dan 1.',
+        );
+      result[key] = value;
+    } else if (!section && key === 'font') {
+      if (!['default', 'classic', 'modern'].includes(value))
+        throw new HttpError(422, 'Font template tidak valid.');
+      result.font = value;
+    } else if (!section && key === 'sections') {
+      if (!value || typeof value !== 'object' || Array.isArray(value))
+        throw new HttpError(422, 'Warna bagian harus berupa objek.');
+      result.sections = {};
+      for (const [name, colors] of Object.entries(value)) {
+        if (!themeSections.includes(name))
+          throw new HttpError(422, 'Bagian warna tidak tersedia.');
+        result.sections[name] = themeInput(colors, true);
+      }
+    } else throw new HttpError(422, `Pengaturan tema ${key} tidak tersedia.`);
+  }
+  return result;
 }
 
 export function text(value, field, max, optional = false) {
@@ -177,7 +317,12 @@ export function invitationInput(body, current = {}) {
     templateId: text(value.templateId, 'templateId', 80),
     title: text(value.title, 'title', 160),
     eventDate,
-    data: { ...data, ...optional },
+    data: {
+      ...data,
+      ...optional,
+      ...(data.design !== undefined && { design: designInput(data.design) }),
+      ...(data.theme !== undefined && { theme: themeInput(data.theme) }),
+    },
     status,
   };
 }

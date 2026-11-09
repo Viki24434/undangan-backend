@@ -139,13 +139,19 @@ export function createRouter({
         return packages.updatePrice(segments[3], await readBody(req));
       if (
         segments[2] === 'templates' &&
+        segments.length === 3 &&
+        method === 'POST'
+      )
+        return templates.create(await readBody(req, 524288));
+      if (
+        segments[2] === 'templates' &&
         segments.length === 4 &&
         method === 'PATCH'
       )
-        return templates.update(segments[3], await readBody(req));
+        return templates.update(segments[3], await readBody(req, 524288));
       if (segments[2] === 'invitations' && segments.length === 3) {
         if (method === 'GET') return invitations.list(url.searchParams);
-        if (method === 'POST') return invitations.create(await readBody(req));
+        if (method === 'POST') return invitations.create(await readBody(req, 1048576));
       }
       if (
         segments[2] === 'invitations' &&
@@ -161,7 +167,7 @@ export function createRouter({
         if (segments.length === 4) {
           if (method === 'GET') return { status: 200, data: invitation };
           if (method === 'PATCH')
-            return invitations.update(invitation.id, await readBody(req));
+            return invitations.update(invitation.id, await readBody(req, 1048576));
           if (method === 'DELETE') return invitations.remove(invitation.id);
         }
         if (method === 'GET' && segments[4] === 'wishes')

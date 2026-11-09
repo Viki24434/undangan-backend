@@ -144,6 +144,20 @@ export async function openDatabase(config) {
         "ALTER TABLE templates ADD COLUMN package_id ENUM('silver','gold','platinum','exclusive') NULL",
       );
     }
+    const [rendererColumns] = await pool.query(
+      "SHOW COLUMNS FROM templates LIKE 'renderer_id'",
+    );
+    if (!rendererColumns.length)
+      await pool.query(
+        'ALTER TABLE templates ADD COLUMN renderer_id VARCHAR(80) NULL',
+      );
+    const [customColumns] = await pool.query(
+      "SHOW COLUMNS FROM templates LIKE 'is_custom'",
+    );
+    if (!customColumns.length)
+      await pool.query(
+        'ALTER TABLE templates ADD COLUMN is_custom TINYINT(1) NOT NULL DEFAULT 0',
+      );
     const defaults = JSON.parse(
       readFileSync(new URL('./templateData.json', import.meta.url), 'utf8'),
     );

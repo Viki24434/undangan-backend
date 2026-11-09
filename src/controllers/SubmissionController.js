@@ -219,11 +219,18 @@ export default class SubmissionController {
 
   async detail(id) {
     const row = await this.findRow(id);
+    const payload = JSON.parse(row.data);
+    const template = await this.templates.find(payload.form.templateId);
     return {
       status: 200,
       data: {
         ...this.receipt(row),
-        ...JSON.parse(row.data),
+        ...payload,
+        form: {
+          ...payload.form,
+          rendererId: template?.renderer_id || payload.form.templateId,
+        },
+        templateName: template?.name || payload.form.templateId,
         invitationId: row.invitation_id,
         reviewNote: row.review_note,
       },

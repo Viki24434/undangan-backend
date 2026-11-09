@@ -1,6 +1,6 @@
-import { HttpError } from '../validation.js';
-
-const templateFonts = ['default', 'classic', 'modern'];
+import { randomUUID } from 'node:crypto';
+import { HttpError, text, themeInput } from '../validation.js';
+import { designInput } from '../designValidation.js';
 
 function templateDataInput(data) {
   if (
@@ -11,30 +11,10 @@ function templateDataInput(data) {
   ) {
     throw new HttpError(422, 'Data template tidak valid atau terlalu besar.');
   }
-  const theme = data.theme ?? {};
-  if (typeof theme !== 'object' || theme === null || Array.isArray(theme))
-    throw new HttpError(422, 'Tema template tidak valid.');
-  for (const key of ['background', 'accent']) {
-    if (
-      theme[key] !== undefined &&
-      (typeof theme[key] !== 'string' ||
-        !/^#[\da-f]{6}$/i.test(theme[key]))
-    ) {
-      throw new HttpError(422, `Warna tema ${key} harus berupa kode hex.`);
-    }
-  }
-  if (
-    theme.font !== undefined &&
-    !templateFonts.includes(theme.font)
-  )
-    throw new HttpError(422, 'Font template tidak valid.');
   return {
     ...data,
-    theme: {
-      ...(theme.background && { background: theme.background }),
-      ...(theme.accent && { accent: theme.accent }),
-      ...(theme.font && { font: theme.font }),
-    },
+    ...(data.design !== undefined && { design: designInput(data.design) }),
+    theme: themeInput(data.theme ?? {}),
   };
 }
 
@@ -54,6 +34,8 @@ export default class TemplateController {
         packageId: row.package_id,
         description: row.description,
         img: row.image,
+        rendererId: row.renderer_id || row.id,
+        isCustom: Boolean(row.is_custom),
         data: JSON.parse(row.data),
       },
     };
@@ -77,6 +59,52 @@ export default class TemplateController {
     if (data !== undefined) await this.model.updateData(id, data);
     return this.find(id);
   }
+  async create(body) {
+    const base = await this.model.find(
+      text(body.baseTemplateId, 'Template dasar', 80),
+    );
+    if (!base) throw new HttpError(422, 'Template dasar tidak ditemukan.');
+    const name = text(body.name, 'Nama template', 160);
+    const category = text(body.category ?? base.category, 'Kategori', 80);
+    const packageId = body.packageId ?? base.package_id;
+    if (!['silver', 'gold', 'platinum', 'exclusive'].includes(packageId))
+      throw new HttpError(422, 'Paket tidak valid.');
+    const id = `custom-${randomUUID()}`;
+    const baseData = JSON.parse(base.data || '{}');
+    if (
+      body.data !== undefined &&
+      (!body.data || typeof body.data !== 'object' || Array.isArray(body.data))
+    )
+      throw new HttpError(422, 'Isi template harus berupa objek.');
+    const overrides = body.data ? templateDataInput(body.data) : {};
+    const data = templateDataInput({
+      ...baseData,
+      ...overrides,
+      theme: { ...baseData.theme, ...overrides.theme },
+      ...(baseData.groom && {
+        groom: { ...baseData.groom, ...overrides.groom },
+      }),
+      ...(baseData.bride && {
+        bride: { ...baseData.bride, ...overrides.bride },
+      }),
+    });
+    await this.model.create({
+      id,
+      name,
+      category,
+      packageId,
+      description: text(
+        body.description ?? base.description,
+        'Deskripsi',
+        1000,
+        true,
+      ),
+      img: base.image,
+      rendererId: base.renderer_id || base.id,
+      data,
+    });
+    return { status: 201, data: (await this.find(id)).data };
+  }
   async list(category) {
     const rows = await this.model.list(category);
     return {
@@ -88,6 +116,9 @@ export default class TemplateController {
         packageId: row.package_id,
         description: row.description,
         img: row.image,
+        rendererId: row.renderer_id || row.id,
+        isCustom: Boolean(row.is_custom),
+        theme: JSON.parse(row.theme || '{}') || {},
       })),
     };
   }

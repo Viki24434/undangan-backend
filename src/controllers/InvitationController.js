@@ -14,12 +14,14 @@ export default class InvitationController {
     const overrides = invitation.data;
     return {
       ...invitation,
+      rendererId: template?.renderer_id || invitation.templateId,
       packageId: template?.package_id,
       data: {
         ...defaults,
         banks: [],
         wishes: [],
         ...overrides,
+        design: overrides.design ?? { version: 1, sections: {}, native: {} },
         agenda: overrides.agenda ?? defaults.agenda ?? [],
         videoUrl: overrides.videoUrl ?? defaults.videoUrl ?? '',
         prayers: overrides.prayers ?? defaults.prayers ?? [],
@@ -65,12 +67,27 @@ export default class InvitationController {
   async create(body) {
     const input = invitationInput(body);
     await this.validate(input);
+    if (input.data.design === undefined || input.data.theme === undefined) {
+      const template = await this.templates.find(input.templateId);
+      const defaults = JSON.parse(template.data || '{}');
+      input.data.theme ??= defaults.theme || {};
+      input.data.design ??= defaults.design || {
+        version: 1,
+        sections: {},
+        native: {},
+      };
+    }
     const id = randomUUID();
     await this.model.create(id, input, new Date().toISOString());
     return { status: 201, data: await this.find(id) };
   }
   async update(id, body) {
-    const input = invitationInput(body, await this.find(id));
+    const current = await this.find(id);
+    const input = invitationInput(body, current);
+    if (input.data.design === undefined)
+      input.data.design = current.data.design;
+    if (input.data.theme === undefined)
+      input.data.theme = current.data.theme || {};
     await this.validate(input, id);
     await this.model.update(id, input);
     return { status: 200, data: await this.find(id) };
