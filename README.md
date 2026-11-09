@@ -1,210 +1,189 @@
-﻿# Undangan Backend
+# Undangan Back — PHP
 
-API JavaScript menggunakan Node.js 24+, HTTP bawaan Node, serta MySQL/MariaDB XAMPP melalui mysql2. Aktifkan MySQL di XAMPP sebelum menjalankan backend.
+Backend undangan digital memakai PHP 8.2+, PDO, dan MySQL/MariaDB XAMPP. Tidak membutuhkan Node.js, npm, Composer, atau framework. Frontend React tetap berada di `undangan-app`.
 
-## Menjalankan
+## Menjalankan dengan XAMPP
+
+1. Aktifkan **Apache** dan **MySQL** di XAMPP.
+2. Buka terminal di `C:\xampp\htdocs\undangan-back`.
+3. Jalankan:
 
 ```powershell
-cd C:\xampp\htdocs\undangan-backend
-npm install
-npm run setup
-npm start
+php bin/setup.php
 ```
 
-API berjalan pada `http://127.0.0.1:3001/api`. Gunakan `npm run dev` untuk watch mode. `npm run setup` membuat `.env` dengan token admin acak dan melengkapi konfigurasi MySQL tanpa mengganti nilai yang sudah ada. Database MySQL dibuat otomatis sesuai DB_NAME dan 10 template frontend dimasukkan otomatis. Semua undangan baru berstatus draft sampai dipublikasikan.
+Setup membuat `.env` jika belum ada, database, tabel, dan template bawaan. Setup dapat dijalankan kembali: undangan, admin, harga, daftar tamu, template custom, serta desain yang sudah diubah tetap tersimpan. Database lama dari versi Node.js memakai tabel yang sama dan tidak perlu diekspor atau dihapus. File unggahan tetap berada di folder `data` yang ikut dipindahkan.
 
-Backend berjalan sebagai proses Node tersendiri, bukan melalui URL Apache `/undangan-backend`. Jangan sajikan folder backend melalui Apache: `.env` dan database merupakan data privat. `.htaccess` di folder ini menolak akses langsung dari Apache. Server hanya mendengarkan localhost secara default.
+API XAMPP tersedia di:
 
-## Konfigurasi
+```text
+http://127.0.0.1/undangan-back/public/api/health
+```
 
-Default lokal XAMPP di `.env`:
+Pada `.env` frontend:
 
 ```dotenv
+VITE_API_URL=/api
+BACKEND_URL=http://127.0.0.1/undangan-back/public
+```
+
+Jalankan `npm run dev` di frontend, lalu buka `http://localhost:2125`. Restart Vite setelah mengganti `.env`. Frontend meneruskan `/api` ke PHP sehingga cookie admin dan URL gambar `/api/media/...` tetap bekerja pada origin yang sama.
+
+## Alternatif server PHP lokal
+
+Jika tidak memakai Apache untuk API:
+
+```powershell
+php -S 127.0.0.1:3001 -t public router.php
+```
+
+Ubah `.env` frontend menjadi `BACKEND_URL=http://127.0.0.1:3001`. MySQL XAMPP tetap perlu aktif. Server bawaan PHP hanya untuk pengembangan.
+
+## Struktur folder
+
+```text
+undangan-back/
+├── app/
+│   ├── Controllers/       Alur endpoint dan respons
+│   ├── Core/              Database PDO, router, request, response, .env
+│   ├── Models/            Query database
+│   ├── Services/          Upload, file, CORS, password, setup, rate limit
+│   └── Validation/        Validasi undangan, tamu, desain, tema, kiriman
+├── bin/setup.php          Setup database melalui terminal
+├── config/app.php         Konfigurasi dari .env
+├── database/
+│   ├── schema.sql         Struktur tabel
+│   └── seeds/             Metadata dan data template bawaan
+├── data/                  Unggahan dan gambar privat, tidak masuk Git
+├── public/index.php       Pintu masuk HTTP
+├── routes/api.php         Seluruh daftar endpoint
+├── storage/               Rate limit dan penyimpanan operasional
+├── bootstrap.php          Autoload dan pemuatan konfigurasi
+└── router.php             Router server pengembangan PHP
+```
+
+Untuk mengubah alur fitur, mulai dari `routes/api.php`, lanjut ke controller terkait, lalu model untuk query SQL. Validasi dipisahkan agar controller tetap mudah dibaca. Kode ditulis tanpa komentar inline.
+
+## Konfigurasi .env
+
+```dotenv
+CORS_ORIGINS=http://localhost:2125,http://127.0.0.1:2125,http://localhost:4173,http://127.0.0.1:4173
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_USER=root
 DB_PASSWORD=
 DB_NAME=undangan_db
-DB_CONNECTION_LIMIT=10
+COOKIE_SECURE=false
+COOKIE_PATH=/
 ```
 
-Sesuaikan password jika root MySQL memakai password. Database dan tabel InnoDB dibuat otomatis ketika server dimulai; akun database memerlukan izin CREATE. Karakter Unicode menggunakan utf8mb4. Untuk produksi gunakan akun database khusus. Konfigurasi `.env` dimuat dengan path absolut dari folder backend; environment proses memiliki prioritas.
+Origin hanya berasal dari `CORS_ORIGINS`; tidak ada daftar origin cadangan di kode. Tambahkan domain/tunnel frontend yang sebenarnya, lengkap dengan protokol dan port jika digunakan. Pemeriksaan origin berlaku juga saat pendaftaran admin pertama. Konfigurasi dibaca pada setiap request PHP. Environment proses memiliki prioritas atas `.env`; restart proses PHP jika environment proses diubah.
 
-Lihat `.env.example`. `CORS_ORIGINS` berisi origin frontend yang diizinkan, dipisahkan koma. `ADMIN_TOKEN` minimal 32 karakter; jangan taruh token ini dalam kode frontend atau variabel `VITE_*`. Pengelolaan admin dilakukan oleh klien tepercaya menggunakan `Authorization: Bearer <ADMIN_TOKEN>`. Dashboard menggunakan akun admin dan session cookie HttpOnly. Bearer token tetap tersedia untuk klien server atau integrasi tepercaya.
+`ADMIN_TOKEN` bersifat opsional untuk integrasi server tepercaya dan harus acak minimal 32 karakter jika digunakan. Setup menghasilkan token ketika membuat `.env` baru. Dashboard menggunakan akun admin, bukan token ini. Jangan memasukkan token ke `VITE_*` atau kode frontend.
 
-Daftar origin hanya berasal dari `CORS_ORIGINS` pada `.env` atau environment proses. Variabel ini wajib diisi; server tidak menggunakan daftar cadangan di kode. Frontend lokal memakai port `2125`; preview produksi memakai `4173`. Pastikan alamat yang dipakai browser tercantum, misalnya `http://127.0.0.1:2125`. `.env.example` menyediakan contoh yang dapat disesuaikan. Origin mencakup protokol, host, dan port. Alamat dinormalisasi sehingga garis miring di akhir tidak menyebabkan penolakan. Untuk domain atau tunnel baru, tambahkan origin HTTPS sebenarnya ke `CORS_ORIGINS` dan mulai ulang backend.
+Path penyimpanan dapat diatur dengan `STORAGE_PATH`, `MEDIA_PATH`, `GUEST_PHOTOS_PATH`, dan `SUBMISSIONS_PATH`; gunakan path absolut. Default mengikuti folder proyek sehingga pemindahan proyek tidak membutuhkan path hardcode.
 
-Pemeriksaan origin juga berlaku sebelum admin pertama dibuat. Jika halaman admin terbuka tetapi pendaftaran ditolak dengan pesan origin, periksa alamat browser dan daftar `CORS_ORIGINS`; database tidak perlu dihapus atau dibuat ulang.
+Aktifkan extension `pdo_mysql`, `mbstring`, dan `intl` di PHP. Akun database memerlukan izin CREATE/ALTER untuk setup; request biasa hanya memakai koneksi database yang sudah disiapkan. MySQL memakai utf8mb4 dan prepared statements.
+
+## Autentikasi
+
+| Metode | Endpoint | Fungsi |
+| --- | --- | --- |
+| GET | `/api/auth/session` | Status akun, session, dan token CSRF |
+| POST | `/api/auth/setup` | Membuat admin pertama: `name`, `email`, `password` |
+| POST | `/api/auth/login` | Login: `email`, `password` |
+| POST | `/api/auth/logout` | Logout session |
+
+Password 12–128 karakter. Password baru diproses melalui SHA-256 lalu `password_hash` PHP agar seluruh panjang password masuk ke verifikasi bcrypt. Login memakai `password_verify`. Akun lama berformat scrypt tetap dapat login dengan password yang sama; setelah login berhasil hash otomatis ditingkatkan ke format PHP. Kompatibilitas scrypt hanya untuk migrasi dan ditulis dalam PHP berdasarkan [RFC 7914](https://www.rfc-editor.org/rfc/rfc7914); tidak menjalankan Node.js. API password PHP dijelaskan pada [dokumentasi PHP](https://www.php.net/manual/en/function.password-hash.php).
+
+Session disimpan di MySQL, cookie HttpOnly/SameSite=Lax berlaku 8 jam. Mutasi admin melalui cookie wajib menyertakan `X-CSRF-Token` dari endpoint session. Integrasi server dapat menggunakan `Authorization: Bearer <ADMIN_TOKEN>`. Session versi lama tetap memakai tabel yang sama. Cookie lama pada path `/api` dibersihkan saat login/logout baru.
 
 ## Endpoint publik
 
-| Metode | Endpoint                        | Fungsi                                                  |
-| ------ | ------------------------------- | ------------------------------------------------------- |
-| GET    | `/api/health`                   | Status API dan database                                 |
-| GET    | `/api/social-links`             | Tautan sosial publik                                    |
-| GET    | `/api/templates`                | Daftar template; filter opsional `?category=Pernikahan` |
-| GET    | `/api/invitations/:slug`        | Undangan published                                      |
-| GET    | `/api/invitations/:slug/wishes` | Ucapan, `limit` 1–100 dan `offset` ≥ 0                  |
-| POST   | `/api/invitations/:slug/wishes` | Simpan `{ "name": "Rina", "message": "Selamat!" }`      |
-| POST   | `/api/invitations/:slug/rsvps`  | Simpan konfirmasi kehadiran                             |
+| Metode | Endpoint | Fungsi |
+| --- | --- | --- |
+| GET | `/api/health` | Koneksi API dan MySQL |
+| GET | `/api/packages` | Paket dan harga; Exclusive selalu custom |
+| GET | `/api/social-links` | Instagram, TikTok, WhatsApp |
+| GET | `/api/templates` | Koleksi; filter `?category=Pernikahan` |
+| GET | `/api/templates/:id` | Data template lengkap |
+| GET | `/api/media/:filename` | Gambar unggahan publik |
+| GET | `/api/invitations/:slug` | Undangan published |
+| GET / POST | `/api/invitations/:slug/wishes` | Baca / simpan ucapan |
+| POST | `/api/invitations/:slug/rsvps` | Konfirmasi kehadiran |
+| POST | `/api/invitations/:slug/photos?to=Nama` | Foto tamu Platinum setelah acara dimulai |
 
-RSVP: `{ "name": "Rina", "attendance": "Hadir", "guestCount": 2, "note": "Bersama keluarga" }`. `attendance`: `Hadir`, `Belum pasti`, atau `Tidak hadir`. `guestCount`: 0–20; Hadir minimal 1, Tidak hadir harus 0. Data RSVP hanya dapat dibaca admin. Pengiriman RSVP bersifat append; belum ada autentikasi tamu atau penggantian RSVP sebelumnya.
+Ucapan menerima `{ "name": "Viki", "message": "Selamat!" }`. Nama yang sama setelah normalisasi memperbarui ucapan sebelumnya. RSVP menerima `name`, `attendance` (`Hadir`, `Belum pasti`, `Tidak hadir`), `guestCount` 0–20, serta `note` opsional; pengiriman berikutnya memperbarui data tamu tersebut. Hadir minimal satu orang, Tidak hadir harus nol. Data RSVP dan foto tamu hanya dapat dibaca admin. Nama pengirim foto disertakan pada nama file.
 
 ## Endpoint admin
 
-| Metode               | Endpoint                            | Fungsi                 |
-| -------------------- | ----------------------------------- | ---------------------- |
-| GET / POST           | `/api/admin/invitations`            | Daftar / buat undangan |
-| GET / PATCH / DELETE | `/api/admin/invitations/:id`        | Detail / ubah / hapus  |
-| GET                  | `/api/admin/invitations/:id/rsvps`  | Daftar RSVP privat     |
-| GET                  | `/api/admin/invitations/:id/wishes` | Daftar ucapan          |
-| DELETE               | `/api/admin/wishes/:id`             | Hapus ucapan           |
-| PATCH                | `/api/admin/social-links`           | Ubah tautan sosial global |
+Semua endpoint berikut memerlukan session admin atau bearer token tepercaya.
 
-Daftar admin juga mendukung `limit` dan `offset`. Menghapus undangan ikut menghapus semua RSVP dan ucapan terkait. PATCH mengganti keseluruhan `data` jika field tersebut dikirim.
+| Metode | Endpoint | Fungsi |
+| --- | --- | --- |
+| PATCH | `/api/admin/packages/:id` | Ubah `price` Silver/Gold/Platinum |
+| PATCH | `/api/admin/social-links` | Ubah tautan sosial |
+| POST | `/api/admin/templates` | Salin template menjadi template custom |
+| PATCH | `/api/admin/templates/:id` | Ubah `packageId` atau `data` |
+| POST | `/api/admin/uploads` | Upload satu gambar |
+| GET / POST | `/api/admin/invitations` | Daftar / buat undangan |
+| GET / PATCH / DELETE | `/api/admin/invitations/:id` | Detail / edit / hapus undangan |
+| GET / PATCH | `/api/admin/invitations/:id/guest-list` | Daftar tamu dan pesan custom |
+| GET | `/api/admin/invitations/:id/wishes` | Ucapan undangan |
+| GET | `/api/admin/invitations/:id/rsvps` | Data kehadiran |
+| GET | `/api/admin/invitations/:id/photos` | Daftar foto tamu |
+| GET | `/api/admin/invitations/:id/photos/:photoId` | Unduh foto tamu |
+| DELETE | `/api/admin/wishes/:id` | Hapus ucapan |
 
-Tautan sosial menerima `instagram` dan `tiktok` berupa URL profil HTTPS, serta
-`whatsapp` berupa 8–15 digit nomor dengan kode negara tanpa tanda `+`.
-
-Contoh payload membuat undangan:
+Contoh membuat draft:
 
 ```json
 {
-  "slug": "aditya-sarah",
+  "slug": "adrian-clara",
   "templateId": "elegant-gold-01",
-  "title": "Aditya & Sarah",
-  "eventDate": "2027-01-24T09:00:00+07:00",
-  "status": "published",
+  "title": "Adrian & Clara",
+  "eventDate": "2027-12-15T09:00:00+07:00",
+  "status": "draft",
   "data": {
-    "groom": { "name": "Aditya" },
-    "bride": { "name": "Sarah" }
+    "groom": { "name": "Adrian" },
+    "bride": { "name": "Clara" },
+    "photos": []
   }
 }
 ```
 
-Contoh PowerShell, token dibaca dari file dan tidak dicetak:
+Terbitkan dengan PATCH `{ "status": "published" }`. URL publik tetap 404 selama draft. PATCH `data` mengganti isi data, sedangkan pengaturan desain/tema yang tidak dikirim dipertahankan. Tema dan desain template disalin saat membuat undangan agar perubahan template selanjutnya tidak mengubah undangan tersebut.
 
-```powershell
-$tokenLine = Get-Content .env | Where-Object { $_ -like 'ADMIN_TOKEN=*' }
-$adminToken = $tokenLine.Substring('ADMIN_TOKEN='.Length)
-$headers = @{ Authorization = "Bearer $adminToken" }
-$payload = @{
-  slug = 'aditya-sarah'
-  templateId = 'elegant-gold-01'
-  title = 'Aditya & Sarah'
-  eventDate = '2027-01-24T09:00:00+07:00'
-  status = 'published'
-  data = @{ groom = @{ name = 'Aditya' }; bride = @{ name = 'Sarah' } }
-} | ConvertTo-Json -Depth 10
-Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:3001/api/admin/invitations' -Headers $headers -ContentType 'application/json' -Body $payload
-```
+Desain drag/drop disimpan pada `data.design` versi 1: variasi komponen, ornamen tambahan per bagian, serta perubahan ornamen bawaan. Tema di `data.theme` mendukung warna hex, font, gradasi 2–5 warna, sudut, opasitas, dan pengaturan per bagian. Keduanya divalidasi; API tidak menerima CSS/JavaScript bebas. Template custom menyimpan `rendererId` template dasar agar demo, editor, dan undangan terbit memakai renderer frontend yang tersedia.
 
-Respons sukses: `{ "success": true, "data": ... }`, daftar berpaginasi juga memuat `meta`. Respons gagal: `{ "success": false, "message": "..." }`. Body dibatasi 32 KB, kiriman publik dibatasi 20 per menit per alamat IP. Tanpa reverse proxy, IP diambil langsung dari koneksi. Request JSON wajib menggunakan `Content-Type: application/json`.
+Daftar tamu disimpan dalam satu row dokumen JSON per undangan, maksimal 5.000 nama. PATCH mengirim `revision`, `guests`, dan `messageTemplate`; revisi yang sudah berubah menghasilkan 409 agar tab lain tidak tertimpa. Pesan custom harus menyertakan `{link_undangan}`. Ekspor/impor Excel dikerjakan frontend.
 
-## Integrasi frontend
+## Kiriman customer
 
-### Editor desain dan template custom
-
-Buka **Admin → Paket template → Edit desain** untuk mengatur template yang ada, atau **Buat template custom** untuk membuat versi baru dari template dasar. Editor menampilkan preview interaktif. Pilih ornamen dari kanvas atau daftar lapisan, lalu geser posisinya atau ubah koordinat X/Y, ukuran, rotasi, opasitas, pencerminan, dan urutan lapisan. Ornamen bawaan dapat disembunyikan atau dipulihkan; ornamen tambahan dapat diduplikasi dan dihapus. Undo/redo menyimpan hingga 50 perubahan desain selama sesi editor.
-
-Panel **Variasi komponen** mengganti Cover 1/2/3, Hero 1/2, Couple 1/2/3, Story 1/2, Countdown 1/2/3, Gallery standar/1/2/3/4, Gift 1/2, dan Wishes 1/2. Hero 3 sinematik tersedia untuk tema yang memiliki aset scene Platinum. Couple, Story, dan Gift hanya ditawarkan untuk template pernikahan. Pilih **Bawaan** untuk memakai kembali pilihan asli template dasar. Preview berpindah ke bagian yang diubah, dan perubahan dapat di-undo atau disimpan bersama desain. Penggantian variasi mempertahankan data nama, foto, cerita, ornamen tambahan, serta pengaturan animasi; posisi ornamen dapat disesuaikan lagi untuk bentuk komponen yang baru.
-
-Editor menampilkan kartu ilustrasi susunan untuk bagian yang dipilih. Klik bagian langsung di preview atau gunakan navigasi bagian di atas kanvas. Dropdown lengkap tetap tersedia melalui **Semua variasi komponen**. Toolbar dekat ornamen menyediakan duplikat untuk ornamen tambahan, maju/mundur lapisan, rata tengah horizontal/vertikal, pencerminan, serta hapus atau sembunyikan. Saat **Magnet posisi** aktif, ornamen yang digeser mendekati tepi atau tengah induknya akan menempel disertai garis bantu; tahan Alt untuk menggeser bebas. Zoom 50–200% dan **Pas layar** membantu menyunting di berbagai ukuran layar tanpa mengubah ukuran desain yang tersimpan.
-
-Pintasan berlaku saat fokus berada di editor: Ctrl/Cmd + S menyimpan template yang sudah ada, Ctrl/Cmd + Z membatalkan perubahan, Shift + Z atau Ctrl/Cmd + Y mengulang, Ctrl/Cmd + D menduplikasi ornamen tambahan terpilih, dan Delete/Backspace menghapus ornamen tambahan atau menyembunyikan ornamen bawaan. Undo teks pada input tetap memakai perilaku browser. Status perubahan dan tombol simpan cepat tersedia di dekat kanvas.
-
-Pilihan disimpan sebagai angka di `data.design.components`, misalnya `{ "cover": 1, "couple": 3 }`, dan diterapkan oleh renderer bersama pilihan bawaan template. API membatasi nama komponen dan nomor variasi yang tersedia. Pengaturan paket serta pengalaman Platinum tetap mengikuti template dasar. Salinan pilihan komponen ikut terbawa ke template custom, editor customer, kiriman customer, dan undangan terbit.
-
-**Warna & font** tersedia di editor desain maupun editor isi template. Pilih **Seluruh undangan** atau bagian tertentu, lalu atur latar, kartu/panel, kertas, teks, judul/nama, teks sekunder, aksen, garis, tombol, input, navigasi, serta warna dan kepekatan lapisan foto. Warna dapat dipilih lewat pemilih warna atau kode hex; tombol pulihkan mengembalikan pewarisan warna tanpa menghapus pengaturan lain. Warna khusus bagian berada di `data.theme.sections` dan lebih diutamakan daripada warna umum. Pengaturan navigasi berlaku untuk seluruh undangan, sedangkan kertas dan lapisan foto tersedia untuk Cover/Hero. Foto dan PNG ornamen tetap memakai warna aset asli. API memvalidasi kode warna enam digit, font, nama bagian, dan kepekatan 0–1. Undangan baru menyimpan salinan tema sehingga perubahan warna template berikutnya tidak mengganti warna undangan yang telah dibuat.
-
-Pilihan **Solid / Gradasi** tersedia untuk latar, panel, kertas, judul/nama, aksen, tombol, input, navigasi, dan lapisan foto. Atur 2–5 warna beserta posisi 0–100%, opasitas tiap warna, dan sudut 0–360°. Tombol arah dan **Balik warna** mempercepat pengaturan. Gradasi disimpan di `data.theme.gradients`, misalnya `{ "background": { "angle": 135, "stops": [{ "color": "#142536", "position": 0, "opacity": 1 }, { "color": "#d4a56b", "position": 100, "opacity": 1 }] } }`. Bagian khusus memakai format yang sama di `data.theme.sections`. Memilih warna solid pada bagian mengesampingkan gradasi umum; pulihkan warna untuk mewarisinya kembali. API tidak menerima CSS gradasi bebas.
-
-Ornamen latar yang sebelumnya digambar melalui pseudo-element CSS kini muncul sebagai **kelompok latar** dan **gambar latar** di daftar lapisan. Kelompok mempertahankan susunan dan opasitas komposisi aslinya; tiap gambar juga dapat diatur sendiri. Divider, kertas/tutup/badan amplop, segel, dan ornamen pada foto pembuka, agenda, video, doa, serta panduan tamu dapat diedit bila bagian tersebut tersedia. Pakai pegangan **✥** pada toolbar untuk menggeser ornamen atau kelompok yang dipilih. **Ganti gambar ornamen** mengganti gambar bawaan maupun tambahan melalui perpustakaan atau unggahan. Pengganti tersimpan sebagai `asset` atau `src` pada pengaturan lapisan, tanpa mengubah berkas aset asli. **Pulihkan ornamen** mengembalikan ornamen bawaan berikut sumber gambarnya. Perubahan ikut tampil pada demo, editor customer, dan undangan yang memakai salinan desain tersebut.
-
-Ornamen terpilih memiliki delapan pegangan resize dan satu pegangan rotasi **↻**. Tarik sudut untuk memperbesar atau memperkecil dengan proporsi terkunci; tarik sisi untuk meregangkan lebar atau tinggi. Pilihan **Kunci proporsi saat menarik sudut** dapat dinonaktifkan, dan Shift membalik pilihan ini selama resize. Shift saat memutar memakai kelipatan 15 derajat; Shift saat menggeser membatasi gerak ke satu arah. Saat kanvas mendapat fokus, tombol panah menggeser 1 piksel dan Shift + panah 10 piksel. Escape membatalkan gerakan yang belum dilepas atau melepas pilihan ornamen. Setiap gerakan selesai menjadi satu langkah undo. Pegangan mendukung mouse dan sentuhan.
-
-Tarik thumbnail dari perpustakaan aset ke posisi tujuan pada bagian preview yang dipilih. File PNG/WebP/JPG dari komputer juga dapat dijatuhkan langsung ke kanvas, termasuk beberapa file sekaligus. File diunggah satu per satu saat dijatuhkan, kemudian ditambahkan sebagai ornamen; transparansi dipertahankan. Klik aset dan tombol unggah tetap tersedia untuk penggunaan di HP. Perubahan baru tersimpan ke template setelah memilih **Simpan desain**.
-
-Perpustakaan aset menggunakan PNG yang sudah ada di aplikasi. Unggahan ornamen PNG/WebP/JPG diproses oleh endpoint upload admin yang sudah tersedia, maksimal 5 MB per file. Editor tidak meratakan transparansi PNG/WebP atau mengubah warna gambar. Atur animasi masuk, durasi, jeda, serta gerakan berulang seperti ayunan, melayang, bernapas, berputar, atau daun tertiup angin. Mode **Edit posisi** menampilkan teks dan ornamen dalam keadaan diam; **Coba animasi** menjalankan preview. Pengaturan juga tersedia untuk animasi kemunculan bagian undangan.
-
-**Simpan desain** mengubah default desain template yang dipilih. **Simpan sebagai template baru** membuat template custom dengan nama, kategori, dan paket sendiri. Template custom memakai komponen render template dasar dan pengaturan desain JSON, sehingga langsung dapat dipakai di katalog, demo, editor customer, kiriman customer, dan undangan terbit. Batasnya 40 ornamen tambahan per bagian dan 250 pengaturan lapisan total. Bagian yang tidak digunakan oleh template dasar tidak ditampilkan di preview.
-
-Backend menambahkan kolom `renderer_id` dan `is_custom` pada tabel `templates` secara otomatis saat dijalankan ulang. Pengaturan visual disimpan di `data.design`, berisi versi, pengaturan bagian, ornamen tambahan, dan perubahan ornamen bawaan. Identitas ornamen bawaan mengikuti aset dan bagiannya agar penambahan ornamen lain tidak menggeser referensi desain. Format referensi berbasis indeks lama tetap dapat dibaca.
-
-POST `/api/admin/templates` membuat template custom dengan `{ baseTemplateId, name, category, packageId, data }`; `data` opsional dan digabungkan dengan isi template dasar. PATCH `/api/admin/templates/:id` menyimpan `data.design` bersama konten template. Body endpoint template dibatasi 512 KB dan data template maksimal 500.000 byte. Endpoint admin untuk membuat/mengubah undangan mendukung body 1 MB agar pengaturan desain ikut tersimpan. Endpoint JSON lainnya tetap memakai batas masing-masing. API memvalidasi pilihan animasi, ukuran, sumber gambar, dan jumlah lapisan; tidak menerima kode JavaScript atau CSS bebas.
-
-Undangan baru menyimpan salinan desain template. Mengubah template setelahnya tidak mengubah desain undangan yang sudah tersimpan. Menerbitkan undangan tetap menggunakan status dan alur admin yang sudah ada.
-
-### Pengiriman hasil edit customer
-
-Di editor `/edit/:templateId`, customer memilih **Kirim ke admin**, mengisi nama, nomor WhatsApp, dan catatan, lalu mengirim hasil edit. Selama mengedit, draft serta daftar tamu tetap tersimpan lokal. Data dikirim hanya saat formulir pengiriman disubmit. Kiriman mencakup isi undangan, gambar lokal, daftar tamu, pesan WhatsApp kustom, serta link referensi yang diisi customer.
-
-Admin membuka **Kiriman customer** pada dashboard untuk melihat detail, preview desain, serta daftar tamu. Tombol **Terima & buat draft** membuat undangan baru berstatus draft dan menyalin daftar tamu beserta pesan. Admin dapat mengedit, preview, dan menerbitkannya melalui halaman undangan yang sudah ada. Kiriman tidak memperbarui undangan terbit secara otomatis. Admin juga dapat menandai kiriman belum disetujui dengan catatan atau menghapus kiriman tanpa menghapus draft yang telah dibuat.
-
-Tabel `customer_submissions` dibuat otomatis saat backend dimulai. Metadata, daftar tamu, dan pesan disimpan sebagai satu dokumen JSON per kiriman. Batas daftar tamu tetap 5.000 nama dan 2 MB; JSON pengiriman dibatasi 4 MB. Gambar dikirim satu per satu dengan batas 5 MB per gambar, maksimal 80 gambar dan total 40 MB. Gambar kiriman berada di `data/customer-submissions/` dan hanya dapat dibaca melalui endpoint admin terautentikasi. Saat kiriman diterima, gambar dipindahkan ke media undangan melalui proses penyalinan dan pembersihan sumber; perubahan database dilakukan dalam transaksi.
-
-Pengiriman menggunakan ID dan token acak tersendiri, tidak menggunakan token admin. Hash token disimpan di database. Customer dapat melanjutkan unggahan yang terputus; status unggahan membantu melewati gambar yang sudah diterima. Kiriman yang sama dan penerimaan admin berulang tidak membuat undangan duplikat. Sesi unggahan kedaluwarsa setelah 24 jam; data unggahan yang belum selesai dibersihkan bertahap ketika ada pengiriman baru. Pembatasan awal pengiriman adalah 5 permintaan per menit per IP; unggahan gambar dibatasi 120 permintaan per menit per IP.
-
-Endpoint pengiriman:
-
-| Metode | Endpoint | Akses |
+| Metode | Endpoint | Fungsi |
 | --- | --- | --- |
-| POST | `/api/customer-submissions` | Mulai kiriman dengan `{ id, token, contact, form, guestList, assets }` |
-| GET | `/api/customer-submissions/:id` | Status minimal dan gambar yang sudah terunggah; Bearer token kiriman |
-| POST | `/api/customer-submissions/:id/images/:hash` | Unggah gambar biner; Bearer token kiriman |
-| POST | `/api/customer-submissions/:id/complete` | Selesaikan kiriman; Bearer token kiriman |
-| GET | `/api/admin/submissions` | Daftar admin dengan `status`, `limit`, `offset` |
-| GET | `/api/admin/submissions/:id` | Detail admin |
-| GET | `/api/admin/submissions/:id/images/:hash` | Gambar privat untuk preview admin |
-| POST | `/api/admin/submissions/:id/accept` | Terima menjadi draft dengan `{ slug }` |
-| POST | `/api/admin/submissions/:id/reject` | Tandai belum disetujui dengan `{ note }` |
-| DELETE | `/api/admin/submissions/:id` | Hapus kiriman; draft yang sudah dibuat tetap ada |
+| POST | `/api/customer-submissions` | Membuka sesi kiriman |
+| GET | `/api/customer-submissions/:id` | Status dan daftar gambar yang sudah diterima |
+| POST | `/api/customer-submissions/:id/images/:hash` | Mengunggah gambar satu per satu |
+| POST | `/api/customer-submissions/:id/complete` | Menyelesaikan kiriman menjadi pending |
+| GET | `/api/admin/submissions` | Inbox; filter status |
+| GET / DELETE | `/api/admin/submissions/:id` | Detail / hapus kiriman |
+| GET | `/api/admin/submissions/:id/images/:hash` | Preview gambar privat |
+| POST | `/api/admin/submissions/:id/accept` | Terima menjadi draft dengan `slug` |
+| POST | `/api/admin/submissions/:id/reject` | Tolak dengan `note` opsional |
 
-### Daftar tamu
+Endpoint customer setelah pembuatan sesi memerlukan bearer token rahasia kiriman tersebut. Kiriman berisi `id`, `token`, `contact`, `form`, `guestList`, dan `assets`; gambar lokal direferensikan sebagai `customer-image:<sha256>`. Upload dibatasi 80 gambar, masing-masing 5 MB, total 40 MB. Gambar dipindahkan ke media publik ketika diterima; penerimaan memakai transaksi dan row lock, dapat diulang tanpa membuat undangan ganda. Undangan tetap draft sampai admin menerbitkan. Menghapus kiriman tidak menghapus undangan yang sudah dibuat. Sesi upload belum selesai dibersihkan setelah 24 jam saat menerima kiriman baru.
 
-Di dashboard, buka **Daftar tamu** pada undangan yang ingin dikelola. Tambahkan nama secara manual atau unduh contoh Excel, isi sheet `Daftar Tamu`, lalu impor dan periksa pratinjaunya. Kolomnya `Nama Tamu`, `No. WhatsApp`, `Kelompok`, dan `Catatan`. Hanya nama yang wajib diisi. Nomor WhatsApp menggunakan format Text agar angka 0 di depan tetap tersimpan.
+## Format respons dan batas
 
-Klik **Simpan daftar tamu** setelah mengubah daftar. Ekspor Excel mencakup semua nama, status kirim manual, dan tautan pribadi `?to=...` untuk undangan yang sudah terbit. WhatsApp membuka pesan yang siap ditinjau dan dikirim oleh pengguna; status kirim ditandai manual. Nama yang sama dilewati saat impor; tambahkan pembeda jika orangnya berbeda. Draf tetap dapat memiliki daftar tamu, tetapi tautan baru dapat dibagikan setelah undangan diterbitkan.
+Respons sukses: `{ "success": true, "data": ... }`; daftar berpaginasi menambahkan `meta: { total, limit, offset }`. Gagal: `{ "success": false, "message": "..." }`. Pagination memakai `limit` 1–100 dan `offset` mulai nol.
 
-Bagian **Pesan WhatsApp** dapat diedit per undangan, termasuk sapaan dan salam sesuai kebutuhan. Pesan bawaan netral; contoh Islami tersedia sebagai pilihan. Gunakan tag `{nama_tamu}`, `{judul_undangan}`, dan `{link_undangan}` untuk mengisi data secara otomatis. Tag link wajib disertakan, panjang pesan maksimal 6.000 karakter. Pratinjau menggunakan contoh nama yang dapat diubah tanpa mengubah daftar tamu. Simpan melalui **Simpan daftar tamu**.
+Body JSON standar 32 KB; template 512 KB, undangan 1 MB, daftar tamu 2 MB, kiriman customer 4 MB. Upload gambar menggunakan body biner dengan `Content-Type: image/jpeg`, `image/png`, atau `image/webp`, maksimal 5 MB. Frontend mengunggah saat gambar dipilih, lalu menyimpan URL saat simpan data.
 
-Backend menyediakan GET dan PATCH `/api/admin/invitations/:id/guest-list`, keduanya memerlukan autentikasi admin. PATCH menerima `{ "revision": 0, "guests": [] }`; setiap tamu berisi `id`, `name`, `phone`, `group`, `note`, dan `sent`. Gunakan revisi terakhir dari GET. Konflik revisi mengembalikan 409 agar perubahan dari tab lain tidak tertimpa.
+Rate limit disimpan pada file dengan lock agar berlaku antar-request/proses PHP: operasi publik 20/menit/IP, sesi kiriman customer 5/menit/IP, gambar kiriman 120/menit/IP. IP berasal dari koneksi server; header proxy tidak dipercaya otomatis.
 
-GET juga mengembalikan `messageTemplate`; nilai kosong berarti gunakan pesan bawaan frontend. PATCH dapat menyertakan `messageTemplate` berupa teks dengan tag link. Jika field dihilangkan, pesan yang sudah tersimpan dipertahankan. Dokumen baru disimpan dalam bentuk `{ "guests": [], "messageTemplate": "..." }` pada baris yang sama. Dokumen lama berbentuk array tamu tetap dapat dibaca dan diperbarui tanpa migrasi tabel.
+## Deployment
 
-Seluruh daftar disimpan sebagai satu dokumen JSON dalam satu baris tabel `invitation_guest_lists` per undangan, dibuat saat daftar pertama disimpan. Tabel dibuat otomatis ketika backend dimulai. Data ini tidak disertakan dalam endpoint undangan publik atau daftar undangan. Batasnya 5.000 nama dan body 2 MB khusus endpoint ini; batas endpoint JSON lainnya tetap 32 KB. Impor/ekspor Excel diproses di browser melalui worker, file Excel tidak diunggah ke server. Daftar ikut terhapus ketika undangan dihapus.
+Gunakan Apache/Nginx dengan DocumentRoot ke `public`, arahkan endpoint `/api/*` ke `public/index.php`, dan batasi akses folder lainnya. `.htaccess` sudah melindungi folder proyek ketika dijalankan di subfolder XAMPP. Nginx membutuhkan aturan front controller sendiri karena tidak membaca `.htaccess`. Gunakan origin frontend yang sama melalui reverse proxy agar cookie dan URL gambar bekerja tanpa perubahan frontend. Aktifkan HTTPS dan `COOKIE_SECURE=true` di produksi.
 
-Frontend sudah terhubung melalui VITE_API_URL. Home dan katalog memuat metadata dari endpoint templates. Route /t/:id menampilkan demo, sedangkan /u/:slug memuat undangan published dari database. Form RSVP dan ucapan pada undangan nyata mengirim data ke API dan daftar ucapan dimuat kembali dari database. Token admin tidak digunakan atau disimpan di frontend. Jika backend tidak tersedia, katalog menampilkan koleksi demo dengan keterangan.
-
-Backup database MySQL melalui phpMyAdmin atau mysqldump. Untuk deployment, gunakan HTTPS melalui reverse proxy, konfigurasi origin frontend sebenarnya, serta pengelolaan akun admin dan proteksi spam yang sesuai kebutuhan produksi.
-
-## Struktur kode
-
-- `src/models`: TemplateModel, InvitationModel, WishModel, dan RsvpModel mengelola query database.
-- `src/controllers`: validasi dan proses API untuk masing-masing data.
-- `src/routes.js`: pemetaan endpoint ke controller.
-- `src/app.js`: HTTP, CORS, autentikasi admin, pembatasan request, dan respons error.
-- `src/database.js`: koneksi MySQL, inisialisasi schema, dan seed template.
-
-Undangan nyata dibuka di frontend menggunakan `/u/<slug>`, misalnya `http://localhost:5173/u/aditya-sarah`, setelah undangan dibuat dan berstatus published. Field `data` dapat berisi profil mempelai, foto, cerita, jadwal, serta informasi acara sesuai template. `eventDate` mengatur tanggal dan countdown; jadwal khusus dapat dikirim lewat `data.events`. Jangan membagikan route demo sebagai undangan nyata.
-
-## Login dashboard
-
-- GET `/api/auth/session`: status login, profil admin, token CSRF, dan apakah akun pertama perlu dibuat.
-- POST `/api/auth/setup`: buat akun pertama dengan `{ "name": "Admin", "email": "admin@example.com", "password": "password-minimal-12-karakter" }`. Hanya tersedia sebelum akun admin pertama dibuat.
-- POST `/api/auth/login`: email dan password.
-- POST `/api/auth/logout`: keluar dan hapus session.
-
-Password disimpan sebagai hash scrypt dengan salt acak. Token session acak disimpan sebagai hash SHA-256 di MySQL dan kedaluwarsa setelah 8 jam. Cookie memakai HttpOnly, SameSite=Lax, dan Path=/api. Permintaan admin yang mengubah data melalui cookie wajib membawa X-CSRF-Token dari respons session/login. Bearer token API tetap didukung untuk integrasi non-browser.
-
-`COOKIE_SECURE=false` untuk HTTP XAMPP lokal; gunakan `true` dengan HTTPS pada deployment. Buat akun admin pertama sebelum membuka server kepada publik. Frontend menggunakan proxy Vite `/api` ke backend agar host cookie sama. Tabel admins dan admin_sessions dibuat otomatis saat backend dimulai, tanpa menghapus tabel undangan sebelumnya.
-
-## Foto tamu untuk Platinum
-
-Undangan published dengan paket template `platinum` menyediakan kirim foto setelah waktu `eventDate` tercapai. Waktu mulai diperiksa lagi oleh backend. Nama tamu diambil frontend dari `?to=Viki`; jika kosong, tamu mengisi nama sendiri.
-
-- POST `/api/invitations/:slug/photos?to=Viki`: body berupa file biner JPG/PNG/WebP, dengan Content-Type sesuai gambar, maksimal 5 MB. Frontend mengecilkan foto sebelum mengirim dan mengunggah satu per satu, maksimal 10 foto setiap pengiriman.
-- GET `/api/admin/invitations/:id/photos`: daftar foto dengan pagination, memerlukan login admin.
-- GET `/api/admin/invitations/:id/photos/:photoId`: unduh foto, memerlukan login admin.
-
-File disimpan di `data/guest-photos/`, dengan pola `nama-tamu-YYYY-MM-DD-UUID.jpg` sesuai format hasil unggahan. Nama pengirim hanya disertakan pada nama file, tanpa tulisan pada gambar. Metadata disimpan dalam tabel MySQL `guest_photos`, yang dibuat otomatis saat backend dimulai. Foto tersedia di bagian **Foto dari tamu** pada editor undangan admin. Foto tidak otomatis masuk ke galeri publik. Menghapus undangan juga menghapus file foto tamunya. Backup folder ini bersama database.
+Kesalahan internal dicatat ke error log PHP/Apache. Pada XAMPP periksa `C:\xampp\apache\logs\error.log`. Detail password, token, dan konfigurasi database tidak dikirim ke browser. File `.env`, `data`, serta `storage` tidak masuk Git.

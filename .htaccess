@@ -1,1 +1,6 @@
-Require all denied
+Options -Indexes
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteRule ^api(?:/.*)?$ public/index.php [QSA,L]
+RewriteRule ^public(?:/.*)?$ - [L]
+RewriteRule ^ - [F,L]
