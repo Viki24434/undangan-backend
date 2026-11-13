@@ -160,6 +160,8 @@ Konfigurasi awal 44 template terdapat pada `database/seeds/presentations.json` u
 
 Desain drag/drop disimpan pada `data.design` versi 1: variasi komponen, ornamen tambahan per bagian, serta perubahan ornamen bawaan. Tema di `data.theme` mendukung warna hex, font, gradasi 2–5 warna, sudut, opasitas, dan pengaturan per bagian. Presentasi, desain, dan tema divalidasi; API tidak menerima CSS/JavaScript bebas. Undangan baru menyimpan salinan presentasi supaya perubahan komponen bawaan template tidak mengubah undangan yang sudah dibuat.
 
+`data.design.components` menerima `cover`, `hero`, `couple`, `countdown` bernilai 1–4; `story`, `gift`, `wishes`, `intro`, `closing` bernilai 1–3; serta `gallery` bernilai 0–5. Intro dan closing yang tidak ditentukan memakai variasi klasik 1. Hero 3 memerlukan aset scene sinematik pada renderer frontend. Pilihan yang sama dapat disimpan sebagai bawaan pada `data.presentation.components`. Susunan siap pakai di editor hanya mengirim kombinasi nomor variasi ini; tidak membuat file CSS atau JSX untuk setiap template baru.
+
 Daftar tamu disimpan dalam satu row dokumen JSON per undangan, maksimal 5.000 nama. PATCH mengirim `revision`, `guests`, dan `messageTemplate`; revisi yang sudah berubah menghasilkan 409 agar tab lain tidak tertimpa. Pesan custom harus menyertakan `{link_undangan}`. Ekspor/impor Excel dikerjakan frontend.
 
 ## Kiriman customer

@@ -28,14 +28,16 @@ final class DesignInput
         'flutter',
     ];
     private const COMPONENTS = [
-        'cover' => [1, 2, 3],
-        'hero' => [1, 2, 3],
-        'couple' => [1, 2, 3],
-        'story' => [1, 2],
-        'countdown' => [1, 2, 3],
-        'gallery' => [0, 1, 2, 3, 4],
-        'gift' => [1, 2],
-        'wishes' => [1, 2],
+        'cover' => [1, 2, 3, 4],
+        'hero' => [1, 2, 3, 4],
+        'couple' => [1, 2, 3, 4],
+        'story' => [1, 2, 3],
+        'countdown' => [1, 2, 3, 4],
+        'gallery' => [0, 1, 2, 3, 4, 5],
+        'gift' => [1, 2, 3],
+        'wishes' => [1, 2, 3],
+        'intro' => [1, 2, 3],
+        'closing' => [1, 2, 3],
     ];
 
     public static function validate(mixed $input): \stdClass
