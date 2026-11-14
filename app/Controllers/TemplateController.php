@@ -9,10 +9,8 @@ use App\Core\Json;
 use App\Core\Response;
 use App\Models\TemplateModel;
 use App\Services\Identifiers;
-use App\Validation\DesignInput;
 use App\Validation\Input;
-use App\Validation\PresentationInput;
-use App\Validation\ThemeInput;
+use App\Validation\TemplateInput;
 
 final class TemplateController
 {
@@ -60,22 +58,6 @@ final class TemplateController
         );
     }
 
-    private function data(mixed $input): object
-    {
-        $data = clone Input::object($input, 'Data template');
-        if (strlen(Json::encode($data)) > 500000) {
-            throw new HttpException(422, 'Data template terlalu besar.');
-        }
-        if (property_exists($data, 'design')) {
-            $data->design = DesignInput::validate($data->design);
-        }
-        $data->theme = ThemeInput::validate($data->theme ?? new \stdClass());
-        if (property_exists($data, 'presentation')) {
-            $data->presentation = PresentationInput::validate($data->presentation);
-        }
-        return $data;
-    }
-
     private function package(mixed $value): string
     {
         if (!in_array($value, Input::PACKAGES, true)) {
@@ -93,7 +75,9 @@ final class TemplateController
         $package = property_exists($body, 'packageId')
             ? $this->package($body->packageId)
             : null;
-        $data = property_exists($body, 'data') ? $this->data($body->data) : null;
+        $data = property_exists($body, 'data')
+            ? TemplateInput::data($body->data)
+            : null;
         if ($data !== null && !isset($data->presentation)) {
             $data->presentation = $current['data']->presentation;
         }
@@ -111,7 +95,7 @@ final class TemplateController
         }
         $baseData = Json::object($base['data']);
         $overrides = property_exists($body, 'data')
-            ? $this->data($body->data)
+            ? TemplateInput::data($body->data)
             : new \stdClass();
         $data = Json::merge($baseData, $overrides);
         $data->theme = Json::merge(
@@ -145,7 +129,7 @@ final class TemplateController
                 ),
                 'img' => $base['image'],
                 'rendererId' => $base['renderer_id'] ?: $base['id'],
-                'data' => $this->data($data),
+                'data' => TemplateInput::data($data),
             ],
         );
         return Response::data($this->find($id)['data'], 201);

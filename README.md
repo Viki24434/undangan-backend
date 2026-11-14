@@ -124,6 +124,10 @@ Semua endpoint berikut memerlukan session admin atau bearer token tepercaya.
 | PATCH | `/api/admin/packages/:id` | Ubah `price` Silver/Gold/Platinum |
 | PATCH | `/api/admin/social-links` | Ubah tautan sosial |
 | POST | `/api/admin/templates` | Salin template menjadi template custom |
+| POST | `/api/admin/template-backups/export` | Ambil konfigurasi dan daftar gambar untuk cadangan tema terpilih |
+| POST | `/api/admin/template-backups/inspect` | Validasi cadangan dan periksa ID yang sudah ada |
+| POST | `/api/admin/template-backups/images/:hash` | Unggah satu gambar cadangan dengan pemeriksaan SHA-256 |
+| POST | `/api/admin/template-backups/restore` | Pulihkan seluruh tema dalam satu transaksi database |
 | PATCH | `/api/admin/templates/:id` | Ubah `packageId` atau `data` |
 | POST | `/api/admin/uploads` | Upload satu gambar |
 | GET / POST | `/api/admin/invitations` | Daftar / buat undangan |
@@ -157,6 +161,14 @@ Terbitkan dengan PATCH `{ "status": "published" }`. URL publik tetap 404 selama 
 Definisi tampilan template disimpan di database pada `templates.data.presentation`: versi, jenis pernikahan/perayaan, gaya dasar, palet, dan komponen bawaan. Frontend memakai satu renderer umum; tidak ada registry ID template yang perlu ditambah saat membuat template baru. `rendererId` tetap dikirim sebagai informasi asal template dan tidak menentukan apakah template dapat dirender. Stylesheet dan komponen React merupakan pustaka tampilan aplikasi. Template baru dapat menggabungkan komponen yang tersedia, warna, aset unggahan, posisi, dan animasi dari editor tanpa menambah file JSX.
 
 Konfigurasi awal 44 template terdapat pada `database/seeds/presentations.json` untuk pemasangan/migrasi. Setup mengisi konfigurasi yang belum ada pada template bawaan, template custom, dan undangan lama tanpa menimpa pengaturan yang sudah tersimpan. Pembacaan saat aplikasi berjalan selalu dari database. Daftar frontend tidak menampilkan koleksi hardcode saat API gagal.
+
+Cadangan tema tersedia melalui Admin → Paket template → Cadangan tema. Ekspor seluruh tema, tema custom, atau tema yang dicentang menjadi ZIP dengan `manifest.json` dan gambar unggahan yang dirujuk tema tersebut. Manifest versi 1 berformat `undangan-theme-backup`, memuat metadata, `data.presentation`, `data.design`, `data.theme`, serta isi contoh template. Data undangan pelanggan, akun admin, harga paket, dan daftar tamu tidak diekspor. Aset bawaan tetap mengikuti repository aplikasi yang sama; gambar dan musik dari URL luar tetap berupa URL.
+
+Impor menampilkan tinjauan sebelum mengubah database. Mode bawaan `copy` mempertahankan template yang sudah ada dan membuat ID baru untuk benturan. Mode `merge` memperbarui seluruh metadata dan desain template dengan ID yang sama, serta menambahkan ID yang belum ada; menjalankannya kembali tidak menambah duplikat. Tidak ada template lain yang dihapus. Undangan yang sudah menyimpan salinan desain tetap memakai salinannya sendiri.
+
+ZIP dibuat dan diperiksa di browser tanpa ekstensi ZIP PHP. Gunakan ZIP asli hasil ekspor, tanpa mengompresnya ulang. Batas satu cadangan: 500 template, sekitar 15 MB konfigurasi, 1.000 gambar, 5 MB per gambar, serta total gambar 100 MB. Gambar diperiksa menggunakan SHA-256, diunggah satu per satu, dan diberi nama berdasarkan isinya supaya percobaan ulang tidak membuat file duplikat. Unggahan yang sudah selesai pada percobaan impor yang sama dilewati saat mencoba lagi. Semua konfigurasi divalidasi sebelum unggahan; database baru diperbarui secara atomik setelah semua gambar tersedia. Gambar yang sudah diunggah tetap tersedia jika proses terputus dan dapat dipakai saat mencoba ulang. Admin dengan gambar unggahan perlu dibuka melalui HTTPS atau localhost agar pemeriksaan SHA-256 browser tersedia.
+
+Cadangan ZIP dapat diunduh ke komputer lalu diimpor dari admin server tujuan. Menyimpan template dari editor tetap menulis ke MySQL, bukan otomatis mengubah file seed atau ikut Git. Simpan ZIP di lokasi cadangan pilihanmu jika ingin menyertakannya dalam alur pemindahan/deployment.
 
 Desain drag/drop disimpan pada `data.design` versi 1: variasi komponen, ornamen tambahan per bagian, serta perubahan ornamen bawaan. Tema di `data.theme` mendukung warna hex, font, gradasi 2–5 warna, sudut, opasitas, dan pengaturan per bagian. Presentasi, desain, dan tema divalidasi; API tidak menerima CSS/JavaScript bebas. Undangan baru menyimpan salinan presentasi supaya perubahan komponen bawaan template tidak mengubah undangan yang sudah dibuat.
 

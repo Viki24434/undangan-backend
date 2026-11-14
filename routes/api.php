@@ -11,6 +11,7 @@ use App\Controllers\RsvpController;
 use App\Controllers\SocialLinksController;
 use App\Controllers\SubmissionController;
 use App\Controllers\TemplateController;
+use App\Controllers\TemplateBackupController;
 use App\Controllers\UploadController;
 use App\Controllers\WishController;
 use App\Core\Database;
@@ -26,6 +27,7 @@ use App\Models\RsvpModel;
 use App\Models\SocialLinksModel;
 use App\Models\SubmissionModel;
 use App\Models\TemplateModel;
+use App\Models\TemplateBackupModel;
 use App\Models\WishModel;
 use App\Services\RateLimiter;
 
@@ -34,6 +36,10 @@ return static function (Database $db, Request $request, array $config): array {
     $auth = new AuthController(new AdminModel($db), $config);
     $templateModel = new TemplateModel($db);
     $templates = new TemplateController($templateModel);
+    $templateBackups = new TemplateBackupController(
+        new TemplateBackupModel($db),
+        $config['media'],
+    );
     $photos = new GuestPhotoController(new GuestPhotoModel($db), $config['photos']);
     $invitations = new InvitationController(
         new InvitationModel($db),
@@ -166,6 +172,30 @@ return static function (Database $db, Request $request, array $config): array {
         'POST',
         '/api/admin/templates',
         fn() => $templates->create($request->json(524288)),
+        admin: true,
+    );
+    $router->add(
+        'POST',
+        '/api/admin/template-backups/export',
+        fn() => $templateBackups->export($request->json()),
+        admin: true,
+    );
+    $router->add(
+        'POST',
+        '/api/admin/template-backups/inspect',
+        fn() => $templateBackups->inspect($request->json(20971520)),
+        admin: true,
+    );
+    $router->add(
+        'POST',
+        '/api/admin/template-backups/restore',
+        fn() => $templateBackups->restore($request->json(20971520)),
+        admin: true,
+    );
+    $router->add(
+        'POST',
+        '/api/admin/template-backups/images/{hash}',
+        fn($hash) => $templateBackups->image($request, $hash),
         admin: true,
     );
     $router->add(
