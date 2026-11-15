@@ -107,6 +107,9 @@ Session disimpan di MySQL, cookie HttpOnly/SameSite=Lax berlaku 8 jam. Mutasi ad
 | GET | `/api/social-links` | Instagram, TikTok, WhatsApp |
 | GET | `/api/templates` | Koleksi; filter `?category=Pernikahan` |
 | GET | `/api/templates/:id` | Data template lengkap |
+| GET | `/api/previews/:token` | Preview customer tanpa login, memakai link acak aktif |
+| POST | `/api/admin/invitations/:id/customer-preview` | Buat/ganti link preview customer selama tujuh hari |
+| DELETE | `/api/admin/invitations/:id/customer-preview` | Nonaktifkan link preview customer |
 | GET | `/api/media/:filename` | Gambar unggahan publik |
 | GET | `/api/invitations/:slug` | Undangan published |
 | GET / POST | `/api/invitations/:slug/wishes` | Baca / simpan ucapan |
@@ -157,6 +160,8 @@ Contoh membuat draft:
 ```
 
 Terbitkan dengan PATCH `{ "status": "published" }`. URL publik tetap 404 selama draft. PATCH `data` mengganti isi data, sedangkan pengaturan desain/tema yang tidak dikirim dipertahankan. Tema dan desain template disalin saat membuat undangan agar perubahan template selanjutnya tidak mengubah undangan tersebut.
+
+Di detail undangan admin, bagian Preview untuk customer menyediakan pembuatan link, salin link, serta bagikan lewat WhatsApp. Simpan revisi terlebih dahulu: preview menampilkan data terakhir dari database. Pembuatan ulang mengganti link sebelumnya; tombol nonaktifkan mencabut akses. Link berlaku tujuh hari, token acak 256 bit hanya disimpan sebagai SHA-256 pada tabel `invitation_previews`, dan terhapus saat undangan dihapus. Preview memakai mode simulasi untuk interaksi tamu, tidak mengubah status penerbitan, dan tidak memerlukan login admin. Persetujuan/revisi disampaikan customer melalui chat; admin tetap menerbitkan undangan secara terpisah. Jalankan `php bin/setup.php` pada server tujuan setelah pull untuk membuat tabel tambahan secara aman.
 
 Definisi tampilan template disimpan di database pada `templates.data.presentation`: versi, jenis pernikahan/perayaan, gaya dasar, palet, dan komponen bawaan. Frontend memakai satu renderer umum; tidak ada registry ID template yang perlu ditambah saat membuat template baru. `rendererId` tetap dikirim sebagai informasi asal template dan tidak menentukan apakah template dapat dirender. Stylesheet dan komponen React merupakan pustaka tampilan aplikasi. Template baru dapat menggabungkan komponen yang tersedia, warna, aset unggahan, posisi, dan animasi dari editor tanpa menambah file JSX.
 

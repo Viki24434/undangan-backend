@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Controllers\AuthController;
+use App\Controllers\PreviewController;
 use App\Controllers\GuestListController;
 use App\Controllers\GuestPhotoController;
 use App\Controllers\InvitationController;
@@ -47,6 +48,20 @@ return static function (Database $db, Request $request, array $config): array {
         $photos,
     );
     $uploads = new UploadController($config['media']);
+    $previews = new PreviewController($db, $invitations);
+    $router->add('GET', '/api/previews/{token}', fn($token) => $previews->view($token));
+    $router->add(
+        'POST',
+        '/api/admin/invitations/{id}/customer-preview',
+        fn($id) => $previews->create($id),
+        admin: true,
+    );
+    $router->add(
+        'DELETE',
+        '/api/admin/invitations/{id}/customer-preview',
+        fn($id) => $previews->revoke($id),
+        admin: true,
+    );
     $guestLists = new GuestListController(new GuestListModel($db));
     $submissions = new SubmissionController(
         new SubmissionModel($db),

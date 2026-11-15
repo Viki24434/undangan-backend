@@ -51,6 +51,13 @@ CREATE TABLE IF NOT EXISTS invitations (
     FOREIGN KEY (template_id) REFERENCES templates(id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS invitation_previews (
+    invitation_id VARCHAR(36) PRIMARY KEY,
+    token_hash CHAR(64) NOT NULL UNIQUE,
+    expires_at BIGINT NOT NULL,
+    FOREIGN KEY (invitation_id) REFERENCES invitations(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS customer_submissions (
     id VARCHAR(36) PRIMARY KEY,
     token_hash CHAR(64) NOT NULL,
