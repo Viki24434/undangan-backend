@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Controllers\AuthController;
+use App\Controllers\ShareController;
+use App\Models\ShareModel;
 use App\Controllers\PreviewController;
 use App\Controllers\GuestListController;
 use App\Controllers\GuestPhotoController;
@@ -36,6 +38,23 @@ return static function (Database $db, Request $request, array $config): array {
     $router = new Router();
     $auth = new AuthController(new AdminModel($db), $config);
     $templateModel = new TemplateModel($db);
+    $sharing = new ShareController(new ShareModel($db), $config);
+    $router->add(
+        'GET',
+        '/api/share-meta/{slug}',
+        fn($slug) => Response::data($sharing->metadata($slug)),
+    );
+    $router->add(
+        'GET',
+        '/api/share-images/{slug}/{version}',
+        fn($slug, $version) => $sharing->image($slug, $version),
+    );
+    $router->add(
+        'GET',
+        '/api/admin/invitations/{id}/share-meta',
+        fn($id) => Response::data($sharing->metadata($id, true)),
+        admin: true,
+    );
     $templates = new TemplateController($templateModel);
     $templateBackups = new TemplateBackupController(
         new TemplateBackupModel($db),

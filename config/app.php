@@ -9,6 +9,11 @@ $root = dirname(__DIR__);
 return [
     'root' => $root,
     'origins' => Env::get('CORS_ORIGINS'),
+    'public_site_url' => Env::get(
+        'PUBLIC_SITE_URL',
+        trim(explode(',', Env::get('CORS_ORIGINS'))[0]),
+    ),
+    'public_api_url' => Env::get('PUBLIC_API_URL'),
     'admin_token' => Env::get('ADMIN_TOKEN'),
     'secure_cookie' => Env::get('COOKIE_SECURE', 'false') === 'true',
     'cookie_path' => Env::get('COOKIE_PATH', '/'),
