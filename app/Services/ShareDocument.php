@@ -26,7 +26,7 @@ final class ShareDocument
             [
                 'og:type' => 'website',
                 'og:locale' => 'id_ID',
-                'og:site_name' => 'Ciptain',
+                'og:site_name' => 'Ciptala',
                 'og:title' => $metadata['title'],
                 'og:description' => $metadata['description'],
                 'og:url' => $metadata['url'],

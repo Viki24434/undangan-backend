@@ -58,7 +58,7 @@ final class ShareController
     private function version(array $row): string
     {
         return substr(
-            hash('sha256', $this->source($row) . '|' . $row['updated_at']),
+            hash('sha256', 'ciptala-v1|' . $this->source($row) . '|' . $row['updated_at']),
             0,
             16,
         );
@@ -189,7 +189,7 @@ final class ShareController
                     5,
                     550,
                     300,
-                    'Ciptain',
+                    'Ciptala',
                     imagecolorallocate($canvas, 36, 62, 53),
                 );
             }
