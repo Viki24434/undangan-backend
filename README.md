@@ -132,6 +132,8 @@ Semua endpoint berikut memerlukan session admin atau bearer token tepercaya.
 | POST | `/api/admin/template-backups/images/:hash` | Unggah satu gambar cadangan dengan pemeriksaan SHA-256 |
 | POST | `/api/admin/template-backups/restore` | Pulihkan seluruh tema dalam satu transaksi database |
 | PATCH | `/api/admin/templates/:id` | Ubah `packageId` atau `data` |
+| GET | `/api/admin/templates/:id/revisions` | Maksimal 10 versi sebelum penyimpanan atau impor |
+| GET | `/api/admin/templates/:id/revisions/:revisionId` | Ambil data satu revisi untuk pemulihan ke editor |
 | POST | `/api/admin/uploads` | Upload satu gambar |
 | GET / POST | `/api/admin/invitations` | Daftar / buat undangan |
 | GET / PATCH / DELETE | `/api/admin/invitations/:id` | Detail / edit / hapus undangan |
@@ -164,6 +166,8 @@ Terbitkan dengan PATCH `{ "status": "published" }`. URL publik tetap 404 selama 
 Di detail undangan admin, bagian Preview untuk customer menyediakan pembuatan link, salin link, serta bagikan lewat WhatsApp. Simpan revisi terlebih dahulu: preview menampilkan data terakhir dari database. Pembuatan ulang mengganti link sebelumnya; tombol nonaktifkan mencabut akses. Link berlaku tujuh hari, token acak 256 bit hanya disimpan sebagai SHA-256 pada tabel `invitation_previews`, dan terhapus saat undangan dihapus. Preview memakai mode simulasi untuk interaksi tamu, tidak mengubah status penerbitan, dan tidak memerlukan login admin. Persetujuan/revisi disampaikan customer melalui chat; admin tetap menerbitkan undangan secara terpisah. Jalankan `php bin/setup.php` pada server tujuan setelah pull untuk membuat tabel tambahan secara aman.
 
 Definisi tampilan template disimpan di database pada `templates.data.presentation`: versi, jenis pernikahan/perayaan, gaya dasar, palet, dan komponen bawaan. Frontend memakai satu renderer umum; tidak ada registry ID template yang perlu ditambah saat membuat template baru. `rendererId` tetap dikirim sebagai informasi asal template dan tidak menentukan apakah template dapat dirender. Stylesheet dan komponen React merupakan pustaka tampilan aplikasi. Template baru dapat menggabungkan komponen yang tersedia, warna, aset unggahan, posisi, dan animasi dari editor tanpa menambah file JSX.
+
+Jalankan `php bin/setup.php` setelah memperbarui backend untuk menambahkan kolom `templates.revision` dan tabel `template_revisions` pada database lama. Pembaruan `data` template wajib menyertakan angka `revision` dari respons GET template terakhir. Penyimpanan dengan versi lama mengembalikan HTTP 409 dan seluruh transaksi dibatalkan. Versi yang tidak dikirim mengembalikan HTTP 428. Versi bertambah setelah penyimpanan, perubahan paket, dan impor yang mengganti template. Riwayat menyimpan maksimal 10 snapshot data sebelumnya beserta referensi gambar. Pemulihan melalui editor tetap memerlukan penyimpanan dengan pemeriksaan versi terbaru.
 
 Konfigurasi awal 44 template terdapat pada `database/seeds/presentations.json` untuk pemasangan/migrasi. Setup mengisi konfigurasi yang belum ada pada template bawaan, template custom, dan undangan lama tanpa menimpa pengaturan yang sudah tersimpan. Pembacaan saat aplikasi berjalan selalu dari database. Daftar frontend tidak menampilkan koleksi hardcode saat API gagal.
 

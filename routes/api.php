@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Controllers\AuthController;
+use App\Controllers\TemplateRevisionController;
+use App\Models\TemplateRevisionModel;
 use App\Controllers\ShareController;
 use App\Models\ShareModel;
 use App\Controllers\PreviewController;
@@ -38,6 +40,22 @@ return static function (Database $db, Request $request, array $config): array {
     $router = new Router();
     $auth = new AuthController(new AdminModel($db), $config);
     $templateModel = new TemplateModel($db);
+    $templateRevisions = new TemplateRevisionController(
+        new TemplateRevisionModel($db),
+        $templateModel,
+    );
+    $router->add(
+        'GET',
+        '/api/admin/templates/{id}/revisions',
+        fn($id) => $templateRevisions->list($id),
+        admin: true,
+    );
+    $router->add(
+        'GET',
+        '/api/admin/templates/{id}/revisions/{revisionId}',
+        fn($id, $revisionId) => $templateRevisions->find($id, $revisionId),
+        admin: true,
+    );
     $sharing = new ShareController(new ShareModel($db), $config);
     $router->add(
         'GET',

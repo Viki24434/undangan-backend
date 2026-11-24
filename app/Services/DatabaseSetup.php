@@ -40,6 +40,7 @@ final class DatabaseSetup
                     ],
                     ['templates', 'renderer_id', 'VARCHAR(80) NULL'],
                     ['templates', 'is_custom', 'TINYINT(1) NOT NULL DEFAULT 0'],
+                    ['templates', 'revision', 'INT UNSIGNED NOT NULL DEFAULT 0'],
                     [
                         'wishes',
                         'guest_key',
@@ -108,7 +109,7 @@ final class DatabaseSetup
                     ],
                 );
                 $db->run(
-                    'UPDATE templates SET data=COALESCE(data, ?), package_id=COALESCE(package_id, ?) WHERE id=?',
+                    'UPDATE templates SET data=COALESCE(data, ?), package_id=COALESCE(package_id, ?), revision=revision+1 WHERE id=? AND (data IS NULL OR package_id IS NULL)',
                     [Json::encode($data), $template->packageId, $template->id],
                 );
             }
@@ -121,7 +122,7 @@ final class DatabaseSetup
                 $sourceId = $row['renderer_id'] ?: $row['id'];
                 if (isset($presentations->$sourceId)) {
                     $db->run(
-                        "UPDATE templates SET data=JSON_SET(COALESCE(data, '{}'), '$.presentation', JSON_EXTRACT(?, '$')) WHERE id=? AND JSON_EXTRACT(data, '$.presentation') IS NULL",
+                        "UPDATE templates SET data=JSON_SET(COALESCE(data, '{}'), '$.presentation', JSON_EXTRACT(?, '$')), revision=revision+1 WHERE id=? AND JSON_EXTRACT(data, '$.presentation') IS NULL",
                         [Json::encode($presentations->$sourceId), $row['id']],
                     );
                 }

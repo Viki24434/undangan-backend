@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Core\Json;
+use App\Core\HttpException;
 
 final class TemplateModel extends Model
 {
@@ -25,9 +26,37 @@ final class TemplateModel extends Model
             : $this->db->all("SELECT {$fields} FROM templates ORDER BY name");
     }
 
-    public function update(string $id, ?string $packageId, ?object $data): void
-    {
-        $this->db->transaction(function () use ($id, $packageId, $data) {
+    public function update(
+        string $id,
+        ?string $packageId,
+        ?object $data,
+        ?int $revision,
+    ): array {
+        return $this->db->transaction(function () use (
+            $id,
+            $packageId,
+            $data,
+            $revision,
+        ) {
+            $current = $this->db->one('SELECT * FROM templates WHERE id=? FOR UPDATE', [
+                $id,
+            ]);
+            if (!$current) {
+                throw new HttpException(404, 'Template tidak ditemukan.');
+            }
+            if ($revision !== null && $revision !== (int) $current['revision']) {
+                throw new HttpException(
+                    409,
+                    'Template sudah diubah dari tab atau komputer lain. Muat versi server atau simpan perubahan Anda sebagai template baru.',
+                );
+            }
+            if ($data !== null) {
+                if (!isset($data->presentation)) {
+                    $data->presentation =
+                        Json::object($current['data'])->presentation ?? new \stdClass();
+                }
+                (new TemplateRevisionModel($this->db))->capture($current, 'save');
+            }
             if ($packageId !== null) {
                 $this->db->run('UPDATE templates SET package_id=? WHERE id=?', [
                     $packageId,
@@ -40,6 +69,10 @@ final class TemplateModel extends Model
                     $id,
                 ]);
             }
+            $this->db->run('UPDATE templates SET revision=revision+1 WHERE id=?', [
+                $id,
+            ]);
+            return $this->find($id);
         });
     }
 

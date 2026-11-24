@@ -35,7 +35,19 @@ CREATE TABLE IF NOT EXISTS templates (
     data LONGTEXT NULL,
     package_id ENUM('silver','gold','platinum','exclusive') NULL,
     renderer_id VARCHAR(80) NULL,
-    is_custom TINYINT(1) NOT NULL DEFAULT 0
+    is_custom TINYINT(1) NOT NULL DEFAULT 0,
+    revision INT UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS template_revisions (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    template_id VARCHAR(80) NOT NULL,
+    revision INT UNSIGNED NOT NULL,
+    data LONGTEXT NOT NULL,
+    reason VARCHAR(24) NOT NULL,
+    created_at VARCHAR(24) NOT NULL,
+    UNIQUE KEY uq_template_revision (template_id, revision),
+    FOREIGN KEY (template_id) REFERENCES templates(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS invitations (

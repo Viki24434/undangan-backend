@@ -42,7 +42,10 @@ final class TemplateController
             throw new HttpException(404, 'Template tidak ditemukan.');
         }
         return Response::data(
-            $this->record($row) + ['data' => Json::object($row['data'])],
+            $this->record($row) + [
+                'data' => Json::object($row['data']),
+                'revision' => (int) $row['revision'],
+            ],
         );
     }
 
@@ -68,7 +71,6 @@ final class TemplateController
 
     public function update(string $id, object $body): array
     {
-        $current = $this->find($id)['data'];
         if (!property_exists($body, 'packageId') && !property_exists($body, 'data')) {
             throw new HttpException(422, 'Tidak ada perubahan template yang dikirim.');
         }
@@ -78,11 +80,29 @@ final class TemplateController
         $data = property_exists($body, 'data')
             ? TemplateInput::data($body->data)
             : null;
-        if ($data !== null && !isset($data->presentation)) {
-            $data->presentation = $current['data']->presentation;
+        if ($data !== null && !property_exists($body, 'revision')) {
+            throw new HttpException(
+                428,
+                'Muat ulang template sebelum menyimpan agar versi dapat diperiksa.',
+            );
         }
-        $this->model->update($id, $package, $data);
-        return $this->find($id);
+        $revision = $body->revision ?? null;
+        if (
+            $revision !== null &&
+            (!is_int($revision) || $revision < 0 || $revision > 4294967295)
+        ) {
+            throw new HttpException(422, 'Versi template tidak valid.');
+        }
+        if ($data !== null && $revision === null) {
+            throw new HttpException(422, 'Versi template tidak valid.');
+        }
+        $updated = $this->model->update($id, $package, $data, $revision);
+        return Response::data(
+            $this->record($updated) + [
+                'data' => Json::object($updated['data']),
+                'revision' => (int) $updated['revision'],
+            ],
+        );
     }
 
     public function create(object $body): array

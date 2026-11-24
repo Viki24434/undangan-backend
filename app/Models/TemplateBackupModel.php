@@ -59,7 +59,7 @@ final class TemplateBackupModel extends Model
             $result = ['created' => 0, 'updated' => 0, 'copied' => 0, 'ids' => []];
             foreach ($templates as $template) {
                 $existing = $this->db->one(
-                    'SELECT id FROM templates WHERE id=? FOR UPDATE',
+                    'SELECT * FROM templates WHERE id=? FOR UPDATE',
                     [$template->id],
                 );
                 $copy = $existing && $mode === 'copy';
@@ -76,8 +76,12 @@ final class TemplateBackupModel extends Model
                     $id,
                 ];
                 if ($existing && !$copy) {
+                    (new TemplateRevisionModel($this->db))->capture(
+                        $existing,
+                        'import',
+                    );
                     $this->db->run(
-                        'UPDATE templates SET name=?, category=?, description=?, image=?, data=?, package_id=?, renderer_id=?, is_custom=? WHERE id=?',
+                        'UPDATE templates SET name=?, category=?, description=?, image=?, data=?, package_id=?, renderer_id=?, is_custom=?, revision=revision+1 WHERE id=?',
                         $values,
                     );
                     $result['updated']++;
